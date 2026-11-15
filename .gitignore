@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Editores
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Archivos de bloqueo de LibreOffice / Word
+.~lock.*
+~$*
+
+# Logs y temporales
+*.log
+*.tmp
