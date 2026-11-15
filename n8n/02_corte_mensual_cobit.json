@@ -1,0 +1,260 @@
+{
+  "name": "Addi 02 · Corte mensual y propuestas COBIT",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Flujo de gobierno COBIT (7 pasos)\n1-3. `addi.fn_avanzar_corte()` valida el mes nuevo, mueve el reloj, recalcula semáforos y alertas y **propone** cambios de nivel.\n4. Se avisa al aprobador de cada dominio con propuestas o alertas.\n5-6. La decisión entra por el flujo 03 y crea una versión nueva.\n7. El tablero lee el nivel vigente.\n\nEl nodo de correo viene **desactivado**: configura SMTP y actívalo. Sin correo, la aprobación se hace desde la pestaña COBIT.",
+        "width": 520,
+        "height": 260
+      },
+      "id": "cf56fb49-ee4a-5882-afed-9ce70029fb48",
+      "name": "Nota",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -300
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtDayOfMonth": 1,
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "527a8688-c4bc-5329-85a8-93eeeeadd6fd",
+      "name": "Cada mes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "746747af-19af-567e-951e-05453172163e",
+      "name": "Ejecutar a mano",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT addi.fn_avanzar_corte() AS r;",
+        "options": {}
+      },
+      "id": "8cd3368f-346d-5b7a-b3c8-3cc4b896dd60",
+      "name": "Avanzar corte",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        240,
+        80
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "ADDI_PG",
+          "name": "Postgres Addi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "addi/corte",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "7b07a437-9ab5-590f-9f80-f5dd3fa26233",
+      "name": "POST corte",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        360
+      ],
+      "webhookId": "d10418f7-fc64-59f7-87b9-6ddca4315c48"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT CASE WHEN $1 = 'reiniciar' THEN addi.fn_reiniciar_demo() ELSE addi.fn_avanzar_corte() END AS r;",
+        "options": {
+          "queryReplacement": "={{ [ $json.body.accion || 'avanzar' ] }}"
+        }
+      },
+      "id": "e2781044-2046-57c7-825c-e2c37ccd4eb8",
+      "name": "Avanzar o reiniciar",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        240,
+        360
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "ADDI_PG",
+          "name": "Postgres Addi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.r }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "91ebd1f9-9cd4-59f9-b47e-4ac68e637cd2",
+      "name": "Responder corte",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM addi.fn_pendientes_por_dominio();",
+        "options": {}
+      },
+      "id": "1c5486dd-cbd3-5d39-84b1-0ff015ac8aad",
+      "name": "Pendientes por dominio",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        480,
+        80
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "ADDI_PG",
+          "name": "Postgres Addi"
+        }
+      },
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "fromEmail": "gobierno-ti@addi.demo",
+        "toEmail": "={{ $json.correo }}",
+        "subject": "=Gobierno COBIT · {{ $json.n }} tema(s) del dominio {{ $json.dominio }} por revisar",
+        "emailFormat": "text",
+        "text": "=Hola {{ $json.aprobador }}:\n\nEl corte mensual del gobierno COBIT de Addi dejó {{ $json.n }} tema(s) del dominio {{ $json.dominio }} para tu revisión.\n\n{{ $json.detalle }}\n\nPara decidir, abre la pestaña COBIT del dashboard (cola de cambios propuestos) o usa el enlace de cada propuesta:\nhttp://localhost:5678/webhook/addi/aprobar?id=ID&decision=aprobar&aprobador={{ encodeURIComponent($json.aprobador) }}\n\n{{ $json.copia_cto ? 'Se copia al CTO como segunda revisión, porque eres dueño de acciones que justifican el cambio.' : '' }}\nMientras nadie responda, el cambio sigue como propuesto y no se aplica. Suplente: {{ $json.suplente }}.\nLos cambios nacidos de mediciones simuladas llevan la etiqueta «Simulado».",
+        "options": {
+          "ccEmail": "={{ $json.copia_cto ? 'cto@addi.demo' : '' }}"
+        }
+      },
+      "id": "92c2779a-9489-50fa-a9a6-a9d1ea8cedcb",
+      "name": "Correo al aprobador",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        80
+      ],
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Cada mes": {
+      "main": [
+        [
+          {
+            "node": "Avanzar corte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar a mano": {
+      "main": [
+        [
+          {
+            "node": "Avanzar corte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avanzar corte": {
+      "main": [
+        [
+          {
+            "node": "Pendientes por dominio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pendientes por dominio": {
+      "main": [
+        [
+          {
+            "node": "Correo al aprobador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST corte": {
+      "main": [
+        [
+          {
+            "node": "Avanzar o reiniciar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avanzar o reiniciar": {
+      "main": [
+        [
+          {
+            "node": "Responder corte",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Pendientes por dominio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

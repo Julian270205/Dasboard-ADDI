@@ -1,0 +1,1094 @@
+{
+ "awareness": [
+  {
+   "objetivo": "EDM01",
+   "nombre_en": "Ensured Governance Framework Setting and Maintenance",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "CEO / Junta Directiva",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Como fintech de crédito regulada en Colombia, el gobierno es crítico y opera con estructura societaria y junta formal (Yes/Yes)."
+  },
+  {
+   "objetivo": "EDM02",
+   "nombre_en": "Ensured Benefits Delivery",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "CEO / CFO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=5/Perf=2: El modelo BNPL depende del retorno de su plataforma; la rentabilidad sostenida y los reportes a inversionistas y a la Superfinanciera evidencian entrega de valor (sin acceso al detalle interno)."
+  },
+  {
+   "objetivo": "EDM03",
+   "nombre_en": "Ensured Risk Optimization",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "Chief Risk Officer (CRO)",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Gestión de riesgo es el núcleo de una fintech de crédito; cuenta con políticas formales y auditoría obligatoria."
+  },
+  {
+   "objetivo": "EDM04",
+   "nombre_en": "Ensured Resource Optimization",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "Otra área",
+   "auditado": false,
+   "formal": false,
+   "responsable": "CTO / CFO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=3: Se infiere gestión de recursos por la rentabilidad sostenida y la inversión declarada en infraestructura; formalidad y auditoría internas no son verificables desde fuentes públicas (?/?)."
+  },
+  {
+   "objetivo": "EDM05",
+   "nombre_en": "Ensured Stakeholder Engagement",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "CEO / General Counsel",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Obligación legal de reportes societarios, estados financieros e información transparente al consumidor."
+  },
+  {
+   "objetivo": "APO01",
+   "nombre_en": "Managed I&T Management Framework",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "CTO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=3: Estructura técnica visible en vacantes y LinkedIn; sin acceso a las políticas internas del marco de gestión de TI (?/?)."
+  },
+  {
+   "objetivo": "APO02",
+   "nombre_en": "Managed Strategy",
+   "importancia": 5,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "CTO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=5/Perf=3: La estrategia de negocio de Addi es inseparable de su plataforma tecnológica (prensa y declaraciones del CEO); el plan estratégico de TI no es público, por lo que su formalidad y auditoría no son verificables (?/?)."
+  },
+  {
+   "objetivo": "APO03",
+   "nombre_en": "Managed Enterprise Architecture",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "do not know",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: El manual de integración e-commerce y la documentación pública de la API (con ambiente sandbox) para comercios aliados confirman una arquitectura modular y estandarizada; la auditoría interna no es verificable (?)."
+  },
+  {
+   "objetivo": "APO04",
+   "nombre_en": "Managed Innovation",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CTO / CPO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=5/Perf=2: El motor de decisión crediticia con IA evidencia innovación aplicada; no hay información pública sobre auditoría de este proceso (?)."
+  },
+  {
+   "objetivo": "APO05",
+   "nombre_en": "Managed Portfolio",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "CPO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=3: Se observa evolución constante del portafolio de productos, pero la gobernanza interna de inversiones no es verificable externamente (?/?)."
+  },
+  {
+   "objetivo": "APO06",
+   "nombre_en": "Managed Budget and Costs",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "CFO / CTO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=5/Perf=2: Estados financieros depositados y control de unit economics exigido por fondos de inversión (Yes/Yes)."
+  },
+  {
+   "objetivo": "APO07",
+   "nombre_en": "Managed Human Resources",
+   "importancia": 4,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": false,
+   "formal": true,
+   "responsable": "Head of People / CTO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=2: Fuerte captación de talento especializado en TI, datos y riesgo con perfiles de cargo claramente definidos."
+  },
+  {
+   "objetivo": "APO08",
+   "nombre_en": "Managed Relationships",
+   "importancia": 4,
+   "desempeno": 5,
+   "quien": "No se sabe",
+   "auditado": false,
+   "formal": false,
+   "responsable": "do not know",
+   "etiqueta": "NV",
+   "justificacion": "[NV] Imp=4/Perf=5: No verificable externamente el nivel de formalidad de acuerdos internos entre áreas (?/?); se asume nivel 2 por agilidad operativa. Perf=5 = do not know; la capacidad estimada se reporta en el Diagnóstico de Control."
+  },
+  {
+   "objetivo": "APO09",
+   "nombre_en": "Managed Service Agreements",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CTO",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=4/Perf=3: SLAs y plazos formales con comercios aliados publicados en la política de marketplace; con proveedores críticos (nube, burós de crédito) se infiere por vacantes y su auditoría interna no es pública (?)."
+  },
+  {
+   "objetivo": "APO10",
+   "nombre_en": "Managed Vendors",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "CTO / General Counsel",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=3: Proveedores tecnológicos estratégicos (nube, pasarelas, data providers) visibles en vacantes y alianzas; formalidad y auditoría internas no son públicas (?/?)."
+  },
+  {
+   "objetivo": "APO11",
+   "nombre_en": "Managed Quality",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "do not know",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=3: Estándares de calidad de software y pruebas automatizadas inferidos de vacantes QA/SRE; métricas y procedimientos internos no verificables (?/?)."
+  },
+  {
+   "objetivo": "APO12",
+   "nombre_en": "Managed Risk",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "Chief Risk Officer (CRO)",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Gestión integral de riesgos financieros, tecnológicos y SAGRILAFT documentada y auditada por exigencia regulatoria."
+  },
+  {
+   "objetivo": "APO13",
+   "nombre_en": "Manage Security",
+   "importancia": 5,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CISO / Head of Technology Risk (cargo en formación)",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=3: Deberes de seguridad de la información y protección de datos publicados en las políticas (Ley 1581); la segunda línea de seguridad y el rol de CISO se estaban formando (vacante retirada en nov 2025, sin confirmar cobertura) y no consta certificación ISO 27001, por lo que la auditoría no es verificable (?)."
+  },
+  {
+   "objetivo": "APO14",
+   "nombre_en": "Managed Data",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "TI",
+   "auditado": true,
+   "formal": true,
+   "responsable": "Oficial de Protección de Datos (DPO)",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Política de tratamiento de datos personales (Ley 1581/2012) y arquitectura de datos para modelos crediticios en tiempo real."
+  },
+  {
+   "objetivo": "BAI01",
+   "nombre_en": "Managed Programs",
+   "importancia": 4,
+   "desempeno": 5,
+   "quien": "No se sabe",
+   "auditado": false,
+   "formal": false,
+   "responsable": "do not know",
+   "etiqueta": "NV",
+   "justificacion": "[NV] Imp=4/Perf=5: No verificable externamente el marco de programas (?/?); se asume nivel 2 por despliegue exitoso de nuevas líneas de negocio. Perf=5 = do not know; la capacidad estimada se reporta en el Diagnóstico de Control."
+  },
+  {
+   "objetivo": "BAI02",
+   "nombre_en": "Managed Requirements Definition",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "CPO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=3: Producto digital altamente iterativo evidencia gestión activa de requerimientos, sin acceso a documentación interna (?)."
+  },
+  {
+   "objetivo": "BAI03",
+   "nombre_en": "Managed Solutions Identification and Build",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CTO",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Documentación pública de integración para comercios y actualizaciones frecuentes de app confirman proceso estandarizado."
+  },
+  {
+   "objetivo": "BAI04",
+   "nombre_en": "Managed Availability and Capacity",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CTO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=5/Perf=2: Vacantes de SRE/Platform y operación 24/7 en tiempo real demuestran capacidad y disponibilidad gestionadas formalmente."
+  },
+  {
+   "objetivo": "BAI05",
+   "nombre_en": "Managed Organizational Change",
+   "importancia": 3,
+   "desempeno": 5,
+   "quien": "No se sabe",
+   "auditado": false,
+   "formal": false,
+   "responsable": "do not know",
+   "etiqueta": "NV",
+   "justificacion": "[NV] Imp=3/Perf=5: Proceso interno no verificable externamente (?/?); se estima nivel 2 por crecimiento organizacional sostenido. Perf=5 = do not know; la capacidad estimada se reporta en el Diagnóstico de Control."
+  },
+  {
+   "objetivo": "BAI06",
+   "nombre_en": "Managed IT Changes",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CTO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=5/Perf=2: En una fintech transaccional los cambios a producción requieren controles estrictos y automatizados."
+  },
+  {
+   "objetivo": "BAI07",
+   "nombre_en": "Managed IT Change Acceptance and Transitioning",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CTO",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=4/Perf=3: El ambiente de pruebas (staging/sandbox) documentado en el manual de integración para comercios confirma una transición controlada a producción; la auditoría interna no es pública (?)."
+  },
+  {
+   "objetivo": "BAI08",
+   "nombre_en": "Managed Knowledge",
+   "importancia": 3,
+   "desempeno": 5,
+   "quien": "No se sabe",
+   "auditado": false,
+   "formal": false,
+   "responsable": "do not know",
+   "etiqueta": "NV",
+   "justificacion": "[NV] Imp=3/Perf=5: No verificable externamente; se asume nivel 1 (informal/por equipos) al ser un proceso interno típico de scale-ups (?/?). Perf=5 = do not know; la capacidad estimada se reporta en el Diagnóstico de Control."
+  },
+  {
+   "objetivo": "BAI09",
+   "nombre_en": "Managed Assets",
+   "importancia": 3,
+   "desempeno": 5,
+   "quien": "No se sabe",
+   "auditado": false,
+   "formal": false,
+   "responsable": "do not know",
+   "etiqueta": "NV",
+   "justificacion": "[NV] Imp=3/Perf=5: No verificable externamente (?/?); se estima nivel 2 por control contable de activos y etiquetado cloud. Perf=5 = do not know; la capacidad estimada se reporta en el Diagnóstico de Control."
+  },
+  {
+   "objetivo": "BAI10",
+   "nombre_en": "Managed Configuration",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "do not know",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=3: Uso de prácticas DevOps/IaC asegura control de configuración, aunque sus repositorios son privados (?)."
+  },
+  {
+   "objetivo": "BAI11",
+   "nombre_en": "Managed Projects",
+   "importancia": 4,
+   "desempeno": 5,
+   "quien": "No se sabe",
+   "auditado": false,
+   "formal": false,
+   "responsable": "do not know",
+   "etiqueta": "NV",
+   "justificacion": "[NV] Imp=4/Perf=5: Se mantiene el código BAI11 de la plantilla aclarando en observaciones que corresponde a proyectos ágiles internos (?/?). Perf=5 = do not know; la capacidad estimada se reporta en el Diagnóstico de Control."
+  },
+  {
+   "objetivo": "DSS01",
+   "nombre_en": "Managed Operations",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CTO",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: La operación digital ininterrumpida es crítica para comercios físicos y online aliados."
+  },
+  {
+   "objetivo": "DSS02",
+   "nombre_en": "Managed Service Requests and Incidents",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": false,
+   "formal": true,
+   "responsable": "Head of Ops",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Evidencia pública directa en ayuda.addi.com y tiempos legales de respuesta a PQR en Colombia."
+  },
+  {
+   "objetivo": "DSS03",
+   "nombre_en": "Managed Problems",
+   "importancia": 4,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "do not know",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=4/Perf=3: Se infiere gestión activa por estabilidad del servicio y atención a reclamos recurrentes, sin acceso a bitácoras internas (?)."
+  },
+  {
+   "objetivo": "DSS04",
+   "nombre_en": "Managed Continuity",
+   "importancia": 5,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "CTO / CISO (cargo en formación)",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=5/Perf=3: Interrupciones prolongadas afectarían ingresos y cumplimiento regulatorio; la Superfinanciera exige a las entidades vigiladas planes de continuidad del negocio (Capítulo XXIII de la Circular Básica Contable y Financiera, reforzado por la Circular Externa 014 de 2022 y vigente en la Circular Básica Financiera desde el 1-jun-2026), y las vacantes piden RTO/RPO; BCP y DRP multi-zona en nube. La formalidad y la auditoría del plan de Addi no están acreditadas en un documento público (?/?)."
+  },
+  {
+   "objetivo": "DSS05",
+   "nombre_en": "Managed Security Services",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "TI",
+   "auditado": false,
+   "formal": true,
+   "responsable": "CISO / Head of Technology Risk (cargo en formación)",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Verificación biométrica obligatoria en el flujo de crédito y consulta a centrales de riesgo, documentadas en la autorización pública de datos; su auditoría no es verificable (?)."
+  },
+  {
+   "objetivo": "DSS06",
+   "nombre_en": "Managed Business Process Controls",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "CRO / Head of Ops",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Integridad transaccional y conciliación financiera con comercios requieren controles estrictos y auditables."
+  },
+  {
+   "objetivo": "MEA01",
+   "nombre_en": "Managed Performance and Conformance Monitoring",
+   "importancia": 5,
+   "desempeno": 3,
+   "quien": "TI",
+   "auditado": false,
+   "formal": false,
+   "responsable": "CTO / CFO",
+   "etiqueta": "I",
+   "justificacion": "[I] Imp=5/Perf=3: Se reportan KPIs de ingeniería semanales y métricas de negocio (vacantes, prensa); no hay evidencia pública de un sistema formal de monitoreo ni de su auditoría (?/?)."
+  },
+  {
+   "objetivo": "MEA02",
+   "nombre_en": "Managed System of Internal Control",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "Oficial de cumplimiento / Auditoría interna",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Por tamaño societario y sector en Colombia, está obligada a tener Revisoría Fiscal y controles internos auditados."
+  },
+  {
+   "objetivo": "MEA03",
+   "nombre_en": "Managed Compliance with External Requirements",
+   "importancia": 5,
+   "desempeno": 2,
+   "quien": "Otra área",
+   "auditado": true,
+   "formal": true,
+   "responsable": "General Counsel / Oficial de cumplimiento",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=5/Perf=2: Evidencia pública abundante en políticas legales, contratos de crédito y vigilancia de entidades de control en Colombia."
+  },
+  {
+   "objetivo": "MEA04",
+   "nombre_en": "Managed Assurance",
+   "importancia": 4,
+   "desempeno": 2,
+   "quien": "Tercero",
+   "auditado": true,
+   "formal": true,
+   "responsable": "Junta Directiva / Revisor Fiscal",
+   "etiqueta": "V",
+   "justificacion": "[V] Imp=4/Perf=2: Este objetivo aparece en el formato ISACA (MEA04); ejecutado por terceros independientes (Outside) con informes formales."
+  }
+ ],
+ "control": [
+  {
+   "codigo_control": "EDM01",
+   "objetivo": "EDM01",
+   "nombre_control": "Asegurar el gobierno de TI",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Addi S.A. Compañía de Financiamiento fue autorizada por la Superfinanciera (Res. 0509 del 26-mar-2026), lo que exige gobierno corporativo formal; gobierno corporativo formalizado ante Cámara de Comercio, estructura societaria de tres entidades y junta directiva con inversionistas institucionales. Brecha: Manual interno de gobierno de TI no público; el PETI propone formalizar el marco de gobierno de TI."
+  },
+  {
+   "codigo_control": "EDM02",
+   "objetivo": "EDM02",
+   "nombre_control": "Asegurar beneficios",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Rentabilidad sostenida y reportes a inversionistas evidencian gestión de beneficios; no hay evidencia pública de un mecanismo formal de medición del valor de TI. Brecha: El BSC propuesto (KPIs financieros y de originación) sería ese mecanismo."
+  },
+  {
+   "codigo_control": "EDM03",
+   "objetivo": "EDM03",
+   "nombre_control": "Asegurar optimización del riesgo",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Como entidad vigilada debe administrar riesgo crediticio, de fraude y de LA/FT (SARC, SARLAFT) con políticas formales y auditoría obligatoria. Brecha: Apetito de riesgo tecnológico no público; comité de riesgo tecnológico en formación según vacantes."
+  },
+  {
+   "codigo_control": "EDM04",
+   "objetivo": "EDM04",
+   "nombre_control": "Asegurar optimización de recursos",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Gestión de recursos cloud e ingeniería inferida de vacantes de plataforma/FinOps y de la rentabilidad sostenida; sin acceso a actas internas. Brecha: Sin evidencia de optimización formal de recursos."
+  },
+  {
+   "codigo_control": "EDM05",
+   "objetivo": "EDM05",
+   "nombre_control": "Asegurar transparencia de las partes interesadas",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Transparencia regulada ante la SIC, SuperSociedades, inversionistas y consumidores financieros: políticas públicas de datos y marketplace, términos de la app con enlace a la SIC y reportes públicos como entidad vigilada por la Superfinanciera. Brecha: no se identifican brechas desde fuentes públicas."
+  },
+  {
+   "codigo_control": "APO01",
+   "objetivo": "APO01",
+   "nombre_control": "Gestionar el marco de gestión de TI",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Estructura de TI visible en vacantes (squads, plataforma, datos, seguridad); el manual interno de gobierno de TI no es público. Brecha: El PETI propone formalizar el marco de gestión de TI."
+  },
+  {
+   "codigo_control": "APO02",
+   "objetivo": "APO02",
+   "nombre_control": "Gestionar la estrategia de TI",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Estrategia tecnológica digital declarada por la dirección en prensa; el plan estratégico de TI no es público. Brecha: El PETI propone alinear la estrategia de TI con la expansión omnicanal del crédito BNPL."
+  },
+  {
+   "codigo_control": "APO03",
+   "objetivo": "APO03",
+   "nombre_control": "Gestionar la arquitectura empresarial",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Manual de integración e-commerce y documentación pública de la API (con ambiente sandbox) para comercios aliados evidencian una arquitectura modular y estandarizada. Brecha: Modelo de arquitectura empresarial interno no verificable."
+  },
+  {
+   "codigo_control": "APO04",
+   "objetivo": "APO04",
+   "nombre_control": "Gestionar la innovación",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Innovación continua en underwriting con IA y productos financieros digitales, descrita en prensa; sin evidencia pública de un proceso formal de gestión de la innovación. Brecha: Formalizar un portafolio de innovación."
+  },
+  {
+   "codigo_control": "APO05",
+   "objetivo": "APO05",
+   "nombre_control": "Gestionar el portafolio",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Priorización de iniciativas inferida de los lanzamientos de producto; el detalle interno del portafolio no es público. Brecha: El PETI propone una hoja de ruta priorizada de iniciativas."
+  },
+  {
+   "codigo_control": "APO06",
+   "objetivo": "APO06",
+   "nombre_control": "Gestionar el presupuesto y los costos",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Control presupuestal inferido de la rentabilidad sostenida y del seguimiento de unit economics que exigen los inversionistas; sin acceso a estados financieros ni presupuestos de TI. Brecha: Costos de TI no visibles de forma separada."
+  },
+  {
+   "codigo_control": "APO07",
+   "objetivo": "APO07",
+   "nombre_control": "Gestionar los recursos humanos",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Reclutamiento técnico estructurado y perfiles de cargo definidos, visibles en portales de empleo; onboarding y cultura de ingeniería no verificables. Brecha: Sin evidencia de un plan formal de capacidades de TI."
+  },
+  {
+   "codigo_control": "APO08",
+   "objetivo": "APO08",
+   "nombre_control": "Gestionar las relaciones",
+   "nivel": 1,
+   "etiqueta": "NV",
+   "observacion": "Realizado inicialmente (Nivel 1). [NV] Articulación entre negocio, producto y tecnología no verificable externamente; se estima nivel 1 y Performance 5 (do not know) en el diagnóstico de sensibilización. Brecha: Sin acceso a acuerdos internos entre áreas."
+  },
+  {
+   "codigo_control": "APO09",
+   "objetivo": "APO10",
+   "nombre_control": "Gestionar proveedores",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] En plantilla docente corresponde a gestión de proveedores: se infiere por vacantes el uso de nube (AWS) y alianzas (Credibanco); consulta a centrales de riesgo (DataCrédito/TransUnion) documentada en la autorización de datos; la gestión de ciclo de vida de proveedores críticos se estaba formalizando. Brecha: SLAs con proveedores no públicos."
+  },
+  {
+   "codigo_control": "APO10",
+   "objetivo": "APO11",
+   "nombre_control": "Gestionar calidad",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] En plantilla docente figura como calidad (APO10): estándares de pruebas automatizadas y calidad de software inferidos de ofertas QA/SRE. Brecha: Métricas internas de calidad no verificables."
+  },
+  {
+   "codigo_control": "APO11",
+   "objetivo": "APO12",
+   "nombre_control": "Gestionar riesgos",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] En plantilla docente figura como riesgos (APO11): como entidad vigilada opera un marco de riesgos operativos, crediticios y SARLAFT (SARO, SARC) con auditoría interna y oficial de cumplimiento. Brecha: Gestión de riesgo tecnológico en formación (vacantes)."
+  },
+  {
+   "codigo_control": "APO12",
+   "objetivo": "APO13",
+   "nombre_control": "Gestionar seguridad",
+   "nivel": 2,
+   "etiqueta": "V",
+   "observacion": "Gestionado (Nivel 2). [V] En plantilla docente figura como seguridad (APO12): deberes de seguridad de la información publicados en las políticas de datos (Ley 1581); el rol de CISO y la segunda línea de seguridad se estaban formando (vacante retirada en nov 2025) y no consta certificación ISO 27001. Brecha: Formalizar el CISO y el SGSI."
+  },
+  {
+   "codigo_control": "BAI01",
+   "objetivo": "BAI01",
+   "nombre_control": "Gestionar programas y proyectos",
+   "nivel": 1,
+   "etiqueta": "NV",
+   "observacion": "Realizado inicialmente (Nivel 1). [NV] Ejecución de programas de expansión y nuevos productos visible en el mercado; la metodología interna de programas y proyectos no es pública. Performance 5 (do not know). Brecha: Sin evidencia de un marco formal."
+  },
+  {
+   "codigo_control": "BAI02",
+   "objetivo": "BAI02",
+   "nombre_control": "Gestionar requerimientos de definición",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Producto digital iterativo evidencia definición de requerimientos activa; artefactos internos no accesibles. Brecha: Sin evidencia de un proceso documentado."
+  },
+  {
+   "codigo_control": "BAI03",
+   "objetivo": "BAI03",
+   "nombre_control": "Gestionar soluciones identificadas",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Soluciones integradas con comercios mediante API documentada, manual de integración y ambiente sandbox; términos de la app publicados. Brecha: Ciclo de construcción interno no verificable."
+  },
+  {
+   "codigo_control": "BAI04",
+   "objetivo": "BAI04",
+   "nombre_control": "Gestionar disponibilidad y capacidad",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Alta disponibilidad y escalabilidad en nube (AWS) para soportar picos transaccionales (ej. Días sin IVA / Black Friday), inferidas además de vacantes SRE/plataforma que piden SLOs, RTO y RPO. Brecha: Sin evidencia de planes formales de capacidad."
+  },
+  {
+   "codigo_control": "BAI05",
+   "objetivo": "BAI05",
+   "nombre_control": "Gestionar cambios organizacionales",
+   "nivel": 1,
+   "etiqueta": "NV",
+   "observacion": "Realizado inicialmente (Nivel 1). [NV] Sin evidencia pública de metodología de gestión del cambio organizacional. Performance 5 (do not know). Brecha: Proceso interno no verificable."
+  },
+  {
+   "codigo_control": "BAI06",
+   "objetivo": "BAI06",
+   "nombre_control": "Gestionar cambios",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Despliegues continuos (CI/CD), revisión de código y pipelines automatizados descritos en vacantes DevOps; sin procedimiento publicado. Brecha: Sin evidencia de control formal de cambios."
+  },
+  {
+   "codigo_control": "BAI07",
+   "objetivo": "BAI07",
+   "nombre_control": "Gestionar aceptación y transición",
+   "nivel": 2,
+   "etiqueta": "V",
+   "observacion": "Gestionado (Nivel 2). [V] Ambiente de pruebas (staging/sandbox) documentado en el manual de integración para comercios; sin evidencia pública de criterios de aceptación formales. Brecha: Pruebas de aceptación internas no verificables."
+  },
+  {
+   "codigo_control": "BAI08",
+   "objetivo": "BAI08",
+   "nombre_control": "Gestionar conocimiento",
+   "nivel": 1,
+   "etiqueta": "NV",
+   "observacion": "Realizado inicialmente (Nivel 1). [NV] Documentación técnica en wikis internas; su estandarización no es verificable externamente. Performance 5 (do not know). Brecha: Sin evidencia de gestión formal del conocimiento."
+  },
+  {
+   "codigo_control": "BAI09",
+   "objetivo": "BAI09",
+   "nombre_control": "Gestionar activos",
+   "nivel": 1,
+   "etiqueta": "NV",
+   "observacion": "Realizado inicialmente (Nivel 1). [NV] Control de activos tecnológicos y recursos cloud no verificable externamente; registros internos no accesibles. Performance 5 (do not know). Brecha: Sin evidencia de un inventario formal."
+  },
+  {
+   "codigo_control": "BAI10",
+   "objetivo": "BAI10",
+   "nombre_control": "Gestionar configuración",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Infraestructura como código y gestión de configuración en nube mencionadas en perfiles de plataforma/DevOps; repositorios privados. Brecha: Sin evidencia de una base de configuración formal."
+  },
+  {
+   "codigo_control": "BAI11",
+   "objetivo": "BAI11",
+   "nombre_control": "Gestionar problemas",
+   "nivel": 1,
+   "etiqueta": "NV",
+   "observacion": "Realizado inicialmente (Nivel 1). [NV] Gestión ágil de proyectos de desarrollo no verificable externamente; en plantilla docente aparece etiquetado como 'Gestionar problemas' (error de etiqueta del formato; corresponde a gestión de proyectos). Performance 5 (do not know). Brecha: Sin evidencia de una metodología formal."
+  },
+  {
+   "codigo_control": "DSS01",
+   "objetivo": "DSS01",
+   "nombre_control": "Gestionar operaciones",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Operación digital continua de la app y de los pagos, documentada en los términos y condiciones públicos. Brecha: Monitoreo operativo interno no verificable."
+  },
+  {
+   "codigo_control": "DSS02",
+   "objetivo": "DSS02",
+   "nombre_control": "Gestionar requerimientos de servicio",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Canales estructurados de atención (Centro de Ayuda, WhatsApp, app) y gestión de solicitudes y reclamos con plazos publicados en las políticas de marketplace (2 días hábiles para cambios, 5 para retracto, hasta 30 días calendario para reembolso). Brecha: Indicadores internos de servicio no públicos."
+  },
+  {
+   "codigo_control": "DSS03",
+   "objetivo": "DSS03",
+   "nombre_control": "Gestionar problemas",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Análisis de fallos recurrentes inferido de la atención de reclamos y la estabilidad del servicio; registros internos reservados. Brecha: Sin evidencia de gestión formal de problemas."
+  },
+  {
+   "codigo_control": "DSS04",
+   "objetivo": "DSS04",
+   "nombre_control": "Gestionar continuidad",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] Plan de continuidad del negocio (BCP) y recuperación ante desastres (DRP) multi-zona en nube, exigidos para la operación financiera: la Superfinanciera obliga a las entidades vigiladas a contar con planes de continuidad (Capítulo XXIII de la Circular Básica Contable y Financiera, Circular Externa 014 de 2022; hoy en la Circular Básica Financiera); las vacantes piden RTO, RPO y SLA. Brecha: pruebas y auditoría del plan de Addi no acreditadas en un documento público."
+  },
+  {
+   "codigo_control": "DSS05",
+   "objetivo": "DSS05",
+   "nombre_control": "Gestionar seguridad",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Verificación biométrica obligatoria y consulta a centrales de riesgo en el flujo de crédito, documentadas en la autorización pública de datos, junto con prevención de fraude en el proceso. Brecha: SGSI, certificaciones y rol de CISO no verificables."
+  },
+  {
+   "codigo_control": "DSS06",
+   "objetivo": "DSS06",
+   "nombre_control": "Gestionar controles de procesos de negocios",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Controles automatizados en originación, desembolso a comercios y recaudo de cuotas, descritos en los términos de la app y las políticas de marketplace (reembolsos y retractos con plazos definidos). Brecha: Conciliación interna no verificable."
+  },
+  {
+   "codigo_control": "MEA01",
+   "objetivo": "MEA01",
+   "nombre_control": "Supervisar, evaluar y valorar desempeño",
+   "nivel": 2,
+   "etiqueta": "I",
+   "observacion": "Gestionado (Nivel 2). [I] KPIs de ingeniería semanales y métricas de negocio inferidos de vacantes y prensa; no hay evidencia pública de un sistema formal de monitoreo. Brecha: El BSC propuesto (KPIs financieros, de conversión, disponibilidad y capacitación) y su dashboard serían ese sistema."
+  },
+  {
+   "codigo_control": "MEA02",
+   "objetivo": "MEA03",
+   "nombre_control": "Supervisar cumplimiento",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Cumplimiento regulatorio (Ley 1581, Ley 1266, Ley 1480, SAGRILAFT/PTEE) documentado en políticas públicas y bajo supervisión de la Superfinanciera y la SIC. Brecha: Reportes regulatorios internos no verificables."
+  },
+  {
+   "codigo_control": "MEA03",
+   "objetivo": "MEA02",
+   "nombre_control": "Supervisar sistema de control interno",
+   "nivel": 3,
+   "etiqueta": "V",
+   "observacion": "Establecido (Nivel 3). [V] Sistema de control interno financiero y de LA/FT (SAGRILAFT/PTEE) exigido a entidades vigiladas, con revisoría fiscal y auditoría interna (vacante de Operational Risk Auditor). Brecha: Informes de control interno no públicos."
+  }
+ ],
+ "autoevaluacion": [
+  {
+   "seccion": 1,
+   "seccion_nombre": "Organizational And Governance Structures",
+   "n": 1,
+   "pregunta": "Is there a full-time CIO/Technical Lead in place, and is this function a member of the senior management team?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Hay CTO (las vacantes de Addi incluyen entrevista con el CTO y con un cofundador), pero no hay evidencia pública de que integre el comité directivo. Fuentes: ofertas de empleo Addi (Engineering Manager, DevOps)."
+  },
+  {
+   "seccion": 1,
+   "seccion_nombre": "Organizational And Governance Structures",
+   "n": 2,
+   "pregunta": "Is the structure of the agency and its operational components clearly organized such that the IT function can efficiently and effectively help enable the achievement of the organization’s objectives?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Plataforma desarrollada internamente, equipos por producto (squads) y crecimiento de ingresos 6,5x entre 2023 y 2025 apoyado en tecnología. El organigrama detallado no es público, por lo que la estructura se infiere y no es verificable (Partial). Fuentes: Forbes 12/02/2026; LatamFintech 08/04/2026."
+  },
+  {
+   "seccion": 1,
+   "seccion_nombre": "Organizational And Governance Structures",
+   "n": 3,
+   "pregunta": "Are decision-making bodies in place to enable alignment of organizational needs with IT services, and do they have adequate empowerment and accountability?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Hay junta directiva y, por ser entidad vigilada, comités de riesgos y de auditoría. El comité de riesgo tecnológico y seguridad estaba en proceso de creación (vacante CISO). Fuentes: ofertas Operational Risk Auditor y Head of Technology Risk & CISO."
+  },
+  {
+   "seccion": 1,
+   "seccion_nombre": "Organizational And Governance Structures",
+   "n": 4,
+   "pregunta": "Are organizational needs and IT service requirements defined in strategic and tactical plans, and monitored?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Las prioridades de TI aparecen en los planes anunciados (infraestructura, IA, productos de depósito) y hay planes de trabajo por área (auditoría anual, hoja de ruta de cumplimiento a 6 meses). El plan estratégico de TI como tal no es público; el PETI propuesto cubre esta brecha. Fuente: Valora Analitik 30/06/2026."
+  },
+  {
+   "seccion": 1,
+   "seccion_nombre": "Organizational And Governance Structures",
+   "n": 5,
+   "pregunta": "Does the CIO/Technical Lead and senior management meet and discuss progress on plans on a regular basis?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Se reportan KPIs de ingeniería cada semana y los cofundadores participan en la contratación de perfiles de TI, lo que sugiere seguimiento frecuente. No hay evidencia pública de reuniones formales CTO–alta dirección. Fuente: oferta Engineering Manager."
+  },
+  {
+   "seccion": 1,
+   "seccion_nombre": "Organizational And Governance Structures",
+   "n": 6,
+   "pregunta": "Are roles and responsibilities clearly defined and communicated, and are organization leaders empowered and held accountable for results?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Como entidad regulada usa modelo de tres líneas de defensa y cargos definidos (CISO, CRO, oficial de cumplimiento, auditoría interna). Algunos roles de TI se estaban formalizando en 2025–2026. Fuentes: ofertas CISO, Compliance Lead y Operational Risk Auditor."
+  },
+  {
+   "seccion": 2,
+   "seccion_nombre": "Executive And Leadership Support",
+   "n": 1,
+   "pregunta": "Does senior management have clearly defined and communicated roles and responsibilities for the IT function with respect to the organizational achievement of strategic and tactical goals?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] El rol de TI se infiere de la estrategia (compañía de tecnología con énfasis en IA), pero no hay documento público de roles de la alta dirección frente a TI. Fuente: Valora Analitik 30/06/2026."
+  },
+  {
+   "seccion": 2,
+   "seccion_nombre": "Executive And Leadership Support",
+   "n": 2,
+   "pregunta": "Are the roles and responsibilities of the CIO/Technology Lead clearly defined and communicated?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Las ofertas muestran un CTO con equipos a cargo y un CISO de segunda línea que debe retarlo (\"challenge\") al CIO/CTO, lo que implica roles distintos. Los documentos del rol no son públicos. Fuente: oferta Head of Technology Risk & CISO."
+  },
+  {
+   "seccion": 2,
+   "seccion_nombre": "Executive And Leadership Support",
+   "n": 3,
+   "pregunta": "Does the organization recognize in its strategy that the IT function is a significant contributor in enabling the achievement of goals, as well as supporting the organization on a day-to-day basis?",
+   "respuesta": "Yes",
+   "puntos": 2,
+   "etiqueta": "V",
+   "comentario": "[V] El CEO describe a Addi como compañía de tecnología con énfasis en IA, la plataforma es propia y la ronda Serie D se destina en parte a infraestructura tecnológica. Fuentes: Valora Analitik 30/06/2026; LatamFintech 08/04/2026."
+  },
+  {
+   "seccion": 2,
+   "seccion_nombre": "Executive And Leadership Support",
+   "n": 4,
+   "pregunta": "Does the CIO/Technology Lead meet with the board and the senior management team on a regular basis to discuss IT service delivery related to strategic and tactical plans?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] No hay evidencia de reuniones periódicas del CTO con la junta. El comité trimestral de riesgo tecnológico y seguridad a nivel de junta era un objetivo de la vacante CISO. Fuente: oferta Head of Technology Risk & CISO."
+  },
+  {
+   "seccion": 2,
+   "seccion_nombre": "Executive And Leadership Support",
+   "n": 5,
+   "pregunta": "Does IT have adequate funding to meet the organization’s needs?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Serie D por US$85 millones con parte destinada a infraestructura tecnológica, más de US$680 millones en compromisos de deuda y rentabilidad sostenida. El presupuesto de TI no es público, por lo que la suficiencia del financiamiento de TI se infiere (Partial). Fuentes: Valora Analitik 30/06/2026; Forbes 12/02/2026."
+  },
+  {
+   "seccion": 3,
+   "seccion_nombre": "Strategic And Operational Planning",
+   "n": 1,
+   "pregunta": "Does the agency Director and senior management view IT as a strategic organizational partner?",
+   "respuesta": "Yes",
+   "puntos": 2,
+   "etiqueta": "V",
+   "comentario": "[V] La alta dirección posiciona a Addi como tecnológica y un cofundador entrevista a los perfiles de ingeniería, riesgo y cumplimiento. Fuentes: Valora Analitik 30/06/2026; ofertas de empleo Addi."
+  },
+  {
+   "seccion": 3,
+   "seccion_nombre": "Strategic And Operational Planning",
+   "n": 2,
+   "pregunta": "Does the strategic plan of the organization include how IT is required to support and enable value creation?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Se declara que la ronda financiará tecnología, IA y nuevos productos financieros, pero el plan estratégico completo no es público, por lo que su alineación no es verificable; el PETI y el BSC propuestos buscan cerrar esa brecha. Fuente: Valora Analitik 30/06/2026."
+  },
+  {
+   "seccion": 3,
+   "seccion_nombre": "Strategic And Operational Planning",
+   "n": 3,
+   "pregunta": "Is the strategic plan supported by individual tactical operating plans that take into account IT requirements and deliverables?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Hay planes tácticos visibles en las ofertas: plan anual de auditoría, hoja de ruta de cumplimiento a 6 meses, mejora de monitoreo y alertas. No consta que estén todos ligados a un plan estratégico. Fuentes: ofertas Addi."
+  },
+  {
+   "seccion": 3,
+   "seccion_nombre": "Strategic And Operational Planning",
+   "n": 4,
+   "pregunta": "Are key performance indicators (KPIs) used by senior management to measure and monitor the effectiveness of the IT function?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Reportan KPIs de ingeniería semanales y buscan medir tiempo de despliegue, tasa de fallos de cambios y SLOs/SLIs; la junta recibiría tablero de KRI/KPI de riesgo tecnológico. Son prácticas descritas en vacantes, no verificadas (Partial). Fuentes: ofertas Engineering Manager, DevOps y CISO."
+  },
+  {
+   "seccion": 3,
+   "seccion_nombre": "Strategic And Operational Planning",
+   "n": 5,
+   "pregunta": "Are strategic IT investment decisions based on accurate cost benefit analyses and evaluated after implementation to determine whether the projected ROI has been realized?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "NV",
+   "comentario": "[NV] El negocio mide mucho (rentabilidad, ingresos, volumen), pero no hay evidencia pública de análisis costo-beneficio de inversiones de TI ni de revisión posterior a la implementación."
+  },
+  {
+   "seccion": 3,
+   "seccion_nombre": "Strategic And Operational Planning",
+   "n": 6,
+   "pregunta": "Are lessons learned factored into future IT investment decisions?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Hay retrospectivas de equipo y revisiones posteriores a incidentes (post-incident reviews). Además cerró operaciones internacionales antes de alcanzar rentabilidad, lo que indica aprendizaje estratégico. Fuentes: ofertas Engineering Manager y CISO; Forbes 12/02/2026."
+  },
+  {
+   "seccion": 3,
+   "seccion_nombre": "Strategic And Operational Planning",
+   "n": 7,
+   "pregunta": "Is the IT organization structured effectively relative to the size and composition of the organization?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Hay squads de producto, DevOps/plataforma, ciberseguridad y riesgo tecnológico, pero el tamaño del equipo no es público y la función de seguridad de segunda línea apenas se estaba formando. Fuentes: ofertas DevOps y CISO."
+  },
+  {
+   "seccion": 3,
+   "seccion_nombre": "Strategic And Operational Planning",
+   "n": 8,
+   "pregunta": "Are the CIO and IT leadership qualified and experienced?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "NV",
+   "comentario": "[NV] Los perfiles de liderazgo piden más de 12 años de experiencia en entidades reguladas, pero no se verificó la trayectoria del CTO actual. Verificar en LinkedIn. Fuente: oferta Head of Technology Risk & CISO."
+  },
+  {
+   "seccion": 4,
+   "seccion_nombre": "Service Delivery Measurement",
+   "n": 1,
+   "pregunta": "Does the senior management have a clear understanding of IT costs and how they contribute to the achievement of the organization’s strategic objectives?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] El negocio es rentable y en mayo de 2026 incorporó como CFO a un ex CFO de Mercado Libre México; los costos de TI en particular no son públicos. Fuente: Forbes 25/05/2026."
+  },
+  {
+   "seccion": 4,
+   "seccion_nombre": "Service Delivery Measurement",
+   "n": 2,
+   "pregunta": "Do leaders of the organization measure IT value and deliverables?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Se miden resultados de negocio (transacciones, ticket promedio, volumen de ventas de comercios) y métricas de ingeniería. No consta una medición explícita del valor de TI. Fuente: Forbes 12/02/2026."
+  },
+  {
+   "seccion": 4,
+   "seccion_nombre": "Service Delivery Measurement",
+   "n": 3,
+   "pregunta": "Are IT costs compare to other comparable organizations?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "NV",
+   "comentario": "[NV] No hay evidencia pública de benchmarking de costos de TI frente a otras organizaciones, ni evidencia de que no exista; es un tema interno no verificable externamente (Partial por falta de información, no por ausencia del proceso)."
+  },
+  {
+   "seccion": 4,
+   "seccion_nombre": "Service Delivery Measurement",
+   "n": 4,
+   "pregunta": "Is CIO/Technical Lead performance measured by financial and nonfinancial data?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "NV",
+   "comentario": "[NV] No hay evidencia pública de que el desempeño del CTO se mida con criterios financieros y no financieros, ni evidencia de que no se haga; es un tema interno no verificable externamente (Partial por falta de información, no por ausencia del proceso)."
+  },
+  {
+   "seccion": 4,
+   "seccion_nombre": "Service Delivery Measurement",
+   "n": 5,
+   "pregunta": "Are there sourcing arrangements in place, and are they measured and monitored?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Usa proveedores cloud (AWS) y alianzas como Credibanco; la gestión de ciclo de vida de proveedores críticos con SLA y riesgo de concentración se estaba formalizando. Fuentes: oferta DevOps; oferta CISO."
+  },
+  {
+   "seccion": 5,
+   "seccion_nombre": "It Organization And Risk Management",
+   "n": 1,
+   "pregunta": "Are organizational processes automated and workflows integrated?",
+   "respuesta": "Yes",
+   "puntos": 2,
+   "etiqueta": "V",
+   "comentario": "[V] Infraestructura como código, CI/CD, despliegues graduales y feature flags (oferta DevOps); automatización de KYC y monitoreo de transacciones (oferta Compliance Lead); verificación biométrica y consulta en tiempo real a centrales de riesgo integradas en el flujo de crédito, documentadas en la autorización pública de datos. Fuentes: ofertas DevOps y Compliance Lead; autorización de tratamiento de datos personales y biometría de Addi."
+  },
+  {
+   "seccion": 5,
+   "seccion_nombre": "It Organization And Risk Management",
+   "n": 2,
+   "pregunta": "Are the mission critical applications formally known and have an associated lifecycle plan?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Se exige planes de continuidad y recuperación (RTO, RPO, SLA) pero no hay inventario público de aplicaciones críticas ni su ciclo de vida. Fuente: oferta Head of Technology Risk & CISO."
+  },
+  {
+   "seccion": 5,
+   "seccion_nombre": "It Organization And Risk Management",
+   "n": 3,
+   "pregunta": "Is data standardized and easily shared across applications (and the IT infrastructure)?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Los modelos de crédito se apoyan en datos propios y hay roles de analítica y sistemas financieros, pero no hay evidencia de estándares de datos entre aplicaciones. Fuentes: LatamFintech 08/04/2026; ofertas Addi."
+  },
+  {
+   "seccion": 5,
+   "seccion_nombre": "It Organization And Risk Management",
+   "n": 4,
+   "pregunta": "Are there standard IT hardware, software, and service procurement policies, procedures, and controls in place?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Hay gestión de proveedores terceros en construcción y la regulación financiera exige controles de contratación; no se encontró política pública de compras de TI. Fuente: oferta Head of Technology Risk & CISO."
+  },
+  {
+   "seccion": 5,
+   "seccion_nombre": "It Organization And Risk Management",
+   "n": 5,
+   "pregunta": "Are IT management processes mature, and are recognized frameworks used (e.g., COBIT, ITIL, ISO)?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] Citan ISO 27001, ISO 22301, ISO 31000, COBIT, AWS Well-Architected y SLOs como referentes. No se halló certificación ISO 27001 ni PCI DSS publicada. Fuentes: ofertas CISO y DevOps."
+  },
+  {
+   "seccion": 5,
+   "seccion_nombre": "It Organization And Risk Management",
+   "n": 6,
+   "pregunta": "Are risks managed in relation to meeting organizational needs, security, and compliance requirements?",
+   "respuesta": "Yes",
+   "puntos": 2,
+   "etiqueta": "V",
+   "comentario": "[V] Entidad vigilada por la Superfinanciera con SARLAFT, SARO, protección al consumidor, auditoría interna, oficial de cumplimiento y reportes regulatorios. La licencia de abril de 2026 evidencia que cumplió los requisitos. Fuentes: ofertas Addi; Valora Analitik; La República 08/04/2026."
+  },
+  {
+   "seccion": 5,
+   "seccion_nombre": "It Organization And Risk Management",
+   "n": 7,
+   "pregunta": "Is the strategic importance of IT risk management defined?",
+   "respuesta": "Partial",
+   "puntos": 1,
+   "etiqueta": "I",
+   "comentario": "[I] La importancia estratégica se refleja en el rol CISO de segunda línea con marco aprobado por junta y apetito de riesgo, pero esa vacante se retiró en noviembre de 2025 y no se confirmó que se haya cubierto. Fuente: oferta Head of Technology Risk & CISO."
+  }
+ ]
+}

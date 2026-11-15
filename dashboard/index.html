@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Addi · Dashboard estratégico de TI</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--line:#e4e1da;--line2:#ece9e2;--tx:#1f2328;--mut:#5b616a;--mut2:#8a9099;--acc:#1f5fbf;
+--verde:#1a7f4b;--amarillo:#b7791f;--rojo:#c0392b;--gris:#8a9099}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.45}
+button,input,select{font-family:inherit;font-size:13px;color:var(--tx)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:16px 32px 0;position:sticky;top:0;z-index:20}
+.top{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.brand b{font-size:20px;font-weight:600;letter-spacing:-.01em}.brand span{font-size:14px;color:var(--mut);margin-left:12px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn,.ctl select,.ctl input{background:#fff;border:1px solid #d6d2c9;border-radius:8px;padding:8px 12px;min-height:38px}
+.btn{cursor:pointer}.btn:hover{background:#faf9f6}.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}.btn.sm{min-height:30px;padding:4px 10px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--mut);margin-top:10px;align-items:center}
+.cnt{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--tx)}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.tab{background:none;border:none;border-bottom:3px solid transparent;padding:10px 14px;font-size:14px;color:var(--mut);cursor:pointer;min-height:44px;display:flex;gap:8px;align-items:center}
+.tab.on{border-bottom-color:var(--acc);font-weight:600;color:var(--tx)}
+.badge{background:var(--acc);color:#fff;border-radius:10px;padding:1px 8px;font-size:12px;font-weight:600}
+main{padding:24px 32px 48px;display:flex;flex-direction:column;gap:28px;max-width:1500px;margin:0 auto}
+.sec h2{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:0}.sec .sub{font-size:13px;color:var(--mut);margin-bottom:14px}
+.grid{display:grid;gap:16px}.g3{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(440px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card h3{font-size:15px;font-weight:600;margin:0}.card .d{font-size:13px;color:var(--mut)}
+.hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.tag{font-size:12px;border-radius:6px;padding:2px 8px;white-space:nowrap}
+.t-Real{background:#e7f0e9;color:#14532d}.t-Estimado{background:#e8edf7;color:#1e3a8a}.t-Simulado{background:#f1e8f5;color:#581c87}.t-Por{background:#ece9e2;color:#5b616a}
+.t-ev{background:#fff;border:1px solid #d6d2c9;color:var(--mut)}
+.num{font-size:12px;color:var(--mut);white-space:nowrap}
+.kpi{cursor:pointer;gap:8px;padding:16px}.kpi:hover{border-color:#b9b5aa}.kpi:focus-visible{outline:2px solid var(--acc)}
+.kpi .v{font-size:28px;font-weight:600;letter-spacing:-.02em}.kpi .u{font-size:12px;color:var(--mut);margin-left:4px;font-weight:400}
+.kpi .n{font-size:13px;font-weight:500}
+.row{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;color:var(--mut);flex-wrap:wrap}
+.sem{display:inline-flex;gap:6px;align-items:center;font-size:12px;font-weight:600}
+.big{font-size:40px;font-weight:600;letter-spacing:-.03em}
+table{border-collapse:collapse;width:100%;font-size:13px}th{text-align:left;font-weight:500;color:var(--mut);font-size:12px;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:top}tr:last-child td{border-bottom:none}
+tr.clk{cursor:pointer}tr.clk:hover td{background:#faf9f6}
+.scroll{overflow-x:auto}
+.bar{height:10px;background:var(--line2);border-radius:5px;position:relative;min-width:60px}.bar i{display:block;height:10px;border-radius:5px;background:var(--acc)}
+.bar em{position:absolute;top:-3px;width:2px;height:16px;background:var(--tx)}
+.note{font-size:12px;color:var(--mut)}
+.banner{background:#fff8e6;border:1px solid #ecd9a4;border-radius:10px;padding:10px 14px;font-size:13px;color:#6b4e0b}
+.banner.ok{background:#e7f0e9;border-color:#bcd6c3;color:#14532d}
+.cell{border-radius:8px;padding:8px 6px;text-align:center;cursor:pointer;border:2px solid transparent;font-size:12px;font-weight:600;min-width:62px}
+.cell small{display:block;font-weight:400;font-size:11px;opacity:.9}.cell.sel{border-color:var(--tx)}
+.dom{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px}.dom>b{width:44px;font-size:13px}
+.pers{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:stretch;margin-bottom:10px}
+.pers>.pl{border-radius:10px;padding:12px;font-weight:600;font-size:13px;display:flex;align-items:center;background:#e8edf7;color:#1e3a8a}
+.objs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.obj{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff;font-size:13px;display:flex;flex-direction:column;gap:6px}
+.obj .c{font-size:11px;color:var(--mut)}
+.ind{display:flex;gap:6px;align-items:center;font-size:12px;cursor:pointer;padding:2px 0}.ind:hover{text-decoration:underline}
+#drawer{position:fixed;top:0;right:0;width:min(560px,100vw);height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(0,0,0,.08);z-index:40;overflow:auto;padding:24px;display:none;flex-direction:column;gap:16px}
+#drawer.on{display:flex}
+#res{position:absolute;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);max-height:320px;overflow:auto;width:340px;right:0;top:42px;z-index:30;display:none}
+#res div{padding:8px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--line2)}#res div:hover{background:#faf9f6}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.step{border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px}.step b{display:block;font-size:13px}.step.h{background:#e8edf7;border-color:#c9d4e8}
+.hide{display:none!important}
+svg text{font-family:'Inter',system-ui,sans-serif}
+@media(max-width:700px){header,main{padding-left:14px;padding-right:14px}.pers{grid-template-columns:1fr}.g2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="brand"><b id="h-emp">Addi</b><span id="h-plan">Dashboard estratégico de TI</span></div>
+    <div class="ctl" style="position:relative">
+      <select id="f-pers" aria-label="Perspectiva"><option value="">Perspectiva: todas</option><option>Financiera</option><option>Cliente</option><option>Procesos internos</option><option>Aprendizaje y crecimiento</option></select>
+      <select id="f-etq" aria-label="Tipo de dato"><option value="">Tipo de dato: todos</option><option>Real</option><option>Estimado</option><option>Simulado</option></select>
+      <input id="q" type="search" placeholder="Buscar indicador o responsable" aria-label="Buscar" style="width:230px">
+      <div id="res"></div>
+      <button class="btn" id="b-av" title="Adelanta un mes el reloj simulado (flujo n8n)">Avanzar un mes ▸</button>
+      <button class="btn" id="b-re" title="Vuelve al corte inicial">Reiniciar</button>
+    </div>
+  </div>
+  <div class="meta" id="h-meta"></div>
+  <div class="tabs" id="tabs"></div>
+</header>
+<main id="main"><div class="card">Cargando datos…</div></main>
+<aside id="drawer" aria-label="Detalle"></aside>
+
+<script src="config.js"></script>
+<script src="datos.js"></script>
+<script>
+"use strict";
+const CFG = Object.assign({api: "http://localhost:5678/webhook/addi", timeout: 2500}, window.ADDI_CONFIG || {});
+let D = null, VIVO = false, TAB = "General", SEL = null, IND = {}, COB = {};
+const TABS = ["General", "Estrategia", "Datos", "Seguridad", "IA", "Operación", "COBIT"];
+const TABN = {Estrategia: "Estrategia de TI"};
+const COL = {verde: "#1a7f4b", amarillo: "#b7791f", rojo: "#c0392b", gris: "#8a9099"};
+const SEMT = {verde: "● En meta", amarillo: "▲ En riesgo", rojo: "■ Fuera de meta", gris: "○ Sin dato"};
+const NIV = ["#eef1f7", "#d5dff1", "#a9c0e6", "#6f95d6", "#3f6fc4", "#1e3a8a"], NIVT = ["#1f2328", "#1f2328", "#1f2328", "#fff", "#fff", "#fff"];
+const NIVN = ["Incompleto", "Realizado", "Gestionado", "Establecido", "Predecible", "Optimizado"];
+const DOMN = {EDM: "Evaluar, dirigir y monitorear", APO: "Alinear, planificar y organizar", BAI: "Construir, adquirir e implementar", DSS: "Entregar, dar servicio y soporte", MEA: "Monitorear, evaluar y valorar"};
+const DOMS = Object.keys(DOMN);
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const fmt = (v, d) => v == null ? "—" : Number(v).toLocaleString("es-CO", {maximumFractionDigits: d ?? (Math.abs(v) < 2 ? 3 : Math.abs(v) < 100 ? 2 : 1), minimumFractionDigits: 0});
+const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+const tag = e => e ? `<span class="tag t-${e.split(" ")[0]}">${e}</span>` : "";
+const evid = e => e ? `<span class="tag t-ev" title="V = verificado en fuente pública · I = inferido · NV = no verificable desde afuera">[${e}]</span>` : "";
+const mes = s => { if (!s) return "—"; const [y, m] = s.split("-"); return ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][m - 1] + " " + y; };
+const sem = s => `<span class="sem" style="color:${COL[s] || COL.gris}">${SEMT[s] || SEMT.gris}</span>`;
+const flecha = t => t === "sube" ? "↑ sube" : t === "baja" ? "↓ baja" : "→ estable";
+
+/* ---------- carga ---------- */
+async function cargar() {
+  try {
+    const c = new AbortController(); const t = setTimeout(() => c.abort(), CFG.timeout);
+    const r = await fetch(CFG.api + "/dashboard", {signal: c.signal}); clearTimeout(t);
+    if (!r.ok) throw new Error(r.status);
+    let j = await r.json(); if (Array.isArray(j)) j = j[0]; if (j.data) j = j.data; if (typeof j === "string") j = JSON.parse(j);
+    D = j; VIVO = true;
+  } catch (e) { D = window.ADDI_SNAPSHOT; VIVO = false; }
+  if (!D) { $("#main").innerHTML = `<div class="banner">No hay datos: falta <code>datos.js</code> y el flujo de n8n no responde en ${esc(CFG.api)}.</div>`; return; }
+  IND = Object.fromEntries(D.indicadores.map(i => [i.id, i])); COB = Object.fromEntries(D.cobit.map(c => [c.codigo, c]));
+  pintar();
+}
+async function post(ruta, cuerpo) {
+  const r = await fetch(CFG.api + ruta, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(cuerpo)});
+  let j = await r.json(); if (Array.isArray(j)) j = j[0]; if (j.data) j = j.data; if (j.r) j = j.r; return j;
+}
+let AVISO = "";
+async function accion(ruta, cuerpo) {
+  if (!VIVO) { AVISO = "Sin conexión con n8n: esta acción necesita el flujo activo."; pintar(); return; }
+  try { const j = await post(ruta, cuerpo); AVISO = (j.ok ? "✔ " : "✖ ") + (j.mensaje || ""); } catch (e) { AVISO = "✖ No se pudo completar: " + e.message; }
+  await cargar();
+}
+
+/* ---------- gráficas SVG ---------- */
+function spark(i, w = 220, h = 44) {
+  const s = (i.serie || []).slice(-24); if (s.length < 2) return "";
+  const vs = s.map(x => +x[1]), m = i.estado?.meta, all = m != null && i.sentido !== "Rango" ? vs.concat(+m) : vs;
+  let lo = Math.min(...all), hi = Math.max(...all); if (hi === lo) { hi += 1; lo -= 1; }
+  const X = k => 2 + k * (w - 4) / (s.length - 1), Y = v => h - 4 - (v - lo) * (h - 8) / (hi - lo);
+  const p = vs.map((v, k) => `${X(k).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+  const ml = m != null && i.sentido !== "Rango" ? `<line x1="2" x2="${w - 2}" y1="${Y(+m)}" y2="${Y(+m)}" stroke="#8a9099" stroke-dasharray="3 3"/>` : "";
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" role="img" aria-label="Tendencia de 24 meses">${ml}<polyline points="${p}" fill="none" stroke="#1f5fbf" stroke-width="1.6"/><circle cx="${X(s.length - 1)}" cy="${Y(vs.at(-1))}" r="2.6" fill="#1f5fbf"/></svg>`;
+}
+function linea(series, o = {}) { // series: [{nombre, color, pts:[[periodo, valor]], dash}]
+  const w = 520, h = 230, L = 46, R = 12, T = 12, B = 30, per = series[0].pts.map(p => p[0]);
+  let vs = series.flatMap(s => s.pts.map(p => +p[1])); if (o.meta != null) vs.push(+o.meta); if (o.rango) vs.push(+o.rango[0], +o.rango[1]);
+  let lo = Math.min(...vs), hi = Math.max(...vs); const pad = (hi - lo || 1) * .08; lo -= pad; hi += pad;
+  const X = k => L + k * (w - L - R) / Math.max(1, per.length - 1), Y = v => T + (hi - v) * (h - T - B) / (hi - lo);
+  let g = "";
+  for (let k = 0; k <= 4; k++) { const v = lo + (hi - lo) * k / 4; g += `<line x1="${L}" x2="${w - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="#ece9e2"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="#5b616a">${fmt(v)}</text>`; }
+  per.forEach((p, k) => { if (k % Math.ceil(per.length / 6) === 0) g += `<text x="${X(k)}" y="${h - 10}" text-anchor="middle" font-size="11" fill="#5b616a">${mes(p)}</text>`; });
+  if (o.rango) g += `<rect x="${L}" width="${w - L - R}" y="${Y(o.rango[1])}" height="${Y(o.rango[0]) - Y(o.rango[1])}" fill="#1a7f4b" opacity=".08"/>`;
+  if (o.meta != null) g += `<line x1="${L}" x2="${w - R}" y1="${Y(o.meta)}" y2="${Y(o.meta)}" stroke="#1f2328" stroke-dasharray="5 4"/><text x="${w - R}" y="${Y(o.meta) - 5}" text-anchor="end" font-size="11" fill="#1f2328">Meta ${fmt(o.meta)}</text>`;
+  series.forEach(s => {
+    g += `<polyline points="${s.pts.map((p, k) => `${X(k).toFixed(1)},${Y(+p[1]).toFixed(1)}`).join(" ")}" fill="none" stroke="${s.color}" stroke-width="1.8" ${s.dash ? 'stroke-dasharray="4 3"' : ""}/>`;
+    g += s.pts.map((p, k) => `<circle cx="${X(k).toFixed(1)}" cy="${Y(+p[1]).toFixed(1)}" r="5" fill="transparent"><title>${mes(p[0])}: ${fmt(p[1])}${o.unidad ? " " + o.unidad : ""}${s.nombre ? " · " + s.nombre : ""}</title></circle>`).join("");
+  });
+  const ley = series.length > 1 ? `<div class="row" style="justify-content:flex-start;gap:14px">${series.map(s => `<span><span class="dot" style="background:${s.color}"></span> ${esc(s.nombre)}</span>`).join("")}</div>` : "";
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="${esc(o.titulo || "Serie histórica")}">${g}</svg>${ley}`;
+}
+function radar(ejes, a, b) { // a = actual, b = objetivo (0 a 5)
+  const cx = 150, cy = 130, R = 92, n = ejes.length, P = (k, v) => { const an = -Math.PI / 2 + k * 2 * Math.PI / n; return [cx + R * v / 5 * Math.cos(an), cy + R * v / 5 * Math.sin(an)]; };
+  let g = ""; for (let l = 1; l <= 5; l++) g += `<polygon points="${ejes.map((_, k) => P(k, l).map(x => x.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="#e4e1da"/>`;
+  ejes.forEach((e, k) => { const [x, y] = P(k, 6.1); g += `<line x1="${cx}" y1="${cy}" x2="${P(k, 5)[0]}" y2="${P(k, 5)[1]}" stroke="#e4e1da"/><text x="${x}" y="${y}" text-anchor="middle" font-size="12" fill="#1f2328">${e} ${fmt(a[k], 2)}</text>`; });
+  const pol = (v, c, f, d) => `<polygon points="${v.map((x, k) => P(k, x).map(t => t.toFixed(1)).join(",")).join(" ")}" fill="${f}" stroke="${c}" stroke-width="2" ${d ? 'stroke-dasharray="5 4"' : ""}/>`;
+  return `<svg viewBox="0 0 300 262" width="100%" style="max-width:330px;align-self:center" role="img" aria-label="Radar de madurez por dominio: ${ejes.map((e, k) => e + " " + fmt(a[k], 2)).join("; ")}">${g}${pol(b, "#8a9099", "none", 1)}${pol(a, "#1f5fbf", "rgba(31,95,191,.15)")}</svg>
+  <div class="row" style="justify-content:center;gap:16px"><span><span class="dot" style="background:#1f5fbf"></span> Nivel actual</span><span>┄ Nivel objetivo (S5, por aprobar)</span></div>`;
+}
+const barra = (v, max, meta, color) => `<div class="bar" role="img" aria-label="${fmt(v)} de ${fmt(max)}"><i style="width:${Math.max(0, Math.min(100, 100 * v / max))}%;${color ? "background:" + color : ""}"></i>${meta != null ? `<em style="left:${Math.min(100, 100 * meta / max)}%" title="Meta ${fmt(meta)}"></em>` : ""}</div>`;
+
+/* ---------- piezas ---------- */
+function filtra(i) {
+  const fe = $("#f-etq").value, fp = $("#f-pers").value;
+  if (fe && i.estado?.etiqueta !== fe) return false;
+  if (fp) { const o = D.objetivos_bsc.find(o => o.codigo === i.objetivo_bsc); if (!o || o.perspectiva !== fp) return false; }
+  return true;
+}
+function kpi(id) {
+  const i = IND[id]; if (!i || !filtra(i)) return ""; const e = i.estado || {};
+  const meta = i.sentido === "Rango" ? `Rango sano ${fmt(i.rango_min)} a ${fmt(i.rango_max)}` : `Meta ${fmt(e.meta)}`;
+  return `<div class="card kpi" tabindex="0" data-ind="${esc(id)}"><div class="hd"><div class="n">${esc(i.nombre)}</div><div class="tags">${tag(e.etiqueta)}<span class="num">${i.elemento ? "#" + i.elemento : ""}${i.objetivo_bsc ? " " + i.id : ""}</span></div></div>
+  <div><span class="v">${fmt(e.valor)}</span><span class="u">${esc(i.unidad)}</span></div>${spark(i)}
+  <div class="row"><span>${meta}</span>${sem(e.semaforo)}</div><div class="row"><span>${flecha(e.tendencia)} · ${mes(e.periodo?.slice(0, 7))}</span><span>${i.tipo === "Leading" ? "Inductor" : "Resultado"}</span></div></div>`;
+}
+const kpis = ids => `<div class="grid g4">${ids.map(kpi).join("") || '<div class="note">Ningún indicador coincide con los filtros.</div>'}</div>`;
+const seccion = (t, sub, cuerpo) => `<section class="sec"><h2>${t}</h2><div class="sub">${sub}</div>${cuerpo}</section>`;
+const card = (t, d, etq, n, cuerpo) => `<div class="card"><div class="hd"><div><h3>${t}</h3><div class="d">${d || ""}</div></div><div class="tags">${tag(etq)}<span class="num">${n || ""}</span></div></div>${cuerpo}</div>`;
+const prin = () => D.indicadores.filter(i => i.principal && i.estado);
+const cuenta = (l, s) => l.filter(i => i.estado.semaforo === s).length;
+const pend = () => D.propuestas.filter(p => p.estado === "pendiente");
+const evaluados = () => D.cobit.filter(c => c.nivel != null);
+const nivDom = d => avg(evaluados().filter(c => c.dominio === d).map(c => c.nivel));
+const objDom = d => avg(evaluados().filter(c => c.dominio === d).map(c => c.nivel_objetivo));
+const autoPts = () => D.autoevaluacion.reduce((a, x) => a + x.puntos, 0);
+function autoNivel() { const pts = autoPts(), max = D.autoevaluacion.length * 2, pct = pts / max; let n = 0; for (let l = 5; l >= 1; l--) if (pct >= (l + 1) / 7 && !n) n = l; return {pts, max, pct, n, sig: Math.ceil((n + 2) / 7 * max)}; }
+
+function tablaAlertas(l) {
+  if (!l.length) return '<div class="note">Sin alertas activas en este corte.</div>';
+  return `<div class="scroll"><table><thead><tr><th>Qué pasa</th><th>Impacto</th><th>Qué decidir</th><th>Responsable</th><th>Fecha límite</th><th>Dato</th></tr></thead><tbody>${l.map(a =>
+    `<tr class="clk" data-ind="${esc(a.indicador)}"><td><b style="color:${COL.rojo}">■</b> ${esc(a.que_pasa)}</td><td>${esc(a.impacto)}</td><td>${esc(a.que_decidir)}</td><td>${esc(a.responsable)}</td><td style="white-space:nowrap">${esc(a.fecha_limite)}</td><td>${tag(a.etiqueta)}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+/* ---------- pestañas ---------- */
+function vGeneral() {
+  const P = prin(), ev = evaluados(), glob = avg(ev.map(c => c.nivel)), obj = avg(ev.map(c => c.nivel_objetivo)), au = autoNivel();
+  const persp = ["Financiera", "Cliente", "Procesos internos", "Aprendizaje y crecimiento"].map(p => { const l = P.filter(i => D.objetivos_bsc.find(o => o.codigo === i.objetivo_bsc)?.perspectiva === p); return [p, cuenta(l, "verde"), cuenta(l, "amarillo"), cuenta(l, "rojo"), l.length]; });
+  const res = (t, d, tab, ids, n) => `<div class="card"><div class="hd"><div><h3>${t}</h3><div class="d">${d}</div></div><div class="tags"><span class="num">${n}</span></div></div>
+    ${ids.map(id => { const i = IND[id], e = i.estado; return `<div class="ind" data-ind="${id}"><span class="dot" style="background:${COL[e.semaforo]}"></span><span style="flex:1">${esc(i.nombre)}</span><b>${fmt(e.valor)}</b><span class="num">${esc(i.unidad)}</span></div>`; }).join("")}
+    <button class="btn sm" data-tab="${tab}" style="align-self:flex-start">Ver la pestaña ${TABN[tab] || tab} ▸</button></div>`;
+  const n1 = ev.filter(c => c.nivel === 1).length;
+  return seccion("Resumen ejecutivo", "Sección B del catálogo · elementos 7, 8 y 11", `<div class="grid g3">
+    ${card("Madurez global de TI", "Diagnóstico de Control (COBIT 2019) y autoevaluación", "Estimado", "#7", `<div><span class="big">${fmt(glob, 2)}</span> <span class="d">promedio de ${ev.length} procesos, escala 0 a 5</span></div>
+      ${barra(glob, 5, obj)}<div class="row"><span>0</span><span>Nivel objetivo ${fmt(obj, 2)} (S5, por aprobar)</span><span>5</span></div>
+      <div class="row" style="border-top:1px solid var(--line2);padding-top:10px;color:var(--tx)"><span>Autoevaluación de gobierno de TI</span><b>Nivel ${au.n} · ${au.pts} de ${au.max}</b></div>
+      <div class="note">Los niveles bajos en procesos no verificables son un piso, no un veredicto: el análisis se hizo como observador externo.</div>`)}
+    ${card("Radar por dominio COBIT", "Nivel actual frente a nivel objetivo", "Estimado", "#8", radar(DOMS, DOMS.map(nivDom), DOMS.map(objDom)))}
+    ${card("Semáforos por perspectiva del BSC", "Indicadores en meta, en riesgo y fuera de meta", "", "#11", `<table><thead><tr><th>Perspectiva</th><th>● En meta</th><th>▲ En riesgo</th><th>■ Fuera</th></tr></thead><tbody>${persp.map(p =>
+      `<tr><td>${p[0]}</td><td style="color:${COL.verde};font-weight:600">${p[1]}</td><td style="color:${COL.amarillo};font-weight:600">${p[2]}</td><td style="color:${COL.rojo};font-weight:600">${p[3]}</td></tr>`).join("")}</tbody></table>
+      <div class="note">${persp.reduce((a, p) => a + p[4], 0)} indicadores del BSC. Todos los indicadores del tablero: ${cuenta(P, "verde")} en meta, ${cuenta(P, "amarillo")} en riesgo y ${cuenta(P, "rojo")} fuera de meta.</div>`)}
+  </div>`) +
+  seccion("Qué requiere una decisión", "Elementos 9 y 10 · una decisión por alerta, con responsable y fecha límite (corte + 15 días)", card("Alertas y decisiones pendientes", "Cada alerta cita su indicador, su meta y su umbral. Clic en una fila para ver el indicador", "", "#9, #10", tablaAlertas(D.alertas))) +
+  seccion("Lo más importante por tema", "Un resumen de cada pestaña; el detalle vive dentro de cada una", `<div class="grid g3">
+    ${res("Datos", "Madurez, dueños y calidad", "Datos", ["19", "PI2.2", "21", "22"], "#19 a 22")}
+    ${res("Seguridad y privacidad", "Cifrado, incidentes y certificaciones", "Seguridad", ["23", "27a", "PI1.1", "25b"], "#23 a 28")}
+    ${res("Inteligencia artificial", "Modelos de crédito, antifraude y LLM", "IA", ["31", "32", "34", "38"], "#29 a 38")}
+    ${res("Plan de acción y riesgos", "Presupuesto, avance y riesgos", "Estrategia", ["39", "40", "C2.1", "AC3.2"], "#39 a 46")}
+    ${res("Operación y costo", "Plataforma, entrega y presupuesto de TI", "Operación", ["47", "51", "52", "53"], "#47 a 57")}
+    <div class="card"><div class="hd"><div><h3>Gobierno de TI (COBIT 2019)</h3><div class="d">Resumen de la pestaña COBIT</div></div><div class="tags">${tag("Estimado")}<span class="num">#58 a 71</span></div></div>
+      <div class="ind"><span style="flex:1">Nivel medio de capacidad</span><b>${fmt(glob, 2)}</b></div><div class="ind"><span style="flex:1">Objetivos en nivel 1</span><b>${n1} de ${ev.length}</b></div>
+      <div class="ind"><span style="flex:1">Objetivos sin nivel evaluado</span><b>${D.cobit.length - ev.length} de ${D.cobit.length}</b></div><div class="ind"><span style="flex:1">Cambios de nivel por aprobar</span><b>${pend().length}</b></div>
+      <button class="btn sm" data-tab="COBIT" style="align-self:flex-start">Ver la pestaña COBIT ▸</button></div>
+  </div>`);
+}
+
+function vEstrategia() {
+  const persp = ["Financiera", "Cliente", "Procesos internos", "Aprendizaje y crecimiento"], fp = $("#f-pers").value;
+  const mapa = persp.filter(p => !fp || p === fp).map(p => `<div class="pers"><div class="pl">${p}</div><div class="objs">${D.objetivos_bsc.filter(o => o.perspectiva === p).map(o => {
+    const inds = D.indicadores.filter(i => i.objetivo_bsc === o.codigo), acc = D.plan.filter(a => a.objetivo_bsc === o.codigo);
+    return `<div class="obj"><div class="c">${o.codigo}${o.contribuye_a ? " · contribuye a ▲ " + o.contribuye_a.split(",").join(" y ") : ""}</div><b>${esc(o.nombre)}</b>
+      ${inds.map(i => `<div class="ind" data-ind="${i.id}"><span class="dot" style="background:${COL[i.estado.semaforo]}"></span><span style="flex:1">${esc(i.nombre)}</span><span class="num">${i.tipo === "Leading" ? "inductor" : "resultado"}</span></div>`).join("")}
+      ${acc.length ? `<div class="c">Acciones: ${acc.map(a => a.codigo).join(", ")}</div>` : ""}</div>`; }).join("")}</div></div>`).join("");
+  const bsc = D.indicadores.filter(i => i.objetivo_bsc && filtra(i));
+  const tb = `<div class="scroll"><table><thead><tr><th>Código</th><th>Indicador</th><th>Valor</th><th>Meta a la fecha</th><th>Cumplimiento</th><th>Estado</th><th>Tendencia</th><th>Tipo</th><th>Dato</th></tr></thead><tbody>${bsc.map(i => { const e = i.estado;
+    return `<tr class="clk" data-ind="${i.id}"><td>${i.id}</td><td>${esc(i.nombre)}</td><td><b>${fmt(e.valor)}</b> <span class="num">${esc(i.unidad)}</span></td><td>${fmt(e.meta)}</td><td style="min-width:110px">${e.cumplimiento != null ? barra(e.cumplimiento, 100, null, COL[e.semaforo]) + `<span class="num">${fmt(e.cumplimiento, 0)} %</span>` : "—"}</td><td>${sem(e.semaforo)}</td><td class="num">${flecha(e.tendencia)}</td><td class="num">${i.tipo === "Leading" ? "Inductor" : "Resultado"}</td><td>${tag(e.etiqueta)}</td></tr>`; }).join("")}</tbody></table></div>`;
+  const el = [1, 2, 3, 4].map(k => { const it = D.diagnostico_bsc.filter(d => d.elemento === k); return {n: it[0].elemento_nombre, t: it.reduce((a, x) => a + x.valor, 0), it}; });
+  const tot = el.reduce((a, e) => a + e.t, 0);
+  const diag = `<div class="grid g2"><div>${el.map(e => `<div style="margin-bottom:14px"><div class="row" style="color:var(--tx)"><b>${e.n}</b><b>${e.t} / 100</b></div>${barra(e.t, 100)}
+      <div class="note">Más débil: ${e.it.slice().sort((a, b) => a.valor - b.valor).slice(0, 2).map(x => `${esc(x.enunciado)} (${x.valor})`).join(" · ")}</div></div>`).join("")}</div>
+    <div><div class="big">${tot}<span class="d" style="font-size:14px;font-weight:400"> de 400 (${fmt(tot / 4, 1)} %)</span></div>
+      <p style="margin:8px 0">La estrategia está bien definida, pero todavía no opera como sistema de gestión: lo que se resuelve pensando está avanzado; lo que exige medir, asignar recursos y sostener rutinas aún no existe.</p>
+      <p class="note">Coincide con los tres diagnósticos COBIT: la brecha no es de visión sino de institucionalización (medición, presupuesto, cascada y seguimiento).</p></div></div>`;
+  // plan
+  const fases = ["No iniciada", "En curso", "Terminada"].map(f => [f, D.plan.filter(a => a.fase === f).length]);
+  const y0 = 2027, nm = 48, pos = s => { const [y, m] = s.split("-").map(Number); return ((y - y0) * 12 + m - 1) / nm * 100; };
+  const cp = D.config.corte_plan.slice(0, 7), fc = {"No iniciada": "#d6d2c9", "En curso": "#1f5fbf", "Terminada": "#1a7f4b"};
+  const gantt = `<div class="scroll"><div style="min-width:760px"><div style="display:grid;grid-template-columns:250px 1fr;font-size:11px;color:var(--mut)"><div></div><div style="display:grid;grid-template-columns:repeat(8,1fr)">${[2027, 2028, 2029, 2030].flatMap(y => [`${y} S1`, `${y} S2`]).map(s => `<div style="border-left:1px solid var(--line);padding-left:4px">${s}</div>`).join("")}</div></div>
+    ${D.plan.map(a => `<div style="display:grid;grid-template-columns:250px 1fr;align-items:center;font-size:12px;padding:3px 0"><div title="${esc(a.origen)}"><b>${a.codigo}</b> ${esc(a.accion)}</div>
+      <div style="position:relative;height:18px;background:repeating-linear-gradient(90deg,#f3f1ec 0,#f3f1ec 1px,transparent 1px,transparent 12.5%)">
+        <div title="${a.fase} · avance ${fmt(a.avance, 0)} % · ${mes(a.inicio)} a ${mes(a.fin)}" style="position:absolute;top:3px;height:12px;border-radius:6px;left:${pos(a.inicio)}%;width:${pos(a.fin) - pos(a.inicio) + 100 / nm}%;background:#e4e1da;overflow:hidden"><div style="height:12px;width:${a.avance}%;background:${fc[a.fase]}"></div></div>
+        <div style="position:absolute;top:0;bottom:0;left:${pos(cp) + 100 / nm}%;border-left:2px dashed #1f2328" title="Corte del plan ${mes(cp)}"></div></div></div>`).join("")}</div></div>
+    <div class="row" style="justify-content:flex-start;gap:16px">${fases.map(f => `<span><span class="dot" style="background:${fc[f[0]]}"></span> ${f[0]}: <b>${f[1]}</b></span>`).join("")}<span>┆ Corte del plan: ${mes(cp)}</span></div>`;
+  const pres = `<div class="scroll"><table><thead><tr><th>Acción</th><th>Responsable</th><th>Fase</th><th>Avance</th><th>Gasto real vs plan</th><th>Avance / gasto</th><th>Peso</th></tr></thead><tbody>${D.plan.filter(a => a.fase !== "No iniciada").map(a => { const r = a.gasto_real ? a.avance / a.gasto_real : null, dv = a.gasto_plan ? (a.gasto_real / a.gasto_plan - 1) * 100 : 0;
+    return `<tr><td><b>${a.codigo}</b> ${esc(a.accion)}</td><td>${esc(a.responsable)}</td><td>${a.fase}</td><td style="min-width:90px">${barra(a.avance, 100)}<span class="num">${fmt(a.avance, 0)} %</span></td><td style="color:${dv > 10 ? COL.rojo : "inherit"}">${dv >= 0 ? "+" : ""}${fmt(dv, 1)} %</td><td style="color:${r != null && r < .85 ? COL.rojo : "inherit"}">${fmt(r, 2)}</td><td>${a.peso}</td></tr>`; }).join("")}</tbody></table></div>`;
+  // riesgos
+  const mat = [3, 2, 1].map(im => `<tr><th style="border:none">${im === 2 ? "Impacto " : ""}${im}</th>${[1, 2, 3].map(pr => { const s = pr * im, l = D.riesgos.filter(r => r.probabilidad === pr && r.impacto === im);
+    return `<td style="width:30%;height:58px;text-align:center;border:1px solid #fff;background:${s >= 6 ? "#f6dcd8" : s >= 3 ? "#f7ecd0" : "#e0efe5"}">${l.map(r => `<b title="${esc(r.riesgo)}">${r.id}</b>`).join(" ")}</td>`; }).join("")}</tr>`).join("");
+  const rt = `<div class="scroll"><table><thead><tr><th>Riesgo</th><th>Proceso COBIT</th><th>Antes → después de controles</th><th>Apetito</th><th>Señal de alerta</th><th>Dueño</th><th>Estado</th></tr></thead><tbody>${D.riesgos.map(r =>
+    `<tr><td><b>${r.id}</b> ${esc(r.riesgo)}<div class="note">${esc(r.categoria)}${r.mitigacion ? " · acciones " + esc(r.mitigacion) : " · sin acción asociada"}</div></td><td>${r.proceso}<div class="note">${r.nivel_proceso != null ? "nivel " + r.nivel_proceso : "sin nivel evaluado"}</div></td>
+     <td style="min-width:150px"><div class="bar" style="height:8px"><i style="height:8px;width:${r.inherente / 9 * 100}%;background:#b9b5aa"></i></div><div class="bar" style="height:8px;margin-top:3px"><i style="height:8px;width:${r.residual / 9 * 100}%;background:${r.fuera_apetito ? COL.rojo : COL.verde}"></i><em style="left:${r.severidad_max / 9 * 100}%" title="Apetito: severidad máxima ${r.severidad_max}"></em></div><span class="num">${r.inherente} → ${fmt(r.residual, 1)} (eficacia ${fmt(r.eficacia * 100, 0)} %)</span></td>
+     <td>${esc(r.apetito)}<div style="color:${r.fuera_apetito ? COL.rojo : COL.verde};font-weight:600;font-size:12px">${r.fuera_apetito ? "■ Fuera" : "● Dentro"}</div></td>
+     <td><span class="ind" data-ind="${r.senal}"><span class="dot" style="background:${COL[r.senal_semaforo] || COL.gris}"></span>${esc(IND[r.senal]?.nombre || r.senal)}</span></td><td>${r.dueno ? esc(r.dueno) : `<b style="color:${COL.rojo}">Sin dueño</b>`}</td><td>${r.estado}</td></tr>`).join("")}</tbody></table></div>`;
+  return seccion("Mapa estratégico del BSC de TI", "Cuatro perspectivas, diez objetivos y sus relaciones causa-efecto · cada punto es un indicador (clic para abrirlo)", `<div class="card">${mapa}</div>`) +
+    seccion("Indicadores del BSC", "Valor frente a la meta a la fecha del corte · inductores (leading) y resultados (lagging)", `<div class="card">${tb}<div class="note">La meta a la fecha interpola entre la meta del año anterior y la del año en curso, para no comparar el valor de hoy con la meta de 2030.</div></div>`) +
+    seccion("Diagnóstico situacional del BSC", "Los cuatro elementos de la gestión basada en scorecards · 40 enunciados de 0 a 10", card("¿Qué tan lista está Addi para gestionar con BSC?", "Diagnóstico del equipo Nexus como observador externo", "Estimado", "", diag)) +
+    seccion("Plan de acción", "Sección G · elementos 39 a 42 · reloj del plan", kpis(["39", "40"]) + `<div class="grid" style="margin-top:16px">${card("Línea de tiempo por semestre", "Fases calculadas con la fecha de corte del plan", "Simulado", "#41, #42", gantt)}${card("Avance frente a presupuesto por acción", "Índice, sin cifras en pesos. Alerta si el desvío supera 10 % o la razón baja de 0,85", "Simulado", "#39, #40", pres + `<div class="note">${D.plan.filter(a => a.origen.startsWith("reconstruida")).length} de ${D.plan.length} acciones están reconstruidas a partir de los documentos: confirmar con la hoja Plan del BSC.</div>`)}</div>`) +
+    seccion("Riesgos de TI", "Sección H · elementos 43 a 46 · residual = inherente × (1 − eficacia del proceso COBIT)", `<div class="grid" style="grid-template-columns:minmax(260px,340px) 1fr">${card("Matriz de riesgo inherente", "Probabilidad × impacto (1 a 3)", "Estimado", "#46", `<table style="table-layout:fixed">${mat}<tr><th style="border:none"></th><th style="text-align:center;border:none">1</th><th style="text-align:center;border:none">Probabilidad 2</th><th style="text-align:center;border:none">3</th></tr></table>
+      <div class="ind"><span style="flex:1">Riesgos sin dueño</span><b>${D.riesgos.filter(r => !r.dueno).length}</b></div><div class="ind"><span style="flex:1">Fuera del apetito tras controles</span><b>${D.riesgos.filter(r => r.fuera_apetito).length} de ${D.riesgos.length}</b></div>`)}${card("Registro de riesgos", "Antes y después de controles, dueño y señal de alerta", "Estimado", "#43 a 45", rt + `<div class="note">Riesgos reconstruidos a partir de las brechas de los diagnósticos: confirmar con la hoja Riesgos del BSC (R1 a R11).</div>`)}</div>`) +
+    seccion("Supuestos del modelo", "Registro de supuestos S1 a S12 · todos por aprobar por el equipo", `<div class="card"><div class="scroll"><table><tbody>${D.supuestos.map(s => `<tr><td><b>${s.id}</b></td><td>${esc(s.supuesto)}</td><td>${esc(s.valor)}</td><td class="num">${s.estado}</td></tr>`).join("")}</tbody></table></div></div>`);
+}
+
+function vDatos() {
+  const ar = ["19a", "19b", "19c", "19d"].map(id => IND[id]);
+  return seccion("Gobierno de datos", "Sección D · elementos 19 a 22", `<div class="grid g2">${card("Madurez en el manejo de datos por área", "Escala 1 a 5 · sube 0,1 por trimestre mientras la acción D-01 está activa", "Estimado", "#19", ar.map(i => `<div><div class="row" style="color:var(--tx)"><span>${esc(i.nombre.split("· ")[1])}</span><b>${fmt(i.serie.at(-1)[1], 1)}</b></div>${barra(i.serie.at(-1)[1], 5, 3)}</div>`).join("") + `<div class="note">La línea vertical marca la meta (3). Ancla: APO14 en el diagnóstico de sensibilización; APO14 no tiene nivel en el Diagnóstico de Control.</div>`)}
+    ${card("Reportes a la SFC que cuadran", "Baja en los meses de cierre trimestral", IND["22"].estado.etiqueta, "#22", linea([{color: "#1f5fbf", pts: IND["22"].serie}], {meta: IND["22"].estado.meta, unidad: "%"}))}</div>`) +
+    seccion("Indicadores", "Clic en una tarjeta para ver la ficha, la serie y la meta por año", kpis(["19", "PI2.2", "21", "22"]));
+}
+function vSeguridad() {
+  const evs = (D.calendario || []).map(c => `<tr><td style="white-space:nowrap">${c.fecha}</td><td>${esc(c.evento)}</td><td>${c.tipo}</td><td class="note">${esc(c.fuente || "")}</td></tr>`).join("");
+  return seccion("Protección de la información", "Sección E · elementos 23 a 28", kpis(["23", "24a", "24b", "25b", "26", "F1.3"])) +
+    seccion("Incidentes y respaldo formal", "Clave por el incidente de marzo de 2026 · solo entra lo público, sin cifras inventadas", kpis(["27a", "27b", "F1.2", "PI1.1", "PI1.2", "AC2.1"])) +
+    seccion("Calendario de eventos", "Impulsor 1 del motor de negocio: fechas con efecto conocido sobre la carga y los reportes", `<div class="card"><div class="scroll"><table><thead><tr><th>Fecha</th><th>Evento</th><th>Tipo</th><th>Fuente</th></tr></thead><tbody>${evs}</tbody></table></div>
+    <div class="note">Marco legal: Ley 1581 de 2012 y Ley 1266 de 2008 (protección de datos), con vigilancia de la SIC y la SFC. Pendiente del equipo: confirmar los plazos exactos y el umbral de aviso a la SFC.</div></div>`);
+}
+function vIA() {
+  const e = id => IND[id].estado, v = id => +e(id).valor;
+  const falta = []; if (v("32") >= .10) falta.push("PSI ≥ 0,10"); if (v("31") < .78) falta.push("AUC < 0,78"); if (e("33").semaforo !== "verde") falta.push("correcciones fuera de rango"); if (v("35") < 95) falta.push("explicación < 95 %");
+  const dec = v("32") > .25 || v("31") < .74 ? "No" : falta.length ? "Con condiciones" : "Sí";
+  const dm = {scoring: [dec, falta.join(" · ") || "Cumple las cuatro reglas"], antifraude: ["Con condiciones", "Sin métricas propias en el catálogo: falta su ficha"], llm: ["Con condiciones", "En piloto: falta política de uso aprobada (S-06)"]};
+  const dc = {"Sí": COL.verde, "Con condiciones": COL.amarillo, "No": COL.rojo};
+  const mods = `<div class="scroll"><table><thead><tr><th>Modelo</th><th>Riesgo</th><th>Estado</th><th>¿Puede salir a producción?</th><th>Qué le falta</th><th>Apagado rápido</th><th>Lo que NO tiene permitido</th><th>Dueño y revisión</th></tr></thead><tbody>${D.modelos_ia.map(m =>
+    `<tr><td><b>${esc(m.nombre)}</b><div class="note">${esc(m.ancla)}</div></td><td>${m.riesgo}</td><td>${m.estado}</td><td><b style="color:${dc[dm[m.modelo_id][0]]}">${dm[m.modelo_id][0]}</b></td><td>${esc(dm[m.modelo_id][1])}</td><td>${m.apagado_rapido ? "Sí" : "No"}</td><td>${m.usos_no_permitidos.split(" · ").map(esc).join("<br>")}</td><td>${esc(m.dueno)}<div class="note">Revisión: ${m.proxima_revision}</div></td></tr>`).join("")}</tbody></table></div>
+    <div class="note">Regla (#30): Sí si PSI &lt; 0,10, AUC ≥ 0,78, correcciones en rango y explicación ≥ 95 %. No si PSI &gt; 0,25 o AUC &lt; 0,74. En otro caso, con condiciones. Hereda la etiqueta «simulado».</div>`;
+  const dims = ["38a", "38b", "38c", "38d"].map(id => IND[id]);
+  return seccion("Modelos de IA", "Sección F · elementos 29, 30 y 37 · scoring de crédito, antifraude y asistente LLM", card("Inventario de modelos y control antes de producción", "Cada modelo con dueño, fecha de revisión y usos no permitidos", "Simulado", "#29, #30, #37", mods)) +
+    seccion("Modelo de crédito", "Elementos 31 a 36 · las relaciones entre indicadores son reglas del simulador, no hallazgos", kpis(["31", "32", "33", "34", "35", "36"])) +
+    seccion("Gobierno de la IA", "Elemento 38 e indicador PI2.1 del BSC", `<div class="grid g2">${card("Madurez de IA por dimensión", "Escala 1 a 5 · cambia solo cuando cambia una acción del plan", "Estimado", "#38", dims.map(i => `<div><div class="row" style="color:var(--tx)"><span>${esc(i.nombre.split("· ")[1])}</span><b>${fmt(i.serie.at(-1)[1], 0)}</b></div>${barra(i.serie.at(-1)[1], 5, 3)}</div>`).join(""))}<div>${kpis(["38", "PI2.1"])}</div></div>`);
+}
+function vOperacion() {
+  const p = k => IND[k].serie, sev = ["48p1", "48p2", "48p3"].map(k => +IND[k].serie.at(-1)[1]);
+  return seccion("Plataforma y continuidad", "Sección I · elementos 47 a 49", kpis(["47", "C1.1", "48", "49", "PI3.1", "PI3.2"]) + `<div class="grid g2" style="margin-top:16px">
+    ${card("Disponibilidad de la plataforma", "Más carga y más cambios, más incidentes; procesos más maduros, menos y más cortos", "Simulado", "#47", linea([{color: "#1f5fbf", pts: p("47")}], {meta: IND["47"].estado.meta, unidad: "%"}))}
+    ${card("Incidentes del mes por gravedad", "P1 más de 60 min · P2 de 20 a 60 · P3 menos de 20", "Simulado", "#48", `<div class="grid" style="grid-template-columns:repeat(3,1fr)">${["P1", "P2", "P3"].map((n, k) => `<div><div class="big" style="font-size:30px">${sev[k]}</div><div class="d">${n}</div></div>`).join("")}</div>` + linea([{color: "#1f5fbf", pts: p("48")}], {unidad: "incidentes"}))}</div>`) +
+    seccion("Entrega", "Elementos 50 a 52 · métricas DORA como referencia", kpis(["50", "51", "52"])) +
+    seccion("Costo", "Elementos 53 a 55 · índice 100 = promedio de 2026, sin cifras en pesos", `<div class="grid g2">${card("Costo de nube y TI frente al presupuesto", "60 % fijo + 40 % variable × volumen; la campaña de noviembre suma 10 %", "Simulado", "#53", linea([{nombre: "Costo real", color: "#1f5fbf", pts: p("53r")}, {nombre: "Presupuesto", color: "#8a9099", dash: 1, pts: p("53p")}], {unidad: "índice"}))}<div>${kpis(["53", "54", "55a"])}</div></div>`) +
+    seccion("Equipo", "Elementos 56 y 57 · indicadores AC1.1 y AC1.2 del BSC", kpis(["AC1.2", "AC1.1", "57"]) + `<div class="note" style="margin-top:8px">Plantilla de TI simulada: ${fmt(IND["56p"].serie.at(-1)[1], 0)} personas (S4: 100 en nov-2026).</div>`);
+}
+
+function vCobit() {
+  const ev = evaluados(), glob = avg(ev.map(c => c.nivel)), au = autoNivel(), P = pend();
+  const cnt = f => D.cobit.filter(f).length, etq = e => cnt(c => c.etiqueta_evidencia === e);
+  const cifras = `<div class="grid g4">${[["Nivel medio de capacidad", fmt(glob, 2), `${ev.length} procesos evaluados · escala 0 a 5`, "#58"], ["Objetivos en nivel 1", `${ev.filter(c => c.nivel === 1).length} de ${ev.length}`, "Prioridad de alerta", "#61"],
+    ["Autoevaluación", `${au.pts} de ${au.max}`, `Nivel ${au.n} · el nivel ${au.n + 1} exige ${fmt((au.n + 2) / 7 * au.max, 2)}`, "#65"], ["Cambios por aprobar", P.length, "Propuestos por el flujo; una persona decide", "#70"]].map(c =>
+    `<div class="card"><div class="hd"><div class="n" style="font-size:13px;font-weight:500">${c[0]}</div><span class="num">${c[3]}</span></div><div class="big" style="font-size:34px">${c[1]}</div><div class="d">${c[2]}</div></div>`).join("")}</div>`;
+  const mapa = DOMS.map(d => `<div class="dom"><b title="${DOMN[d]}">${d}</b>${D.cobit.filter(c => c.dominio === d).map(c => `<div class="cell ${SEL === c.codigo ? "sel" : ""}" data-cob="${c.codigo}" title="${esc(c.nombre)}${c.nivel == null ? " · sin nivel evaluado" : " · nivel " + c.nivel + " " + NIVN[c.nivel]}" style="background:${c.nivel == null ? "repeating-linear-gradient(45deg,#f3f1ec,#f3f1ec 5px,#fff 5px,#fff 10px)" : NIV[c.nivel]};color:${c.nivel == null ? "#5b616a" : NIVT[c.nivel]}">${c.codigo}<small>${c.nivel == null ? "s/e" : (c.nivel === 1 ? "⚠ " : "") + "N" + c.nivel} ${c.etiqueta_evidencia}</small></div>`).join("")}</div>`).join("") +
+    `<div class="row" style="justify-content:flex-start;gap:10px;margin-top:6px"><span>Nivel:</span>${[0, 1, 2, 3, 4, 5].map(n => `<span><span class="dot" style="background:${NIV[n]};border:1px solid #c9d4e8;border-radius:3px"></span> ${n} ${NIVN[n]}</span>`).join("")}<span>▨ s/e = sin nivel evaluado</span></div>`;
+  const brecha = `<table><thead><tr><th>Dominio</th><th>Actual</th><th>Objetivo</th><th>Brecha</th><th style="width:40%"></th></tr></thead><tbody>${DOMS.map(d => { const a = nivDom(d), o = objDom(d);
+    return `<tr><td><b>${d}</b> <span class="note">${DOMN[d]}</span></td><td>${fmt(a, 2)}</td><td>${fmt(o, 2)}</td><td><b>${fmt(o - a, 2)}</b></td><td>${barra(a, 5, o)}</td></tr>`; }).join("")}</tbody></table>
+    <div class="note">Nivel objetivo entero por objetivo, fijado por importancia (S5, por aprobar). El 3,5 de la plantilla no se usa: los niveles de capacidad son enteros.</div>`;
+  // cuadrantes: importancia (y) contra desempeño (x, invertido: 1 = muy bien). Los no verificables van aparte.
+  const W = 430, H = 330, gx = v => 60 + (v - 1) / 3 * (W - 90), gy = v => H - 50 - (v - 3) / 2 * (H - 110), celdas = {};
+  D.cobit.filter(c => c.desempeno < 5).forEach(c => { (celdas[c.desempeno + "|" + c.importancia] ||= []).push(c.codigo); });
+  const pts = Object.entries(celdas).map(([k, l]) => { const [x, y] = k.split("|").map(Number), al = y === 5 && x >= 3;
+    return `<g><circle cx="${gx(x)}" cy="${gy(y)}" r="${9 + l.length * 1.6}" fill="${al ? "#c0392b" : "#1f5fbf"}" opacity=".85"><title>Importancia ${y}, desempeño ${x}: ${l.join(", ")}</title></circle><text x="${gx(x)}" y="${gy(y) + 4}" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">${l.length}</text><text x="${gx(x)}" y="${gy(y) + 26 + l.length * 1.6}" text-anchor="middle" font-size="10" fill="#5b616a">${l.slice(0, 4).join(" ")}${l.length > 4 ? " …" : ""}</text></g>`; }).join("");
+  const nv = D.cobit.filter(c => c.desempeno === 5);
+  const cuad = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cuadrantes de importancia contra desempeño"><rect x="${gx(2.5)}" y="${gy(5) - 30}" width="${gx(4) - gx(2.5) + 25}" height="${gy(4.5) - gy(5) + 30}" fill="#f6dcd8" opacity=".6"/><text x="${gx(4) + 20}" y="${gy(5) - 18}" text-anchor="end" font-size="11" fill="#c0392b">Muy importante y se hace regular</text>
+    ${[1, 2, 3, 4].map(v => `<text x="${gx(v)}" y="${H - 14}" text-anchor="middle" font-size="11" fill="#5b616a">${v}${v === 1 ? " muy bien" : v === 4 ? " mal" : ""}</text>`).join("")}${[3, 4, 5].map(v => `<text x="38" y="${gy(v) + 4}" text-anchor="end" font-size="11" fill="#5b616a">${v}</text><line x1="48" x2="${W - 10}" y1="${gy(v)}" y2="${gy(v)}" stroke="#ece9e2"/>`).join("")}
+    <text x="14" y="${H / 2}" font-size="11" fill="#5b616a" transform="rotate(-90 14 ${H / 2})" text-anchor="middle">Importancia</text><text x="${W / 2}" y="${H - 1}" text-anchor="middle" font-size="11" fill="#5b616a">Desempeño percibido (escala ISACA: 1 = muy bien)</text>${pts}</svg>
+    <div class="note"><b>Sin visibilidad (${nv.length}):</b> ${nv.map(c => c.codigo).join(", ")}. Tienen desempeño 5 porque no son verificables desde afuera, no porque se hagan mal; por eso van aparte.</div>`;
+  const alerta = D.cobit.filter(c => (c.importancia === 5 && c.desempeno >= 3) || c.nivel === 1);
+  const tal = `<div class="scroll"><table><thead><tr><th>Objetivo</th><th>Por qué</th><th>Nivel</th><th>Acciones del plan</th><th>Evidencia</th></tr></thead><tbody>${alerta.map(c => `<tr class="clk" data-cob="${c.codigo}"><td><b>${c.codigo}</b> ${esc(c.nombre)}</td><td>${c.nivel === 1 ? "Proceso en nivel 1" : `Importancia 5, desempeño ${c.desempeno}`}</td><td>${c.nivel ?? "s/e"}</td><td>${c.acciones ? c.acciones.join(", ") : `<b style="color:${COL.rojo}">Ninguna</b>`}</td><td>${evid(c.etiqueta_evidencia)}</td></tr>`).join("")}</tbody></table></div>`;
+  const form = cnt(c => c.formal), aud = cnt(c => c.auditado), fsa = D.cobit.filter(c => c.formal && !c.auditado), ns = D.cobit.filter(c => /do not know/i.test(c.responsable || "") || !c.responsable);
+  const cob = `<div class="grid g3">
+    ${card("Cobertura de evidencia", "Lo demostrable frente a lo supuesto", "Estimado", "#62", [["V", "Verificado en fuente pública u oficial", COL.verde], ["I", "Inferido de vacantes, prensa o prácticas del sector", COL.amarillo], ["NV", "No verificable desde afuera", COL.gris]].map(x => `<div><div class="row" style="color:var(--tx)"><span>[${x[0]}] ${x[1]}</span><b>${etq(x[0])}</b></div>${barra(etq(x[0]), 40, null, x[2])}</div>`).join("") + `<div class="note">Los ${ev.filter(c => c.nivel === 3).length} procesos en nivel 3 son los que tienen evidencia pública verificada: el puntaje mide en parte visibilidad.</div>`)}
+    ${card("Formales frente a auditados", "Lo documentado que nadie independiente verifica", "Estimado", "#63", `<div><div class="row" style="color:var(--tx)"><span>Con contrato, ANS o procedimiento</span><b>${form} de 40</b></div>${barra(form, 40)}</div><div><div class="row" style="color:var(--tx)"><span>Auditados</span><b>${aud} de 40</b></div>${barra(aud, 40, null, COL.verde)}</div>
+      <div class="note"><b>${fsa.length} formales sin auditoría:</b> ${fsa.map(c => c.codigo).join(", ")}. Es una brecha de aseguramiento, no de operación.</div>`)}
+    ${card("Responsable nombrado", "Que cada proceso tenga dueño", "Estimado", "#64", `<div><div class="row" style="color:var(--tx)"><span>Con responsable</span><b>${40 - ns.length} de 40</b></div>${barra(40 - ns.length, 40, null, COL.verde)}</div><div><div class="row" style="color:var(--tx)"><span>«No se sabe» quién responde</span><b>${ns.length}</b></div>${barra(ns.length, 40, null, COL.rojo)}</div>
+      <div class="note">${ns.map(c => c.codigo).join(", ")}. Cargos de seguridad (CISO) en formación.</div>`)}</div>`;
+  const secs = [1, 2, 3, 4, 5].map(s => { const it = D.autoevaluacion.filter(a => a.seccion === s), p = it.reduce((a, x) => a + x.puntos, 0); return [it[0].seccion_nombre, p, it.length * 2, it.filter(x => x.respuesta === "Yes").length]; });
+  const SECN = ["Estructuras de organización y gobierno", "Apoyo ejecutivo y liderazgo", "Planeación estratégica y operativa", "Medición de la entrega de servicio", "Organización de TI y gestión de riesgos"];
+  const auto = secs.map((s, k) => `<div><div class="row" style="color:var(--tx)"><span>${k + 1}. ${SECN[k]}</span><b>${s[1]} de ${s[2]} (${fmt(s[1] / s[2] * 100, 0)} %)</b></div>${barra(s[1], s[2], 4 / 7 * s[2])}</div>`).join("") +
+    `<div class="note">La línea vertical es el umbral del nivel 3 (57,1 %). ${D.autoevaluacion.filter(a => a.respuesta === "Yes").length} respuestas «Sí», ${D.autoevaluacion.filter(a => a.respuesta === "Partial").length} «Parcial» y ${D.autoevaluacion.filter(a => a.respuesta === "No").length} «No». Resultado de frontera: con una respuesta que pase de Parcial a Sí el nivel sube a 3.</div>`;
+  // detalle del objetivo (66 a 68)
+  let det = `<div class="note">Elige un objetivo en el mapa para ver sus indicadores, sus acciones del plan y sus riesgos.</div>`;
+  if (SEL && COB[SEL]) { const c = COB[SEL], rs = (c.riesgos || []).map(id => D.riesgos.find(r => r.id === id));
+    det = `<div class="hd"><div><h3>${c.codigo} · ${esc(c.nombre)}</h3><div class="d">${DOMN[c.dominio]}${c.codigo_control && c.codigo_control !== c.codigo ? ` · figura como ${c.codigo_control} en el Diagnóstico de Control` : ""}</div></div><div class="tags">${evid(c.etiqueta_evidencia)}${tag(c.etiqueta_dato)}</div></div>
+    <div class="grid g4"><div><div class="d">Nivel vigente</div><b style="font-size:20px">${c.nivel ?? "Sin evaluar"}</b> <span class="note">${c.nivel != null ? NIVN[c.nivel] + " · v" + c.version : ""}</span></div><div><div class="d">Nivel objetivo</div><b style="font-size:20px">${c.nivel_objetivo}</b></div><div><div class="d">Importancia · desempeño</div><b style="font-size:20px">${c.importancia} · ${c.desempeno}</b></div><div><div class="d">Responsable</div><b>${esc(c.responsable || "No se sabe")}</b><div class="note">Lo ejecuta: ${c.quien} · ${c.formal ? "formal" : "sin formalizar"} · ${c.auditado ? "auditado" : "sin auditar"}</div></div></div>
+    <div class="note">${esc(c.evidencia || c.justificacion || "")}</div>
+    <div class="grid g3"><div><b>Indicadores (#66)</b>${(c.indicadores || []).map(id => `<div class="ind" data-ind="${id}"><span class="dot" style="background:${COL[IND[id].estado?.semaforo] || COL.gris}"></span>${esc(IND[id].nombre)}</div>`).join("") || '<div class="note">Ninguno ligado</div>'}</div>
+      <div><b>Acciones del plan (#67)</b>${(c.acciones || []).map(a => { const x = D.plan.find(p => p.codigo === a); return `<div class="ind"><b>${a}</b> ${esc(x.accion)} <span class="num">· ${x.fase}</span></div>`; }).join("") || `<div class="note" style="color:${c.nivel === 1 ? COL.rojo : "inherit"}">${c.nivel === 1 ? "■ Nivel 1 sin ninguna acción: brecha que el plan no cubre" : "Ninguna ligada"}</div>`}</div>
+      <div><b>Riesgos (#68)</b>${rs.map(r => `<div class="ind"><b>${r.id}</b> ${esc(r.riesgo)} <span class="num">· ${r.inherente} → ${fmt(r.residual, 1)}</span></div>`).join("") || '<div class="note">Ninguno ligado</div>'}</div></div>`; }
+  // proyección (69)
+  const an = [2026, 2027, 2028, 2029, 2030], colD = {EDM: "#1f5fbf", APO: "#b7791f", BAI: "#c0392b", DSS: "#1a7f4b", MEA: "#581c87"};
+  const proy = linea(DOMS.map(d => ({nombre: d, color: colD[d], pts: an.map(a => [a + "-12", D.proyeccion_madurez.find(p => p.anio === a && p.dominio === d).nivel])})), {titulo: "Madurez proyectada por dominio"});
+  // cola (70) e historial (71)
+  const ap = (() => { try { return localStorage.getItem("addi_aprobador") || ""; } catch (e) { return ""; } })();
+  const cola = P.length ? `<div class="scroll"><table><thead><tr><th>Objetivo</th><th>Cambio</th><th>Regla y evidencia</th><th>Dato</th><th>Aprobador</th><th>Decisión</th></tr></thead><tbody>${P.map(p => `<tr><td><b>${p.objetivo}</b> ${esc(p.nombre)}<div class="note">Corte ${mes(p.corte)}${p.recordatorios ? ` · ${p.recordatorios} recordatorio(s)` : ""}</div></td>
+      <td style="white-space:nowrap"><b style="font-size:16px;color:${p.nivel_propuesto > p.nivel_actual ? COL.verde : COL.rojo}">${p.nivel_actual} → ${p.nivel_propuesto} ${p.nivel_propuesto > p.nivel_actual ? "↑" : "↓"}</b></td><td><b>${p.regla}</b><div class="note">${esc(p.evidencia)}</div></td><td>${tag(p.etiqueta)}</td>
+      <td>${esc(p.recordatorios >= 2 ? p.suplente + " (suplente)" : p.aprobador)}${p.copia_cto ? '<div class="note">Copia al CTO: es dueño de las acciones</div>' : ""}</td>
+      <td style="min-width:240px"><input data-ap="${p.id}" placeholder="Quién decide" value="${esc(ap)}" style="width:100%;border:1px solid #d6d2c9;border-radius:6px;padding:5px 8px;margin-bottom:4px"><input data-mo="${p.id}" placeholder="Motivo (obligatorio para rechazar)" style="width:100%;border:1px solid #d6d2c9;border-radius:6px;padding:5px 8px;margin-bottom:4px">
+      <button class="btn sm pri" data-dec="aprobar" data-id="${p.id}" ${VIVO ? "" : "disabled"}>Aprobar</button> <button class="btn sm" data-dec="rechazar" data-id="${p.id}" ${VIVO ? "" : "disabled"}>Rechazar</button></td></tr>`).join("")}</tbody></table></div>` : '<div class="note">No hay cambios pendientes de aprobación.</div>';
+  const inf = D.propuestas.filter(p => p.tipo === "alerta" && p.corte === D.config.corte_plan.slice(0, 7));
+  const hist = D.historial_madurez.length || D.propuestas.some(p => p.estado === "rechazada") ? `<div class="scroll"><table><thead><tr><th>Cuándo</th><th>Objetivo</th><th>Cambio</th><th>Quién decidió</th><th>Evidencia o motivo</th><th>Dato</th></tr></thead><tbody>
+    ${D.historial_madurez.map(h => `<tr><td>${h.fecha}</td><td><b>${h.objetivo}</b></td><td>${h.nivel_anterior} → ${h.nivel} (v${h.version})</td><td>${esc(h.aprobador)}</td><td class="note">${esc(h.evidencia)}</td><td>${tag(h.etiqueta)}</td></tr>`).join("")}
+    ${D.propuestas.filter(p => p.estado === "rechazada").map(p => `<tr><td>${mes(p.corte)}</td><td><b>${p.objetivo}</b></td><td>Rechazado: ${p.nivel_actual} → ${p.nivel_propuesto}</td><td>${esc(p.aprobador)}</td><td class="note">Motivo: ${esc(p.motivo_rechazo)}</td><td>${tag(p.etiqueta)}</td></tr>`).join("")}</tbody></table></div>` : '<div class="note">Aún no hay cambios de nivel decididos en esta corrida. Los niveles vigentes vienen de la carga única del Diagnóstico de Control (13-nov-2026).</div>';
+  const pasos = [["1. Leer datos", "Mediciones del mes, plan y riesgos"], ["2. Calcular semáforos", "Dos cortes seguidos por indicador"], ["3. Proponer", "Reglas de subir, bajar y alertas"], ["4. Avisar", "Al aprobador de cada dominio", 1], ["5. Decidir", "Aprobar o rechazar con motivo", 1], ["6. Versionar", "Fila nueva en procesos_madurez"], ["7. Mostrar", "El tablero lee el nivel vigente"]];
+  const flujo = `<div class="steps">${pasos.map(p => `<div class="step ${p[2] ? "h" : ""}"><b>${p[0]}</b>${p[1]}${p[2] ? "<br><i>Decisión humana</i>" : ""}</div>`).join("")}</div>
+    <div class="grid g2"><div class="scroll"><table><thead><tr><th>Regla</th><th>Condición</th><th>Resultado</th></tr></thead><tbody><tr><td>Subir nivel</td><td>Todas las acciones ligadas completadas e indicadores con 2 cortes seguidos en verde</td><td>Propone +1</td></tr><tr><td>Bajar nivel</td><td>Un indicador ligado con 2 cortes seguidos en rojo</td><td>Propone −1</td></tr><tr><td>Alerta de riesgo</td><td>Riesgo crítico sin acción asociada</td><td>Alerta</td></tr><tr><td>Alerta de brecha</td><td>Importancia 5 con desempeño ≥ 3, o nivel 1</td><td>Alerta</td></tr><tr><td>Alerta de plan</td><td>Acción ligada atrasada</td><td>Alerta</td></tr></tbody></table></div>
+    <div class="scroll"><table><thead><tr><th>Dominio</th><th>Aprobador</th><th>Suplente</th></tr></thead><tbody>${D.responsables.map(r => `<tr><td><b>${r.dominio}</b> <span class="note">${esc(r.cubre)}</span></td><td>${esc(r.nombre)}</td><td>${esc(r.suplente)}</td></tr>`).join("")}</tbody></table></div></div>
+    <div class="note">Nunca se propone un salto de más de 1 nivel por corte. Un cambio propuesto hereda la etiqueta más débil de sus entradas. En la demo el corte es mensual; en producción sería trimestral.</div>`;
+  return seccion("Gobierno de TI con COBIT 2019", "Sección K del catálogo · elementos 58 a 71 · niveles de capacidad de 0 a 5 a partir de los tres diagnósticos", cifras) +
+    seccion("Mapa de los 40 objetivos", "Elementos 58 y 59 · clic en un objetivo para ver qué lo mueve", `<div class="grid" style="grid-template-columns:minmax(0,3fr) minmax(320px,2fr)">${card("Nivel de capacidad por objetivo", "Color = nivel · letras = evidencia [V] verificada, [I] inferida, [NV] no verificable", "Estimado", "#58", mapa)}${card("Brecha por dominio", "Nivel actual frente a nivel objetivo", "Estimado", "#59", brecha)}</div>
+      <div class="card" style="margin-top:16px" id="det-cob">${det}</div>`) +
+    seccion("Dónde poner la atención", "Elementos 60 y 61 · diagnóstico de sensibilización gerencial", `<div class="grid g2">${card("Importancia contra desempeño", "Cada burbuja agrupa los objetivos con la misma calificación", "Estimado", "#60", cuad)}${card("Objetivos en alerta", "Importancia alta con desempeño regular, o proceso en nivel 1", "Estimado", "#61", tal)}</div>`) +
+    seccion("Calidad de la evidencia y del aseguramiento", "Elementos 62 a 64", cob) +
+    seccion("Autoevaluación y proyección", "Elementos 65 y 69", `<div class="grid g2">${card("Autoevaluación de madurez por sección", `${au.pts} de ${au.max} puntos · nivel ${au.n} · 31 preguntas`, "Estimado", "#65", auto)}${card("Madurez proyectada 2026 a 2030", "Si el plan se cumple: cada acción terminada sube 1 nivel su objetivo, con tope en el nivel objetivo", "Simulado", "#69", proy)}</div>`) +
+    seccion("Cambios de nivel", "Elementos 70 y 71 · el flujo propone y una persona aprueba", `<div class="grid">${card("Cola de cambios propuestos", "Se muestran aparte de los niveles aprobados; mientras nadie responda, no se aplican", "Simulado", "#70", cola + (VIVO ? "" : '<div class="note">Modo sin conexión: para aprobar o rechazar, activa los flujos de n8n.</div>'))}
+      ${card("Alertas del corte por objetivo", "No cambian el nivel", "", "#61, #67", `<div class="scroll"><table><tbody>${inf.map(p => `<tr class="clk" data-cob="${p.objetivo}"><td><b>${p.objetivo}</b> ${esc(p.nombre)}</td><td>${p.regla}</td><td>${esc(p.evidencia)}</td><td>${tag(p.etiqueta)}</td></tr>`).join("") || "<tr><td>Sin alertas</td></tr>"}</tbody></table></div>`)}
+      ${card("Historial de cambios de nivel", "Cuándo cambió cada objetivo, quién lo decidió y con qué evidencia", "", "#71", hist)}</div>`) +
+    seccion("Cómo funciona el flujo", "Flujo mensual en n8n · 7 pasos con aprobación humana", `<div class="card">${flujo}</div>`);
+}
+
+/* ---------- detalle de un indicador (sección C, elementos 12 a 18) ---------- */
+let ANIO = null;
+function detalle(id) {
+  const i = IND[id]; if (!i) return; const e = i.estado || {}, dr = $("#drawer");
+  const anios = Object.keys(i.metas || {}).filter(a => a >= 2027); if (!ANIO || !anios.includes(String(ANIO))) ANIO = null;
+  const meta = ANIO ? i.metas[ANIO] : e.meta, serie = i.serie || [];
+  const cum = ANIO && i.sentido !== "Rango" && e.valor != null ? (i.sentido === "Max" ? (meta > 0 ? Math.min(100, 100 * e.valor / meta) : 100) : (+e.valor <= meta ? 100 : meta > 0 ? 100 * meta / e.valor : 0)) : e.cumplimiento;
+  const acc = (i.acciones || []).map(a => D.plan.find(p => p.codigo === a)), rs = (i.riesgos || []).map(r => D.riesgos.find(x => x.id === r));
+  dr.innerHTML = `<div class="hd"><div><div class="num">${i.elemento ? "Elemento #" + i.elemento : "Indicador del BSC"}${i.objetivo_bsc ? " · " + i.id : ""} · pestaña ${TABN[i.pestana] || i.pestana}</div><h2 style="margin:4px 0;font-size:18px">${esc(i.nombre)}</h2></div><button class="btn sm" id="dr-x" aria-label="Cerrar">✕</button></div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div><div class="d">Valor <span class="num">#12</span></div><b style="font-size:24px">${fmt(e.valor)}</b> <span class="num">${esc(i.unidad)}</span><div class="note">${mes(e.periodo?.slice(0, 7))} · ${flecha(e.tendencia)}</div></div>
+      <div><div class="d">Meta <span class="num">#14</span></div><b style="font-size:24px">${i.sentido === "Rango" ? fmt(i.rango_min) + " a " + fmt(i.rango_max) : fmt(meta)}</b><div class="note">${ANIO ? "Meta de " + ANIO : "A la fecha del corte"}</div></div>
+      <div><div class="d">Cumplimiento <span class="num">#12</span></div><b style="font-size:24px">${cum != null ? fmt(cum, 0) + " %" : "—"}</b><div>${ANIO ? "" : sem(e.semaforo)}</div></div></div>
+    ${anios.length ? `<div class="ctl"><span class="d">Comparar contra la meta de:</span><button class="btn sm ${!ANIO ? "pri" : ""}" data-anio="">Corte</button>${anios.map(a => `<button class="btn sm ${ANIO == a ? "pri" : ""}" data-anio="${a}">${a}</button>`).join("")}</div>` : ""}
+    <div><div class="row"><b style="color:var(--tx)">Gráfica histórica <span class="num">#13</span></b><span>${serie.length} meses hasta el corte ${i.reloj === "plan" ? "del plan" : "operativo"}</span></div>${serie.length > 1 ? linea([{color: "#1f5fbf", pts: serie}], {meta: i.sentido === "Rango" ? null : meta, rango: i.sentido === "Rango" ? [i.rango_min, i.rango_max] : null, unidad: i.unidad}) : '<div class="note">Sin serie histórica.</div>'}</div>
+    <div class="row" style="color:var(--tx)"><span><b>Etiqueta del dato</b> <span class="num">#17</span></span><span>${tag(e.etiqueta)} <span class="num">clase ${i.clase}${i.clase === 1 ? " · derivado del equipo" : i.clase === 2 ? " · anclado en un hecho público" : " · simulado con semilla"}</span></span></div>
+    ${i.sentido === "Rango" ? `<div class="row" style="color:var(--tx)"><span><b>Rango sano</b> <span class="num">#15</span></span><span>Ideal entre ${fmt(i.rango_min)} y ${fmt(i.rango_max)} ${esc(i.unidad)}</span></div>` : i.umbral_rojo != null ? `<div class="row" style="color:var(--tx)"><span><b>Umbral de alerta</b> <span class="num">#15</span></span><span>${i.sentido === "Max" ? "Menor que" : "Mayor que"} ${fmt(i.umbral_rojo)} ${esc(i.unidad)}</span></div>` : ""}
+    <div class="card" style="padding:14px;gap:6px"><b>Ficha del indicador <span class="num">#16</span></b>
+      <div><span class="d">Qué mide:</span> ${esc(i.que_mide)}</div><div><span class="d">Cómo se calcula:</span> ${esc(i.formula)}</div><div><span class="d">Ancla:</span> ${esc(i.ancla)}</div>
+      <div><span class="d">Ruido (σ):</span> ${esc(i.sigma)} · <span class="d">Sentido:</span> ${i.sentido === "Max" ? "mayor es mejor" : i.sentido === "Min" ? "menor es mejor" : "dentro del rango"} · <span class="d">Tipo:</span> ${i.tipo === "Leading" ? "inductor" : "resultado"}</div>
+      <div><span class="d">Responsable:</span> ${esc(i.responsable)} · <span class="d">Fuente:</span> ${esc(i.fuente)}</div>
+      <div><span class="d">Metas:</span> ${Object.entries(i.metas || {}).map(([a, m]) => `${a == 2026 ? "base" : a}: ${fmt(m)}`).join(" · ") || "—"}</div></div>
+    <div class="card" style="padding:14px;gap:6px"><b>Conexiones <span class="num">#18</span></b>
+      <div><span class="d">Objetivo del BSC:</span> ${i.objetivo_bsc ? i.objetivo_bsc + " · " + esc(D.objetivos_bsc.find(o => o.codigo === i.objetivo_bsc).nombre) : "—"}</div>
+      <div><span class="d">Acción del plan:</span> ${acc.map(a => `<b>${a.codigo}</b> ${esc(a.accion)} (${a.fase})`).join(" · ") || "Ninguna ligada"}</div>
+      <div><span class="d">Riesgo:</span> ${rs.map(r => `<b>${r.id}</b> ${esc(r.riesgo)}`).join(" · ") || "Ninguno ligado"}</div>
+      <div><span class="d">Objetivo COBIT:</span> ${(i.cobit || []).map(c => `<b>${c}</b> ${esc(COB[c].nombre)}`).join(" · ") || "—"}</div></div>
+    ${e.etiqueta === "Simulado" ? '<div class="banner">Dato simulado: no es un dato de Addi. Demuestra la lógica del tablero (semáforos, alertas, tendencias y metas).</div>' : ""}`;
+  dr.classList.add("on"); dr.dataset.id = id;
+}
+
+/* ---------- marco ---------- */
+function pintar() {
+  const c = D.config, P = prin(), dias = Math.floor((new Date(D.consultado || Date.now()) - new Date(D.generado)) / 864e5), viejo = dias > +c.dias_vigencia;
+  $("#h-emp").textContent = c.empresa; $("#h-plan").textContent = c.periodo_plan + " · Dashboard estratégico de TI";
+  $("#h-meta").innerHTML = `<span>Corte operativo: <b style="color:var(--tx)">${mes(c.corte_operativo.slice(0, 7))}</b></span><span>Corte del plan: <b style="color:var(--tx)">${mes(c.corte_plan.slice(0, 7))}</b> (simulado)</span>
+    <span title="${esc(c.documento_fuente)}">Fuente: ${esc(c.documento_fuente)}</span>
+    <span style="color:${viejo ? COL.rojo : COL.verde};font-weight:600">${viejo ? "■ Datos desactualizados" : "● Datos al día"} <span style="font-weight:400;color:var(--mut)">(generados hace ${dias} días · parámetros ${esc(c.version_parametros)})</span></span>
+    <span class="cnt" title="Indicadores fuera de meta"><span class="dot" style="background:${COL.rojo}"></span>${cuenta(P, "rojo")}</span><span class="cnt" title="Indicadores en riesgo"><span class="dot" style="background:${COL.amarillo}"></span>${cuenta(P, "amarillo")}</span><span class="cnt" title="Indicadores en meta"><span class="dot" style="background:${COL.verde}"></span>${cuenta(P, "verde")}</span>
+    <span>${VIVO ? "● Conectado a n8n" : "○ Sin conexión: copia local"}</span>`;
+  $("#tabs").innerHTML = TABS.map(t => `<button class="tab ${t === TAB ? "on" : ""}" data-tab="${t}">${TABN[t] || t}${t === "COBIT" && pend().length ? `<span class="badge">${pend().length}</span>` : ""}</button>`).join("");
+  $("#b-av").disabled = $("#b-re").disabled = !VIVO;
+  const v = {General: vGeneral, Estrategia: vEstrategia, Datos: vDatos, Seguridad: vSeguridad, IA: vIA, "Operación": vOperacion, COBIT: vCobit}[TAB]();
+  $("#main").innerHTML = (AVISO ? `<div class="banner ${AVISO.startsWith("✔") ? "ok" : ""}">${esc(AVISO)}</div>` : "") +
+    (VIVO ? "" : `<div class="banner">Modo sin conexión: se muestra la copia local de los datos (<code>datos.js</code>). Para avanzar el reloj y aprobar cambios, activa los flujos de n8n en ${esc(CFG.api)}.</div>`) + v +
+    `<div class="note">Regla del tablero: todo dato lleva su etiqueta (real, estimado o simulado). Los valores simulados no son datos de Addi: existen para demostrar la lógica del tablero. Una cifra calculada hereda la etiqueta menos sólida de sus insumos. Equipo Nexus · Gobernanza y Servicios de TI.</div>`;
+  if ($("#drawer").classList.contains("on")) detalle($("#drawer").dataset.id);
+}
+document.addEventListener("click", ev => {
+  const t = ev.target, q = s => t.closest(s);
+  if (q("#dr-x")) { $("#drawer").classList.remove("on"); return; }
+  if (q("[data-anio]")) { ANIO = q("[data-anio]").dataset.anio || null; detalle($("#drawer").dataset.id); return; }
+  if (q("[data-dec]")) { const b = q("[data-dec]"), id = b.dataset.id, ap = document.querySelector(`[data-ap="${id}"]`).value.trim(), mo = document.querySelector(`[data-mo="${id}"]`).value.trim();
+    try { localStorage.setItem("addi_aprobador", ap); } catch (e) {}
+    accion("/decision", {id: +id, decision: b.dataset.dec, aprobador: ap, motivo: mo}); return; }
+  if (t.matches("input,select")) return;
+  if (q("[data-tab]")) { TAB = q("[data-tab]").dataset.tab; AVISO = ""; pintar(); window.scrollTo(0, 0); return; }
+  if (q("[data-cob]")) { SEL = q("[data-cob]").dataset.cob; if (TAB !== "COBIT") TAB = "COBIT"; pintar(); $("#det-cob")?.scrollIntoView({behavior: "smooth", block: "center"}); return; }
+  if (q("[data-ind]")) { ANIO = null; detalle(q("[data-ind]").dataset.ind); $("#res").style.display = "none"; return; }
+  if (q("#b-av")) return accion("/corte", {accion: "avanzar"});
+  if (q("#b-re")) return accion("/corte", {accion: "reiniciar"});
+  if (!q("#drawer") && !q("#q")) $("#res").style.display = "none";
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") $("#drawer").classList.remove("on"); if (e.key === "Enter" && e.target.matches(".kpi")) detalle(e.target.dataset.ind); });
+$("#f-etq").onchange = $("#f-pers").onchange = () => pintar();
+$("#q").oninput = e => { const s = e.target.value.trim().toLowerCase(), r = $("#res"); if (s.length < 2) { r.style.display = "none"; return; }
+  const l = D.indicadores.filter(i => i.principal && (i.nombre.toLowerCase().includes(s) || i.responsable.toLowerCase().includes(s) || i.id.toLowerCase() === s)).slice(0, 12);
+  r.innerHTML = l.map(i => `<div data-ind="${i.id}"><span class="dot" style="background:${COL[i.estado?.semaforo] || COL.gris}"></span> ${esc(i.nombre)}<br><span class="num">${esc(i.responsable)} · ${TABN[i.pestana] || i.pestana}</span></div>`).join("") || '<div>Sin resultados</div>'; r.style.display = "block"; };
+cargar();
+</script>
+</body>
+</html>
