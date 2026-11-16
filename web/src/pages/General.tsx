@@ -58,7 +58,7 @@ export default function General() {
                       </span>
                     </div>
                     <div className="flex h-2.5 gap-0.5 overflow-hidden rounded-full bg-linea-2" aria-hidden="true">
-                      <div className="bg-verde" style={{ flex: c.verde }} /><div className="bg-ambar" style={{ flex: c.amarillo }} /><div className="bg-rojo" style={{ flex: c.rojo }} />
+                      {(['verde', 'amarillo', 'rojo'] as const).filter((s) => c[s] > 0).map((s) => <div key={s} className={SEMAFORO[s].fondo} style={{ flex: c[s] }} />)}
                     </div>
                   </div>
                 )

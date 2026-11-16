@@ -12,7 +12,7 @@ from app.avisos import disparar_envio
 from app.db import get_db
 from app.models import DOMINIOS, ROLES, Aprobador, Auditoria, Rol, Usuario
 from app.security import error, hash_contrasena, ip_cliente, requiere_rol
-from app.servicios import avanzar, estado_reloj, hay_datos, poner_cfg, reiniciar, sincronizar_responsables
+from app.servicios import avanzar, estado_n8n, estado_reloj, hay_datos, poner_cfg, reiniciar, sincronizar_responsables
 
 router = APIRouter(prefix="/admin", tags=["administración"])
 solo_admin = requiere_rol("admin")
@@ -55,6 +55,11 @@ def _roles(db: Session, roles: list[str]) -> list[Rol]:
 @router.get("/reloj")
 def ver_reloj(_: Usuario = Depends(solo_admin), db: Session = Depends(get_db)):
     return estado_reloj(db)
+
+
+@router.get("/n8n")
+def ver_n8n(_: Usuario = Depends(solo_admin), db: Session = Depends(get_db)):
+    return estado_n8n(db)
 
 
 @router.post("/reloj/avanzar")

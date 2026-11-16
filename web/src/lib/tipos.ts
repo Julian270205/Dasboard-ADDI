@@ -192,3 +192,18 @@ export interface PropuestaDetalle extends Omit<Propuesta, 'suplente' | 'copia_ct
     riesgos: { id: string; riesgo: string; inherente: number }[]
   }
 }
+
+export interface EstadoN8n {
+  servicio: 'en_linea' | 'con_error' | 'sin_respuesta'
+  flujo: 'activo' | 'inactivo' | 'desconocido'
+  ultimo_corte: { fecha: string; resultado: Record<string, unknown> } | null
+  ultimos_avisos: { fecha: string; resultado: { correos: number; propuestas: number } } | null
+}
+
+export function textoN8n(e: EstadoN8n | undefined): { texto: string; ok: boolean } {
+  if (!e) return { texto: 'n8n: consultando…', ok: true }
+  if (e.servicio !== 'en_linea') return { texto: 'n8n sin conexión', ok: false }
+  if (e.flujo === 'inactivo') return { texto: 'n8n conectado, flujo inactivo', ok: false }
+  if (e.flujo === 'activo') return { texto: 'n8n conectado, flujo activo', ok: true }
+  return { texto: 'n8n conectado', ok: true }
+}

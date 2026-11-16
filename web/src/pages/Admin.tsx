@@ -4,6 +4,8 @@ import { Aviso, Boton, Seccion, Tabla, Tarjeta } from '../components/ui'
 import { ApiError, api, enviar } from '../lib/api'
 import { fecha, mes } from '../lib/formato'
 import { DOMINIOS, LISTA_DOMINIOS } from '../lib/tablero'
+import { textoN8n, type EstadoN8n } from '../lib/tipos'
+import { useAncla } from './comun'
 
 interface Reloj { configurado: boolean; corte_operativo: string; corte_plan: string; pausado: boolean; corrida: string; version_parametros: string; fin_horizonte: string; ejecuciones: { fecha: string; resultado: string }[] }
 interface Usuario { id: number; nombre: string; cargo: string | null; correo: string; activo: boolean; roles: string[]; ultimo_acceso: string | null }
@@ -11,11 +13,13 @@ interface Aprobador { dominio: string; titular_id: number | null; suplente_id: n
 interface Evento { id: number; usuario: string | null; accion: string; entidad: string; entidad_id: string | null; fecha: string; ip: string | null }
 
 export default function Admin() {
+  useAncla()
   const [aviso, setAviso] = useState<{ ok: boolean; texto: string } | null>(null)
   return (
     <>
       {aviso && <Aviso tipo={aviso.ok ? 'ok' : 'error'}>{aviso.texto}</Aviso>}
       <Reloj avisar={setAviso} />
+      <N8n />
       <Aprobadores avisar={setAviso} />
       <Usuarios avisar={setAviso} />
       <Auditoria />
@@ -57,8 +61,29 @@ function Reloj({ avisar }: { avisar: Avisar }) {
   )
 }
 
+function N8n() {
+  const q = useQuery({ queryKey: ['admin', 'n8n'], queryFn: () => api<EstadoN8n>('/admin/n8n') })
+  const e = q.data, t = textoN8n(e)
+  const cuando = (f?: string) => (f ? new Date(f).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' }) : 'Nunca')
+  return (
+    <Seccion id="n8n" titulo="Conexión con n8n" descripcion="n8n corre el corte del día 1 de cada mes y envía los correos con los botones Aprobar y Rechazar. Se revisa cada minuto.">
+      <Tarjeta pie={e?.flujo === 'inactivo' ? 'El flujo está importado pero apagado: ábrelo en n8n (http://localhost:5678 o por túnel SSH en la EC2) y actívalo o publícalo.'
+        : e?.servicio !== 'en_linea' ? 'La API no alcanza a n8n por la red de Docker. Revisa `docker compose ps` y `docker compose logs n8n`.'
+        : 'Si el flujo no aparece activo, impórtalo desde n8n/corte_y_avisos_cobit.json y asígnale la credencial SMTP.'}>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="flex flex-col gap-0.5"><span className="text-xs text-tinta-2">Estado</span>
+            <span className={`text-[15px] font-semibold ${t.ok ? 'text-verde' : 'text-rojo'}`}><span aria-hidden="true">{t.ok ? '● ' : '■ '}</span>{t.texto}</span></div>
+          <Caja n="Servicio" v={{ en_linea: 'En línea', con_error: 'Con error', sin_respuesta: 'Sin respuesta' }[e?.servicio ?? 'sin_respuesta']} />
+          <Caja n="Último corte del cron" v={cuando(e?.ultimo_corte?.fecha)} />
+          <Caja n="Últimos correos pedidos" v={e?.ultimos_avisos ? `${cuando(e.ultimos_avisos.fecha)} (${e.ultimos_avisos.resultado.correos})` : 'Nunca'} />
+        </div>
+      </Tarjeta>
+    </Seccion>
+  )
+}
+
 function Caja({ n, v }: { n: string; v: string }) {
-  return <div className="flex flex-col gap-0.5"><span className="text-xs text-tinta-2">{n}</span><span className="cifra text-lg font-semibold capitalize">{v}</span></div>
+  return <div className="flex flex-col gap-0.5"><span className="text-xs text-tinta-2">{n}</span><span className="cifra text-lg font-semibold first-letter:uppercase">{v}</span></div>
 }
 
 function Aprobadores({ avisar }: { avisar: Avisar }) {

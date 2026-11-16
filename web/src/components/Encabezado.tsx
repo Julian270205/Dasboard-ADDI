@@ -5,7 +5,7 @@ import { ApiError, api, enviar } from '../lib/api'
 import { tieneRol, usePerfil, useSalir } from '../lib/auth'
 import { mes } from '../lib/formato'
 import { PERSPECTIVAS, cuenta, pendientes, principales, useTablero } from '../lib/tablero'
-import type { PropuestaDetalle } from '../lib/tipos'
+import { textoN8n, type EstadoN8n, type PropuestaDetalle } from '../lib/tipos'
 import { SEMAFORO } from './ui'
 
 const PESTANAS = [
@@ -32,6 +32,8 @@ export default function Encabezado({ aviso }: { aviso: (t: { ok: boolean; texto:
   const viejo = dias > Number(c.dias_vigencia ?? 45)
   const mias = useQuery({ queryKey: ['aprobaciones'], queryFn: () => api<{ pendientes: PropuestaDetalle[] }>('/aprobaciones'), enabled: esAprobador })
   const porDecidir = mias.data?.pendientes.filter((p) => p.puede_decidir).length ?? 0
+  const n8n = useQuery({ queryKey: ['admin', 'n8n'], queryFn: () => api<EstadoN8n>('/admin/n8n'), enabled: esAdmin, refetchInterval: 60_000 })
+  const estadoN8n = textoN8n(n8n.data)
 
   const reloj = useMutation({
     mutationFn: (accion: 'avanzar' | 'reiniciar') => enviar<{ ok: boolean; mensaje: string; ya_hecho?: boolean }>(`/admin/reloj/${accion}`),
@@ -94,6 +96,11 @@ export default function Encabezado({ aviso }: { aviso: (t: { ok: boolean; texto:
             {viejo ? 'Datos desactualizados' : 'Datos al día'}: generados hace {dias} {dias === 1 ? 'día' : 'días'}, parámetros {c.version_parametros}
           </span>
           {c.pausado === 'si' && <span className="rounded bg-ambar/10 px-2 py-0.5 text-xs font-semibold text-ambar">Reloj en pausa</span>}
+          {esAdmin && (
+            <NavLink to="/admin#n8n" className={`no-underline ${estadoN8n.ok ? 'text-tinta-2' : 'font-semibold text-rojo'}`} title="Estado de la automatización (ver Administración)">
+              <span aria-hidden="true">{estadoN8n.ok ? '● ' : '■ '}</span>{estadoN8n.texto}
+            </NavLink>
+          )}
           <span className="ml-auto flex items-center gap-3" aria-label="Indicadores por estado">
             {(['rojo', 'amarillo', 'verde'] as const).map((s) => (
               <span key={s} className="flex items-center gap-1" title={`${n[s]} ${SEMAFORO[s].texto.toLowerCase()} de ${total}`}>

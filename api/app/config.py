@@ -22,6 +22,7 @@ class Settings(BaseSettings):
 
     # Webhook de n8n que arma y envía los correos del flujo COBIT (paso 4 de la Propuesta).
     n8n_webhook_avisos: str = "http://n8n:5678/webhook/addi-avisos"
+    n8n_base_url: str = "http://n8n:5678"
 
     # Propuesta COBIT: "sin respuesta: recordatorio, luego el suplente". Cortes sin decisión para escalar.
     cortes_para_escalar: int = 2

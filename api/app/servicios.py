@@ -152,3 +152,33 @@ def reiniciar(db: Session, origen: str) -> dict:
     r = _json(db.scalar(text("SELECT addi.fn_reiniciar_demo()")))
     db.add(Ejecucion(llave=f"reinicio:c{cfg(db, 'corrida')}", origen=origen, resultado=r))
     return r
+
+
+# ---------------------------------------------------------------- integración con n8n
+def estado_n8n(db: Session) -> dict:
+    """¿Está n8n en línea, el flujo activo y cuándo corrió por última vez? Sin credenciales de n8n:
+    - /healthz responde si el servicio está arriba.
+    - Un GET al webhook (que solo acepta POST) responde distinto si el flujo está activo o no:
+      activo -> "Did you mean to make a POST request?"; inactivo -> "is not registered".
+    - Las últimas llamadas de n8n a la API quedan en acceso.ejecuciones (origen n8n)."""
+    import httpx
+
+    s = get_settings()
+    salida: dict = {"servicio": "sin_respuesta", "flujo": "desconocido"}
+    try:
+        salida["servicio"] = "en_linea" if httpx.get(f"{s.n8n_base_url}/healthz", timeout=3).status_code == 200 else "con_error"
+        r = httpx.get(s.n8n_webhook_avisos, timeout=3)
+        cuerpo = r.text.lower()
+        salida["flujo"] = "activo" if ("post request" in cuerpo or r.status_code in (200, 405)) else \
+            "inactivo" if "not registered" in cuerpo else "desconocido"
+    except httpx.HTTPError:
+        pass
+
+    def ultima(prefijo: str):
+        e = db.scalar(select(Ejecucion).where(Ejecucion.origen == "n8n", Ejecucion.llave.like(f"{prefijo}%"))
+                      .order_by(Ejecucion.id.desc()).limit(1))
+        return {"fecha": e.creada_en, "resultado": e.resultado} if e else None
+
+    salida["ultimo_corte"] = ultima("corte:")
+    salida["ultimos_avisos"] = ultima("avisos:")
+    return salida

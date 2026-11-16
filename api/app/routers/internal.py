@@ -3,11 +3,14 @@
 n8n ya no toca la base: el cron mensual pide el corte aquí y la API arma los correos que n8n envía.
 """
 
+from datetime import UTC, datetime
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.avisos import armar
 from app.db import get_db
+from app.models import Ejecucion
 from app.security import error, token_interno
 from app.servicios import avanzar, hay_datos
 
@@ -29,4 +32,9 @@ def avisos(db: Session = Depends(get_db)):
     """Paso 4: un correo por dominio con propuestas o alertas, con los botones Aprobar y Rechazar."""
     if not hay_datos(db):
         return []
-    return armar(db)
+    mensajes = armar(db)
+    # Deja rastro para que Administración muestre cuándo pidió n8n los correos por última vez
+    db.add(Ejecucion(llave=f"avisos:{datetime.now(UTC).isoformat()}", origen="n8n",
+                     resultado={"correos": len(mensajes), "propuestas": sum(m["propuestas"] for m in mensajes)}))
+    db.commit()
+    return mensajes
