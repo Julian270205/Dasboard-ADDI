@@ -3,10 +3,14 @@
 Origen de cada bloque:
 - OBJETIVOS_BSC e indicadores BSC: BSC IT Addi (BSC Designer) y "Proceso de generación y simulación de datos".
 - INDICADORES 19 a 57: catálogo del mismo documento (secciones D a I).
-- INICIATIVAS y RIESGOS: reconstruidos a partir de los códigos citados en los documentos
-  (S-02, S-03, S-06, S-08, M-06, M-07, O-01..O-03, N-01, N-03). El campo `origen` lo declara.
-  Deben reemplazarse por las hojas Plan (22 acciones) y Riesgos (R1 a R11) del BSC.
+- INICIATIVAS y RIESGOS: los reales de la BD del BSC (hojas Plan y Riesgos de BD_Dashboard_TI_Addi.xlsx,
+  extraídas a bsc.json por extraer_bsc.py): 22 acciones y R1 a R11. Reemplazan a los reconstruidos de v1.0.
+  Lo que la BD no trae (objetivo COBIT e indicador de cada acción; categoría, proceso COBIT, dueño y
+  señal de cada riesgo) es una PROPUESTA del equipo marcada "por confirmar" (PLAN_VINCULOS y RIESGOS_VINCULOS).
 """
+
+import json
+from pathlib import Path
 
 NOMBRES_COBIT = {
  "EDM01": "Asegurar el marco de gobierno", "EDM02": "Asegurar la entrega de beneficios", "EDM03": "Asegurar la optimización del riesgo",
@@ -59,14 +63,14 @@ SA = "Sin ancla pública"
 INDICADORES = [
  # ---------------- D. Datos ----------------
  I("19", 19, "D", "Datos", None, "Madurez de datos (promedio de áreas)", "nivel 1-5", "Max", 1, "APO14 del diagnóstico de sensibilización (desempeño 2, formal y auditado)",
-   "Promedio de las cuatro áreas. Cada área sube 0,1 por trimestre mientras D-01 está activa", "Head of Data / DPO", "Qué tan ordenado está el manejo de datos por área", 3, "APO14",
-   impacto="Datos poco gobernados debilitan los modelos y los reportes", decision="Priorizar el área con menor madurez en D-01", validos=(1, 5)),
- I("19a", 19, "D", "Datos", None, "Madurez de datos · Riesgo y crédito", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 3; +0,1 por trimestre con D-01", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
- I("19b", 19, "D", "Datos", None, "Madurez de datos · Comercios", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 2; +0,1 por trimestre con D-01", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
- I("19c", 19, "D", "Datos", None, "Madurez de datos · Finanzas y regulatorio", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 3; +0,1 por trimestre con D-01", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
- I("19d", 19, "D", "Datos", None, "Madurez de datos · Producto y analítica", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 2; +0,1 por trimestre con D-01", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
+   "Promedio de las cuatro áreas. Cada área sube 0,1 por trimestre mientras S-04 está activa", "Head of Data / DPO", "Qué tan ordenado está el manejo de datos por área", 3, "APO14",
+   impacto="Datos poco gobernados debilitan los modelos y los reportes", decision="Priorizar el área con menor madurez en S-04", validos=(1, 5)),
+ I("19a", 19, "D", "Datos", None, "Madurez de datos · Riesgo y crédito", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 3; +0,1 por trimestre con S-04", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
+ I("19b", 19, "D", "Datos", None, "Madurez de datos · Comercios", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 2; +0,1 por trimestre con S-04", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
+ I("19c", 19, "D", "Datos", None, "Madurez de datos · Finanzas y regulatorio", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 3; +0,1 por trimestre con S-04", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
+ I("19d", 19, "D", "Datos", None, "Madurez de datos · Producto y analítica", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 2; +0,1 por trimestre con S-04", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
  I("PI2.2", 20, "D", "Datos", "PI2", "Datos críticos con dueño y reglas de calidad", "%", "Max", 3, SA + ". Línea base 0 % del BSC",
-   "Plano en la base hasta que arranca D-01; luego +1,5 puntos al mes, techo 85 %", "Head of Data / DPO", "Porcentaje de datos críticos que tienen dueño nombrado y reglas de calidad",
+   "Plano en la base hasta que arranca S-04; luego +1,5 puntos al mes, techo 85 %", "Head of Data / DPO", "Porcentaje de datos críticos que tienen dueño nombrado y reglas de calidad",
    {2026: 0, 2027: 20, 2028: 40, 2029: 60, 2030: 85}, "APO14", sigma="1,5 puntos", tipo="Leading",
    impacto="Sin dueño nadie responde por la calidad del dato que alimenta crédito y reportes", decision="Nombrar dueños de los datos críticos pendientes", validos=(0, 100)),
  I("21", 21, "D", "Datos", None, "Nota de calidad de los datos críticos", "puntos", "Max", 3, SA, "Base 82 + 0,15 por cada punto del indicador PI2.2. Meta 90", "Head of Data / DPO",
@@ -77,7 +81,7 @@ INDICADORES = [
    impacto="Riesgo de requerimientos o sanciones del supervisor", decision="Reforzar la conciliación antes del próximo cierre trimestral", validos=(0, 100)),
  # ---------------- E. Seguridad y privacidad ----------------
  I("23", 23, "E", "Seguridad", None, "Datos sensibles cifrados u ocultos", "%", "Max", 3, "[V] Tratamiento de biometría y datos personales en las autorizaciones públicas",
-   "Plano en 90 % hasta que arranca S-01; luego +0,8 puntos al mes, techo 99 %. Nunca decrece", "CISO", "Porcentaje de datos sensibles cifrados o enmascarados",
+   "Plano en 90 % hasta que arranca S-03; luego +0,8 puntos al mes, techo 99 %. Nunca decrece", "CISO", "Porcentaje de datos sensibles cifrados o enmascarados",
    {2026: 90, 2027: 92, 2028: 96, 2029: 99, 2030: 99}, "DSS05", sigma="0,5 puntos", tipo="Leading",
    impacto="Una filtración expondría datos sensibles sin cifrar", decision="Priorizar el cifrado de los repositorios pendientes", validos=(0, 100)),
  I("24a", 24, "E", "Seguridad", None, "Accesos indebidos detectados", "n/mes", "Min", 3, SA, "3 × V^0,3", "CISO", "Eventos de acceso a donde no correspondía", 3, "DSS05", sigma="15 %", rojo=6,
@@ -177,7 +181,7 @@ INDICADORES = [
    "Salidas de los últimos 2 meses (rotación de 1 % mensual) + crecimiento de la plantilla", "Head of People / CTO", "Vacantes abiertas en roles críticos de TI", 2, "APO07", fuente="BSC IT Addi",
    impacto="Roles críticos sin cubrir frenan el plan", decision="Priorizar la contratación de los roles críticos", validos=(0, None)),
  I("56p", 56, "I", "Operación", None, "Plantilla de TI", "personas", "Max", 3, "[I] Vacantes públicas. 100 personas en nov-2026 (S4)", "Crece la mitad que el volumen", "Head of People", "Personas en TI", 0, principal=False, validos=(0, None)),
- I("57", 57, "I", "Operación", None, "Capacitación cumplida", "%", "Max", 3, SA, "Base 80 %; +1 punto al mes mientras N-02 está activa, techo 90 %", "Head of People", "Porcentaje del plan de capacitación cumplido", 85, "APO07",
+ I("57", 57, "I", "Operación", None, "Capacitación cumplida", "%", "Max", 3, SA, "Base 80 %; plano: el plan real no tiene una acción de capacitación con fechas", "Head of People", "Porcentaje del plan de capacitación cumplido", 85, "APO07",
    sigma="1 punto", tipo="Leading", impacto="El equipo no completa su formación", decision="Reprogramar las capacitaciones pendientes", validos=(0, 100)),
  # ---------------- J. Indicadores del BSC sin equivalente ----------------
  I("C2.1", None, "J", "Estrategia", "C2", "Casos de uso de finanzas abiertas habilitados en producción", "n", "Max", 2, "Real: 0 hoy (BSC; Decreto 1297 de 2022)",
@@ -211,40 +215,72 @@ INDICADORES = [
    impacto="El equipo no tiene claras sus prioridades", decision="Revisar la cascada de objetivos con los líderes", validos=(1, 5)),
 ]
 
-REC = "reconstruida (confirmar con hoja Plan)"
-INICIATIVAS = [  # código, acción, ruta, obj BSC, obj COBIT, responsable, inicio, fin, indicador objetivo, peso, origen
- ("S-01", "Cifrado y enmascaramiento de datos sensibles", "Seguridad", "PI1", "DSS05", "CISO", "2027-01", "2028-06", "23", 6, REC),
- ("S-02", "SOC/SIEM y gestión de hallazgos críticos", "Seguridad", "PI1", "DSS05", "CISO", "2027-01", "2027-12", "PI1.2", 9, "documentos"),
- ("S-03", "Certificación ISO 27001 y PCI DSS", "Seguridad", "PI1", "APO13", "CISO", "2027-07", "2029-06", "PI1.1", 10, "documentos"),
- ("S-06", "IA responsable: inventario, explicabilidad y supervisión humana", "Seguridad", "PI2", "APO04", "Chief Risk Officer", "2027-01", "2029-12", "PI2.1", 8, "documentos"),
- ("S-08", "Programa de gestión de proveedores críticos", "Seguridad", "PI3", "APO10", "CTO", "2027-01", "2028-06", "PI3.1", 5, "documentos"),
- ("M-06", "Bre-B y APIs de finanzas abiertas", "Modernización", "C2", "BAI03", "CPO", "2027-07", "2030-06", "C2.1", 12, "documentos"),
- ("M-07", "ANS y plan de salida de proveedores críticos", "Modernización", "PI3", "APO10", "CTO / General Counsel", "2027-07", "2028-12", "PI3.2", 4, "documentos"),
- ("O-01", "Integración de aliados: API y componentes reutilizables", "Omnicanal", "C3", "BAI03", "CPO", "2027-01", "2027-12", "C3.1", 8, "documentos"),
- ("O-02", "Integración de aliados: autoservicio de configuración", "Omnicanal", "C3", "BAI07", "CPO", "2028-01", "2028-12", "C3.1", 7, "documentos"),
- ("O-03", "Integración de aliados: certificación automática", "Omnicanal", "C3", "APO03", "CPO", "2029-01", "2029-12", "C3.1", 6, "documentos"),
- ("D-01", "Gobierno de datos: dueños y reglas de calidad", "Datos", "PI2", "APO14", "Head of Data / DPO", "2027-01", "2030-12", "PI2.2", 8, REC),
- ("N-01", "Respaldo técnico de roles críticos", "Nexus-talento", "AC1", "BAI08", "Head of People / CTO", "2027-01", "2030-06", "AC1.1", 3, "documentos (fechas por definir)"),
- ("N-02", "Plan de capacitación en seguridad y control", "Nexus-talento", "AC2", "APO07", "Head of People", "2027-01", "2028-12", "57", 4, REC),
- ("N-03", "Encuesta semestral al equipo de TI", "Nexus-talento", "AC3", "APO07", "Head of People", "2027-01", "2030-12", "AC3.2", 2, "documentos (fechas por definir)"),
- ("G-01", "Sistema de medición de TI: BSC y dashboard", "Gobierno", "AC3", "MEA01", "CTO", "2027-01", "2027-12", None, 5, REC),
- ("C-01", "Pruebas de continuidad y recuperación (BCP/DRP)", "Gobierno", "C1", "DSS04", "CTO / CISO", "2027-01", "2027-12", "49", 3, REC),
+# ---------------- Plan y riesgos reales de la BD del BSC ----------------
+BSC = json.loads((Path(__file__).parent / "bsc.json").read_text(encoding="utf-8"))
+POR_CONFIRMAR = "BD del BSC · vínculo COBIT por confirmar"
+
+# Acción -> (objetivo COBIT, indicador que mueve). La BD no los trae: propuesta del equipo, por confirmar.
+PLAN_VINCULOS = {
+    "S-01": ("DSS04", "49"), "S-02": ("DSS05", "PI1.2"), "S-03": ("APO13", "PI1.1"), "S-04": ("APO14", "PI2.2"),
+    "S-05": ("APO14", "22"), "S-06": ("APO04", "PI2.1"), "S-07": ("DSS05", "36"), "S-08": ("APO10", "PI3.1"),
+    "M-01": ("BAI09", None), "M-02": ("BAI02", None), "M-03": ("BAI03", None), "M-04": ("BAI06", "51"),
+    "M-05": ("APO03", "C3.1"), "M-06": ("BAI03", "C2.1"), "M-07": ("APO09", "PI3.2"), "D-01": ("DSS06", "24b"),
+    "O-01": ("BAI03", "C3.1"), "O-02": ("BAI02", "C3.1"), "O-03": ("BAI07", "C3.1"), "O-04": ("BAI04", "47"),
+    "N-01": ("BAI08", "AC1.1"), "N-03": ("APO07", "AC3.2"),
+}
+
+# Riesgo -> (categoría de apetito S6, proceso COBIT que lo mitiga, dueño, indicador de señal). Por confirmar.
+RIESGOS_VINCULOS = {
+    "R1": ("Cumplimiento", "MEA03", "Oficial de Cumplimiento", "22"),
+    "R2": ("Seguridad y datos", "DSS05", "CISO", "27a"),
+    "R3": ("Cumplimiento", "APO14", "Head of Data / DPO", "25b"),
+    "R4": ("Operación", "DSS04", "CTO", "49"),
+    "R5": ("Operación", "BAI03", "CTO", "51"),
+    "R6": ("Innovación", "APO03", "CPO", "C3.1"),
+    "R7": ("Seguridad y datos", "APO13", "CISO", "PI1.2"),
+    "R8": ("Operación", "APO10", "CTO", "PI3.1"),
+    "R9": ("Operación", "APO07", "Head of People / CTO", "AC1.2"),
+    "R10": ("Seguridad y datos", "APO07", "CISO", "AC2.1"),
+    "R11": ("Operación", "APO02", "CTO", "AC3.2"),
+}
+
+
+def _fecha(anio, semestre, fin):
+    """Semestre 1 = enero a junio, semestre 2 = julio a diciembre. Sin año -> sin fecha (la BD no la trae)."""
+    if not anio:
+        return None
+    if fin:
+        return f"{anio}-{'06' if semestre == 1 else '12'}"
+    return f"{anio}-{'01' if (semestre or 1) == 1 else '07'}"
+
+
+def _meses(a):
+    ini, fin = _fecha(a["inicio_anio"], a["inicio_semestre"], False), _fecha(a["fin_anio"], a["fin_semestre"], True)
+    if not ini:
+        return 0
+    (y1, m1), (y2, m2) = map(int, ini.split("-")), map(int, fin.split("-"))
+    return (y2 - y1) * 12 + m2 - m1 + 1
+
+
+# Peso en el presupuesto (índice que suma 100), proporcional a la duración. El peso real es un pendiente del equipo.
+_TOTAL = sum(_meses(a) for a in BSC["plan"])
+INICIATIVAS = [  # código, acción, ruta, obj BSC, obj COBIT, responsable, inicio, fin, indicador, peso, origen, estado BSC
+    (a["codigo"], a["accion"], a["ruta"], a["objetivo_bsc"], PLAN_VINCULOS[a["codigo"]][0], a["responsable"],
+     _fecha(a["inicio_anio"], a["inicio_semestre"], False), _fecha(a["fin_anio"], a["fin_semestre"], True),
+     PLAN_VINCULOS[a["codigo"]][1], round(100 * _meses(a) / _TOTAL, 2), POR_CONFIRMAR, a["estado"])
+    for a in BSC["plan"]
 ]
 
-RREC = "reconstruido (confirmar con hoja Riesgos)"
-RIESGOS = [  # id, riesgo, categoría, obj BSC, P, I, proceso COBIT, dueño, indicador señal, mitigación, estado
- ("R1", "Incidente de seguridad con exposición de datos de clientes", "Seguridad y datos", "PI1", 2, 3, "DSS05", "CISO", "27a", "S-01, S-02", "En tratamiento"),
- ("R2", "Interrupción prolongada del servicio sin recuperación probada", "Operación", "C1", 2, 3, "DSS04", "CTO", "47", "C-01", "En tratamiento"),
- ("R3", "Sanción regulatoria por reportes o por protección de datos", "Cumplimiento", "F1", 2, 3, "MEA03", "General Counsel", "22", "D-01", "En tratamiento"),
- ("R4", "Dependencia de personas clave y pérdida de conocimiento", "Operación", "AC1", 3, 2, "BAI08", "Head of People / CTO", "AC1.1", "N-01", "Identificado"),
- ("R5", "Deriva o sesgo del modelo de crédito", "Innovación", "PI2", 2, 3, "APO12", "Chief Risk Officer", "32", "S-06", "En tratamiento"),
- ("R6", "Falla de un proveedor crítico (nube, pasarela, datos)", "Operación", "PI3", 2, 3, "APO10", "CTO", "PI3.1", "S-08, M-07", "Identificado"),
- ("R7", "Datos críticos sin dueño que producen reportes erróneos", "Seguridad y datos", "PI2", 3, 2, "APO14", "Head of Data / DPO", "PI2.2", "D-01", "Identificado"),
- ("R8", "Cambios fallidos en producción", "Operación", "C1", 2, 2, "BAI06", "CTO", "51", "", "Aceptado"),
- ("R9", "Sobrecosto de nube y TI", "Operación", "F1", 2, 2, "APO06", "CFO / CTO", "53", "", "Identificado"),
- ("R10", "Phishing e ingeniería social sobre el equipo", "Seguridad y datos", "AC2", 3, 2, "APO13", "CISO", "AC2.1", "N-02", "En tratamiento"),
- ("R11", "Retraso en finanzas abiertas e integraciones de aliados", "Innovación", "C2", 2, 2, "BAI01", None, "C2.1", "M-06", "Identificado"),
+RIESGOS = [  # id, riesgo, categoría, obj BSC, P, I, proceso COBIT, dueño, señal, mitigación, acciones, estado, origen
+    (r["riesgo_id"], r["riesgo"], RIESGOS_VINCULOS[r["riesgo_id"]][0], r["objetivo_bsc"], r["probabilidad"], r["impacto"],
+     RIESGOS_VINCULOS[r["riesgo_id"]][1], RIESGOS_VINCULOS[r["riesgo_id"]][2], RIESGOS_VINCULOS[r["riesgo_id"]][3],
+     r["mitigacion"], r["acciones_relacionadas"], r["estado"], f"BD del BSC ({r['origen']}) · vínculo COBIT por confirmar")
+    for r in BSC["riesgos"]
 ]
+
+# Metas 2027 a 2030 de los 15 indicadores del BSC: las reales de la hoja Series (supuesto S2).
+METAS_BSC = {(m["indicador_id"], m["anio"]): (m["meta"], m["origen"]) for m in BSC["metas"]}
+
 APETITO = [("Seguridad y datos", "Bajo", 2), ("Cumplimiento", "Bajo", 2), ("Operación", "Bajo a medio", 3), ("Innovación", "Medio", 4)]
 
 MODELOS_IA = [  # id, nombre, riesgo, dueño, estado, próxima revisión, apagado rápido, usos no permitidos, ancla
@@ -258,7 +294,7 @@ MODELOS_IA = [  # id, nombre, riesgo, dueño, estado, próxima revisión, apagad
 
 SUPUESTOS = [
  ("S1", "Fecha de corte. Dos relojes: operativo y del plan", "Operativo: 2026-11 · Plan: 2028-06"),
- ("S2", "Metas por año 2027 a 2030", "BSC: interpoladas hasta la meta de BSC Designer; nuevos: meta del catálogo"),
+ ("S2", "Metas por año 2027 a 2030", "BSC: metas reales de la BD del BSC; indicadores nuevos: meta del catálogo"),
  ("S3", "Base de presupuesto y costos", "Índice 100, sin pesos"),
  ("S4", "Plantilla base de TI", "100 personas en nov-2026"),
  ("S5", "Nivel objetivo de madurez", "Entero por objetivo: importancia 4 o 5 → 3; importancia 3 → 2; nunca menor al actual"),

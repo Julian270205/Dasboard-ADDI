@@ -139,7 +139,7 @@ CREATE TABLE metas (
     indicador_id VARCHAR(8) NOT NULL REFERENCES indicadores,
     anio         SMALLINT   NOT NULL CHECK (anio BETWEEN 2026 AND 2030),  -- 2026 = línea base
     meta         NUMERIC    NOT NULL,
-    origen       VARCHAR(90) NOT NULL,
+    origen       VARCHAR(90) NOT NULL,          -- "BD del BSC · ..." (S2) o "Catálogo de generación"
     PRIMARY KEY (indicador_id, anio)
 );
 
@@ -150,11 +150,12 @@ CREATE TABLE iniciativas_plan (
     objetivo_bsc  VARCHAR(4) REFERENCES objetivos_bsc,
     objetivo_cobit CHAR(5) REFERENCES objetivos_cobit,
     responsable   VARCHAR(60) NOT NULL,
-    inicio        DATE NOT NULL,
-    fin           DATE NOT NULL CHECK (fin > inicio),
+    inicio        DATE,                          -- NULL: la BD del BSC no trae fechas (N-01, N-03)
+    fin           DATE CHECK (fin > inicio),
     indicador_objetivo VARCHAR(8) REFERENCES indicadores,
-    peso_presupuesto NUMERIC NOT NULL,           -- índice: suma 100
-    origen        VARCHAR(60) NOT NULL           -- 'documentos' o 'reconstruida (confirmar con hoja Plan)'
+    peso_presupuesto NUMERIC NOT NULL,           -- índice: suma 100 (proporcional a la duración, por confirmar)
+    origen        VARCHAR(60) NOT NULL,          -- 'BD del BSC · vínculo COBIT por confirmar'
+    estado_bsc    VARCHAR(30)                    -- estado declarado en la BD del BSC (Por iniciar, En ejecución)
 );
 
 CREATE TABLE riesgos (
@@ -168,8 +169,9 @@ CREATE TABLE riesgos (
     dueno         VARCHAR(60),
     indicador_senal VARCHAR(8) REFERENCES indicadores,
     mitigacion    TEXT,
-    estado        VARCHAR(16) NOT NULL CHECK (estado IN ('Identificado','En tratamiento','Aceptado','Cerrado')),
-    origen        VARCHAR(60) NOT NULL
+    acciones      TEXT,                          -- acciones del plan relacionadas (BD del BSC)
+    estado        VARCHAR(40) NOT NULL CHECK (estado IN ('Por validar (propuesta del equipo)','Identificado','En tratamiento','Aceptado','Cerrado')),
+    origen        VARCHAR(80) NOT NULL
 );
 
 CREATE TABLE apetito_riesgo (                    -- supuesto S6

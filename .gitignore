@@ -18,3 +18,14 @@ venv/
 # Logs y temporales
 *.log
 *.tmp
+
+# Secretos y entornos (nunca al repositorio)
+.env
+infra/.env
+*.pem
+
+# Frontend y herramientas
+node_modules/
+web/dist/
+.pytest_cache/
+.ruff_cache/

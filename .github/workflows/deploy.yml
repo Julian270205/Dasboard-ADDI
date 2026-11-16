@@ -1,0 +1,90 @@
+# Flujo de ramas: feat/* -> PR a develop (CI) -> PR de develop a main (CI) -> este despliegue.
+#
+# Al hacer merge a main: construye las imágenes AQUÍ (nunca en la EC2), las sube a GHCR
+# y entra por SSH a la EC2 para descargarlas y arrancarlas.
+#
+# Secretos del repositorio (Settings > Secrets and variables > Actions):
+#   EC2_HOST      IP o dominio de la instancia
+#   EC2_USER      normalmente "ubuntu"
+#   EC2_SSH_KEY   llave privada para entrar por SSH
+#   GHCR_PAT      token con permiso read:packages (para que la EC2 descargue imágenes privadas)
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io/${{ github.repository }}
+
+jobs:
+  imagenes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Normalizar nombre del registro (GHCR exige minúsculas)
+        run: echo "REG=$(echo '${{ env.REGISTRY }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+      - name: Imagen de la API (incluye los scripts db/ del generador)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: api/Dockerfile
+          push: true
+          tags: ${{ env.REG }}/api:${{ github.sha }},${{ env.REG }}/api:latest
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,mode=max,scope=api
+      - name: Imagen web (frontend compilado + Caddy)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: web/Dockerfile
+          push: true
+          tags: ${{ env.REG }}/web:${{ github.sha }},${{ env.REG }}/web:latest
+          cache-from: type=gha,scope=web
+          cache-to: type=gha,mode=max,scope=web
+
+  desplegar:
+    needs: imagenes
+    runs-on: ubuntu-latest
+    environment: produccion
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copiar archivos de infraestructura a la EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "infra/docker-compose.yml,infra/Caddyfile,infra/postgres/init/*,infra/scripts/deploy.sh,infra/scripts/backup.sh"
+          target: /opt/addi-dashboard
+          strip_components: 1
+      - name: Descargar imágenes y arrancar
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            set -e
+            cd /opt/addi-dashboard
+            mv -f scripts/deploy.sh scripts/backup.sh . 2>/dev/null || true
+            chmod +x deploy.sh backup.sh postgres/init/*.sh
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+            TAG="$GITHUB_SHA" bash deploy.sh

@@ -59,13 +59,14 @@ def M(*procesos):
     return P["madurez"]["a"] - P["madurez"]["b"] * float(np.mean([NIVEL[p] for p in procesos]))
 M_SEG, M_OP, M_CONT, M_CAMB = M("APO13", "DSS05"), M("DSS01", "DSS03", "BAI06"), M("DSS04"), M("BAI06")
 
-ACC = {a[0]: dict(inicio=ym(a[6]), fin=ym(a[7]), peso=a[9]) for a in C.INICIATIVAS}
+# Plan real del BSC: las acciones sin fechas (N-01, N-03) no mueven ningún indicador hasta que el equipo las fije.
+ACC = {a[0]: dict(inicio=ym(a[6]), fin=ym(a[7]), peso=a[9]) for a in C.INICIATIVAS if a[6] and a[7]}
 def activa(cod, m):
-    return ACC[cod]["inicio"] <= m <= ACC[cod]["fin"]
+    return cod in ACC and ACC[cod]["inicio"] <= m <= ACC[cod]["fin"]
 def meses_activa(cod, m):
-    """Meses transcurridos de la acción hasta m (0 antes de empezar; se congela al terminar)."""
-    a = ACC[cod]
-    if m < a["inicio"]: return 0
+    """Meses transcurridos de la acción hasta m (0 antes de empezar o sin fechas; se congela al terminar)."""
+    a = ACC.get(cod)
+    if a is None or m < a["inicio"]: return 0
     return meses_entre(a["inicio"], min(m, a["fin"])) + 1
 def curva_s(cod, m):
     """Avance planeado en curva S (logística normalizada) entre inicio y fin."""
@@ -92,19 +93,19 @@ def generar():
         S[ind] = {m: f(m) for m in MESES}
     p = PI
     # --- D. Datos
-    trimestres = lambda m: meses_activa("D-01", m) // 3
+    trimestres = lambda m: meses_activa("S-04", m) // 3
     for k, base in zip("abcd", (3, 2, 3, 2)):
         serie("19" + k, lambda m, base=base: min(4.0, round(base + 0.1 * trimestres(m), 1)))
     serie("19", lambda m: round(np.mean([S["19" + k][m] for k in "abcd"]), 2))
     q = p["PI2.2"]
-    serie("PI2.2", lambda m: q["base"] if meses_activa("D-01", m) == 0 else
-          clamp(q["base"] + q["ritmo"] * meses_activa("D-01", m) + q["sigma"] * z("PI2.2", m), 0, q["techo"]))
+    serie("PI2.2", lambda m: q["base"] if meses_activa("S-04", m) == 0 else
+          clamp(q["base"] + q["ritmo"] * meses_activa("S-04", m) + q["sigma"] * z("PI2.2", m), 0, q["techo"]))
     serie("21", lambda m: clamp(p["21"]["base"] + p["21"]["coef_pi22"] * S["PI2.2"][m] + p["21"]["sigma"] * z("21", m), 0, 100))
     serie("22", lambda m: clamp(p["22"]["base"] - (p["22"]["caida_cierre"] if cierre(m) else 0) + p["22"]["sigma"] * z("22", m), 0, 100))
     # --- E. Seguridad
     q = p["23"]; previo = [0.0]
     def cifrado(m):
-        v = q["base"] if meses_activa("S-01", m) == 0 else clamp(q["base"] + q["ritmo"] * meses_activa("S-01", m) + q["sigma"] * z("23", m), 0, q["techo"])
+        v = q["base"] if meses_activa("S-03", m) == 0 else clamp(q["base"] + q["ritmo"] * meses_activa("S-03", m) + q["sigma"] * z("23", m), 0, q["techo"])
         previo[0] = max(previo[0], v); return previo[0]                # nunca decrece
     serie("23", cifrado)
     serie("24a", lambda m: round(p["24a"]["base"] * V[m] ** p["24a"]["e"] * (1 + p["24a"]["sigma"] * z("24a", m))))
@@ -189,7 +190,7 @@ def generar():
     for m in (date(2026, 10, 1), date(2026, 11, 1)):                    # hecho real: 3 vacantes al 27-oct-2026
         S["AC1.2"][m] = 3; ETQ[("AC1.2", m)] = "Real"
     q = p["57"]
-    serie("57", lambda m: clamp(q["base"] + q["ritmo"] * meses_activa("N-02", m) + q["sigma"] * z("57", m), 0, q["techo"]))
+    serie("57", lambda m: clamp(q["base"] + q["sigma"] * z("57", m), 0, q["techo"]))   # plano: el plan real no tiene acción de capacitación
     # --- J. BSC sin equivalente
     m06 = ACC["M-06"]
     serie("C2.1", lambda m: min(4, meses_activa("M-06", m) // 3) if m >= m06["inicio"] else 0)
@@ -299,7 +300,7 @@ def sql_base():
         ("fin_horizonte", f"{MESES[-1]:%Y-%m-%d}", VERSION, "El reloj se detiene aquí"),
         ("semilla_maestra", str(MAESTRA), VERSION, "Semilla maestra del generador"), ("version_parametros", VERSION, VERSION, "Versión vigente de parámetros"),
         ("unidad_indices", "Índice base 2026 = 100", VERSION, "Costos y tiempos sin cifras absolutas"),
-        ("documento_fuente", "Diagnósticos COBIT 2019 (13-nov-2026), BSC IT Addi y catálogo de generación v1.0", VERSION, "Elemento 2 del encabezado"),
+        ("documento_fuente", "Diagnósticos COBIT 2019 (13-nov-2026), BD del BSC (BD_Dashboard_TI_Addi.xlsx) y catálogo de generación", VERSION, "Elemento 2 del encabezado"),
         ("dias_vigencia", "45", VERSION, "Elemento 3: días tras los cuales el dato se marca desactualizado"),
         ("pausado", "no", VERSION, "El equipo puede pausar el reloj simulado")]))
     o.append(insert("supuestos", ["id", "supuesto", "valor"], C.SUPUESTOS))
@@ -336,18 +337,28 @@ def sql_base():
     for i in C.INDICADORES:
         if not i["principal"]: continue
         if isinstance(i["metas"], dict):
-            metas += [(i["id"], y, v, "Línea base" if y == 2026 else "BSC / hito del documento (interpolada; confirmar con hoja Series)") for y, v in i["metas"].items()]
+            for y, v in i["metas"].items():
+                if (i["id"], y) in C.METAS_BSC:                    # S2: mandan las metas reales de la BD del BSC
+                    v, origen = C.METAS_BSC[(i["id"], y)]
+                    metas.append((i["id"], y, v, f"BD del BSC · {origen}"))
+                else:
+                    metas.append((i["id"], y, v, "Línea base" if y == 2026 else "Hito del documento"))
+            metas += [(i["id"], y, v, f"BD del BSC · {o}") for (ind, y), (v, o) in C.METAS_BSC.items()
+                      if ind == i["id"] and y not in i["metas"]]
         else:
-            metas += [(i["id"], y, i["metas"], "Catálogo de generación v1.0") for y in range(2027, 2031)]
+            metas += [(i["id"], y, *((C.METAS_BSC[(i["id"], y)][0], "BD del BSC · " + C.METAS_BSC[(i["id"], y)][1])
+                                     if (i["id"], y) in C.METAS_BSC else (i["metas"], "Catálogo de generación")))
+                      for y in range(2027, 2031)]
     o.append(insert("metas", ["indicador_id", "anio", "meta", "origen"], metas))
-    o.append(insert("iniciativas_plan", ["codigo", "accion", "ruta", "objetivo_bsc", "objetivo_cobit", "responsable", "inicio", "fin", "indicador_objetivo", "peso_presupuesto", "origen"],
-                    [(a[0], a[1], a[2], a[3], a[4], a[5], ym(a[6]), ym(a[7]), a[8], a[9], a[10]) for a in C.INICIATIVAS]))
-    o.append(insert("riesgos", ["riesgo_id", "riesgo", "categoria", "objetivo_bsc", "probabilidad", "impacto", "proceso_cobit", "dueno", "indicador_senal", "mitigacion", "estado", "origen"],
-                    [r + (C.RREC,) for r in C.RIESGOS]))
+    fecha = lambda s: ym(s) if s else None
+    o.append(insert("iniciativas_plan", ["codigo", "accion", "ruta", "objetivo_bsc", "objetivo_cobit", "responsable", "inicio", "fin", "indicador_objetivo", "peso_presupuesto", "origen", "estado_bsc"],
+                    [(a[0], a[1], a[2], a[3], a[4], a[5], fecha(a[6]), fecha(a[7]), a[8], a[9], a[10], a[11]) for a in C.INICIATIVAS]))
+    o.append(insert("riesgos", ["riesgo_id", "riesgo", "categoria", "objetivo_bsc", "probabilidad", "impacto", "proceso_cobit", "dueno", "indicador_senal", "mitigacion", "acciones", "estado", "origen"],
+                    C.RIESGOS))
     o.append(insert("apetito_riesgo", ["categoria", "apetito", "severidad_max"], C.APETITO))
     o.append(insert("modelos_ia", ["modelo_id", "nombre", "riesgo", "dueno", "estado", "proxima_revision", "apagado_rapido", "usos_no_permitidos", "ancla"], C.MODELOS_IA))
     v = [(i["cobit"], i["id"], None, None) for i in C.INDICADORES if i["cobit"] and i["principal"]]
-    v += [(a[4], None, a[0], None) for a in C.INICIATIVAS] + [("EDM02", None, "G-01", None), ("APO09", None, "M-07", None), ("APO09", "PI3.2", None, None)]
+    v += [(a[4], None, a[0], None) for a in C.INICIATIVAS] + [("APO09", "PI3.2", None, None)]
     v += [(r[6], None, None, r[0]) for r in C.RIESGOS]
     o.append(insert("vinculos_objetivo", ["objetivo", "indicador_id", "accion", "riesgo_id"], v))
     o.append(insert("plan_seguimiento", ["codigo", "periodo", "avance", "gasto_plan", "gasto_real"], SEG))

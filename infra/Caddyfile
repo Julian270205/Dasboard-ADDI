@@ -1,0 +1,33 @@
+# SITE_ADDRESS:
+#   local:      :80
+#   producción: addi-ti.duckdns.org   (Caddy saca el certificado HTTPS solo)
+{$SITE_ADDRESS::80} {
+	encode gzip zstd
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	# Los endpoints internos solo los llama n8n por la red de Docker.
+	@interno path /api/v1/internal /api/v1/internal/*
+	respond @interno 404
+
+	# Documentación de la API solo fuera de producción (quitar este bloque si se quiere pública).
+	@docs path /api/docs /api/openapi.json
+	respond @docs 404
+
+	handle /api/* {
+		reverse_proxy api:8000
+	}
+
+	# Frontend estático (SPA): cualquier ruta desconocida vuelve a index.html
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}
