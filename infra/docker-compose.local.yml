@@ -1,0 +1,25 @@
+# Solo para desarrollo local: construye las imágenes en tu PC y agrega Mailpit para ver los correos.
+# En la EC2 nunca se usa este archivo.
+#   alias dc='docker compose -f docker-compose.yml -f docker-compose.local.yml'
+services:
+  api:
+    image: addi-dashboard/api:local
+    build:
+      context: ..
+      dockerfile: api/Dockerfile
+    environment:
+      ENV: local
+    ports:
+      - "127.0.0.1:8000:8000"   # para `npm run dev` en web/
+  web:
+    image: addi-dashboard/web:local
+    build:
+      context: ..
+      dockerfile: web/Dockerfile
+  # Buzón de prueba: n8n envía por SMTP a mailpit:1025 y los correos se ven en http://localhost:8025
+  mailpit:
+    image: axllent/mailpit:latest
+    mem_limit: 64m
+    ports:
+      - "127.0.0.1:8025:8025"
+    networks: [interna]

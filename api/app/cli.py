@@ -7,6 +7,7 @@
 
 import argparse
 import getpass
+import re
 import secrets
 import sys
 
@@ -17,16 +18,29 @@ from app.config import get_settings
 from app.db import SessionLocal
 from app.models import Aprobador, Rol, Usuario
 from app.security import hash_contrasena
-from app.servicios import hay_datos, sincronizar_responsables
+from app.servicios import cfg, hay_datos, sincronizar_responsables
 
 SCRIPTS = ("01_esquema.sql", "02_datos_base.sql", "03_mediciones.sql", "04_funciones.sql")
 
 
-def cargar_datos() -> None:
+def _version_en_archivo() -> str | None:
+    cabecera = (get_settings().carpeta_sql / "03_mediciones.sql").read_text(encoding="utf-8")[:400]
+    m = re.search(r"version_parametros=(\S+)", cabecera)
+    return m.group(1) if m else None
+
+
+def cargar_datos(si_cambio: bool = False) -> None:
     """Corre los cuatro scripts de Julian (borran y recrean el esquema addi) y vuelve a reflejar los aprobadores.
-    El esquema acceso (usuarios, aprobadores, auditoría) no se toca."""
+    El esquema acceso (usuarios, aprobadores, auditoría) no se toca.
+    Con si_cambio (lo usa el despliegue) solo carga si la versión de parámetros de los scripts es otra."""
     s = get_settings()
     url = s.database_url.replace("postgresql+psycopg://", "postgresql://")
+    if si_cambio:
+        with SessionLocal() as db:
+            vigente = cfg(db, "version_parametros") if hay_datos(db) else None
+        if vigente and vigente == _version_en_archivo():
+            print(f"Datos al día (parámetros {vigente}): no se recargan.")
+            return
     with psycopg.connect(url, autocommit=False) as cx:
         for nombre in SCRIPTS:
             ruta = s.carpeta_sql / nombre
@@ -108,14 +122,15 @@ def crear_usuarios_demo() -> None:
 def main() -> None:
     p = argparse.ArgumentParser(prog="python -m app.cli")
     sub = p.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("cargar-datos", help="Carga db/01..04 (esquema addi)")
+    c = sub.add_parser("cargar-datos", help="Carga db/01..04 (esquema addi)")
+    c.add_argument("--si-cambio", action="store_true", help="Solo si cambió la versión de parámetros")
     a = sub.add_parser("crear-admin")
     a.add_argument("--nombre", required=True)
     a.add_argument("--correo", required=True)
     sub.add_parser("crear-usuarios-demo", help="Aprobadores por dominio y un lector")
     args = p.parse_args()
     if args.cmd == "cargar-datos":
-        cargar_datos()
+        cargar_datos(si_cambio=args.si_cambio)
     elif args.cmd == "crear-admin":
         crear_admin(args.nombre, args.correo)
     else:
