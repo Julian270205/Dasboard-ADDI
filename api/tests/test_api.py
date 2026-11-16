@@ -19,6 +19,7 @@ from app import cli  # noqa: E402
 from app.db import SessionLocal  # noqa: E402
 from app.main import app  # noqa: E402
 from app.models import Aprobador, Rol, Usuario  # noqa: E402
+from app import security  # noqa: E402
 from app.security import hash_contrasena  # noqa: E402
 
 CLAVE = "clave-segura-123"
@@ -50,6 +51,13 @@ def datos():
         return {"admin": admin.id, "lector": lector.id, "propuesta": pendiente.id if pendiente else None,
                 "dominio": pendiente.dominio if pendiente else None}
 
+
+@pytest.fixture(autouse=True)
+def limite_login_limpio():
+    """Todas las pruebas entran desde la misma IP; el límite de intentos no debe acumularse entre pruebas."""
+    security._intentos.clear()
+    yield
+    security._intentos.clear()
 
 def entrar(correo):
     c = TestClient(app)
