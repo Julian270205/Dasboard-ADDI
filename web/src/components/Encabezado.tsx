@@ -98,7 +98,7 @@ export default function Encabezado({ aviso }: { aviso: (t: { ok: boolean; texto:
           {c.pausado === 'si' && <span className="rounded bg-ambar/10 px-2 py-0.5 text-xs font-semibold text-ambar">Reloj en pausa</span>}
           {esAdmin && (
             <NavLink to="/admin#n8n" className={`no-underline ${estadoN8n.ok ? 'text-tinta-2' : 'font-semibold text-rojo'}`} title="Estado de la automatización (ver Administración)">
-              <span aria-hidden="true">{estadoN8n.ok ? '● ' : '■ '}</span>{estadoN8n.texto}
+              <span aria-hidden="true" className={estadoN8n.ok ? 'text-verde' : 'text-rojo'}>{estadoN8n.ok ? '● ' : '■ '}</span>{estadoN8n.texto}
             </NavLink>
           )}
           <span className="ml-auto flex items-center gap-3" aria-label="Indicadores por estado">
