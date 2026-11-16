@@ -1,0 +1,323 @@
+"""Catálogo maestro: tablas que define el equipo (no se generan).
+
+Origen de cada bloque:
+- OBJETIVOS_BSC e indicadores BSC: BSC IT Addi (BSC Designer) y "Proceso de generación y simulación de datos".
+- INDICADORES 19 a 57: catálogo del mismo documento (secciones D a I).
+- INICIATIVAS y RIESGOS: los reales de la BD del BSC (hojas Plan y Riesgos de BD_Dashboard_TI_Addi.xlsx,
+  extraídas a bsc.json por extraer_bsc.py): 22 acciones y R1 a R11. Reemplazan a los reconstruidos de v1.0.
+  Lo que la BD no trae (objetivo COBIT e indicador de cada acción; categoría, proceso COBIT, dueño y
+  señal de cada riesgo) es una PROPUESTA del equipo marcada "por confirmar" (PLAN_VINCULOS y RIESGOS_VINCULOS).
+"""
+
+import json
+from pathlib import Path
+
+NOMBRES_COBIT = {
+ "EDM01": "Asegurar el marco de gobierno", "EDM02": "Asegurar la entrega de beneficios", "EDM03": "Asegurar la optimización del riesgo",
+ "EDM04": "Asegurar la optimización de recursos", "EDM05": "Asegurar el compromiso de las partes interesadas",
+ "APO01": "Gestionar el marco de gestión de I&T", "APO02": "Gestionar la estrategia", "APO03": "Gestionar la arquitectura empresarial",
+ "APO04": "Gestionar la innovación", "APO05": "Gestionar el portafolio", "APO06": "Gestionar el presupuesto y los costos",
+ "APO07": "Gestionar los recursos humanos", "APO08": "Gestionar las relaciones", "APO09": "Gestionar los acuerdos de servicio",
+ "APO10": "Gestionar los proveedores", "APO11": "Gestionar la calidad", "APO12": "Gestionar el riesgo", "APO13": "Gestionar la seguridad",
+ "APO14": "Gestionar los datos",
+ "BAI01": "Gestionar los programas", "BAI02": "Gestionar la definición de requisitos", "BAI03": "Gestionar la identificación y construcción de soluciones",
+ "BAI04": "Gestionar la disponibilidad y la capacidad", "BAI05": "Gestionar el cambio organizativo", "BAI06": "Gestionar los cambios de TI",
+ "BAI07": "Gestionar la aceptación y transición de los cambios", "BAI08": "Gestionar el conocimiento", "BAI09": "Gestionar los activos",
+ "BAI10": "Gestionar la configuración", "BAI11": "Gestionar los proyectos",
+ "DSS01": "Gestionar las operaciones", "DSS02": "Gestionar las peticiones e incidentes de servicio", "DSS03": "Gestionar los problemas",
+ "DSS04": "Gestionar la continuidad", "DSS05": "Gestionar los servicios de seguridad", "DSS06": "Gestionar los controles de procesos de negocio",
+ "MEA01": "Gestionar el monitoreo del desempeño y la conformidad", "MEA02": "Gestionar el sistema de control interno",
+ "MEA03": "Gestionar el cumplimiento de los requisitos externos", "MEA04": "Gestionar el aseguramiento",
+}
+
+RESPONSABLES = [  # dominio, cubre, aprobador, correo, suplente  (decisión pendiente 1 de la Propuesta COBIT)
+ ("EDM", "Evaluar, dirigir y monitorear", "CTO", "cto@addi.demo", "CEO"),
+ ("APO", "Alinear, planificar y organizar", "Head of Technology Risk (por confirmar)", "apo@addi.demo", "CTO"),
+ ("BAI", "Construir, adquirir e implementar", "CPO (por confirmar)", "bai@addi.demo", "CTO"),
+ ("DSS", "Entregar, dar servicio y soporte", "Head of Ops (por confirmar)", "dss@addi.demo", "CTO"),
+ ("MEA", "Monitorear, evaluar y valorar", "Oficial de cumplimiento (por confirmar)", "mea@addi.demo", "CTO"),
+]
+
+OBJETIVOS_BSC = [  # código, perspectiva, nombre, contribuye_a
+ ("F1", "Financiera", "Reducir las pérdidas evitables por fraude, incidentes de seguridad e incumplimiento regulatorio", None),
+ ("C1", "Cliente", "Garantizar la continuidad probada del servicio", "F1"),
+ ("C2", "Cliente", "Conectar a Addi al ecosistema de finanzas abiertas", None),
+ ("C3", "Cliente", "Integrar aliados sin desarrollo a medida", None),
+ ("PI1", "Procesos internos", "Gobernar la seguridad con respaldo formal y controles efectivos", "C1"),
+ ("PI2", "Procesos internos", "Gobernar los datos y la IA y adecuar la plataforma a compañía de financiamiento", "C2,C3"),
+ ("PI3", "Procesos internos", "Gestionar los proveedores críticos y los servicios de TI con ANS", "C1"),
+ ("AC1", "Aprendizaje y crecimiento", "Sostener las capacidades críticas del equipo", "PI1"),
+ ("AC2", "Aprendizaje y crecimiento", "Fortalecer la cultura de seguridad y control", "PI2"),
+ ("AC3", "Aprendizaje y crecimiento", "Fortalecer la cultura de logro y ejecución", "PI3"),
+]
+
+def I(id, elem, sec, pest, obj, nombre, unidad, sentido, clase, ancla, formula, resp, que_mide, metas, cobit=None,
+      sigma="Ninguno", rango=(None, None), rojo=None, tipo="Lagging", reloj="operativo", fuente="Generador v1.0",
+      impacto=None, decision=None, principal=True, validos=(None, None)):
+    return dict(id=id, elemento=elem, seccion=sec, pestana=pest, objetivo_bsc=obj, nombre=nombre, unidad=unidad, sentido=sentido,
+                clase=clase, ancla=ancla, formula=formula, responsable=resp, que_mide=que_mide, metas=metas, cobit=cobit, sigma=sigma,
+                rango=rango, rojo=rojo, tipo=tipo, reloj=reloj, fuente=fuente, impacto=impacto, decision=decision,
+                principal=principal, validos=validos)
+
+SA = "Sin ancla pública"
+INDICADORES = [
+ # ---------------- D. Datos ----------------
+ I("19", 19, "D", "Datos", None, "Madurez de datos (promedio de áreas)", "nivel 1-5", "Max", 1, "APO14 del diagnóstico de sensibilización (desempeño 2, formal y auditado)",
+   "Promedio de las cuatro áreas. Cada área sube 0,1 por trimestre mientras S-04 está activa", "Head of Data / DPO", "Qué tan ordenado está el manejo de datos por área", 3, "APO14",
+   impacto="Datos poco gobernados debilitan los modelos y los reportes", decision="Priorizar el área con menor madurez en S-04", validos=(1, 5)),
+ I("19a", 19, "D", "Datos", None, "Madurez de datos · Riesgo y crédito", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 3; +0,1 por trimestre con S-04", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
+ I("19b", 19, "D", "Datos", None, "Madurez de datos · Comercios", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 2; +0,1 por trimestre con S-04", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
+ I("19c", 19, "D", "Datos", None, "Madurez de datos · Finanzas y regulatorio", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 3; +0,1 por trimestre con S-04", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
+ I("19d", 19, "D", "Datos", None, "Madurez de datos · Producto y analítica", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Base 2; +0,1 por trimestre con S-04", "Head of Data / DPO", "Madurez de datos del área", 3, principal=False, validos=(1, 5)),
+ I("PI2.2", 20, "D", "Datos", "PI2", "Datos críticos con dueño y reglas de calidad", "%", "Max", 3, SA + ". Línea base 0 % del BSC",
+   "Plano en la base hasta que arranca S-04; luego +1,5 puntos al mes, techo 85 %", "Head of Data / DPO", "Porcentaje de datos críticos que tienen dueño nombrado y reglas de calidad",
+   {2026: 0, 2027: 20, 2028: 40, 2029: 60, 2030: 85}, "APO14", sigma="1,5 puntos", tipo="Leading",
+   impacto="Sin dueño nadie responde por la calidad del dato que alimenta crédito y reportes", decision="Nombrar dueños de los datos críticos pendientes", validos=(0, 100)),
+ I("21", 21, "D", "Datos", None, "Nota de calidad de los datos críticos", "puntos", "Max", 3, SA, "Base 82 + 0,15 por cada punto del indicador PI2.2. Meta 90", "Head of Data / DPO",
+   "Calificación 0 a 100 de la calidad de los datos críticos", 90, "APO14", sigma="2 puntos",
+   impacto="Decisiones de crédito y reportes sobre datos poco confiables", decision="Revisar las reglas de calidad de los conjuntos con peor nota", validos=(0, 100)),
+ I("22", 22, "D", "Datos", None, "Reportes a la SFC que cuadran y se pueden rastrear", "%", "Max", 3, "[I] Vacante de Regulatory Reporting Manager",
+   "Base 96 %; baja 3 puntos en meses de cierre trimestral", "Regulatory Reporting Manager", "Porcentaje de reportes regulatorios conciliados y trazables", 99, "MEA03", sigma="1 punto", rojo=95,
+   impacto="Riesgo de requerimientos o sanciones del supervisor", decision="Reforzar la conciliación antes del próximo cierre trimestral", validos=(0, 100)),
+ # ---------------- E. Seguridad y privacidad ----------------
+ I("23", 23, "E", "Seguridad", None, "Datos sensibles cifrados u ocultos", "%", "Max", 3, "[V] Tratamiento de biometría y datos personales en las autorizaciones públicas",
+   "Plano en 90 % hasta que arranca S-03; luego +0,8 puntos al mes, techo 99 %. Nunca decrece", "CISO", "Porcentaje de datos sensibles cifrados o enmascarados",
+   {2026: 90, 2027: 92, 2028: 96, 2029: 99, 2030: 99}, "DSS05", sigma="0,5 puntos", tipo="Leading",
+   impacto="Una filtración expondría datos sensibles sin cifrar", decision="Priorizar el cifrado de los repositorios pendientes", validos=(0, 100)),
+ I("24a", 24, "E", "Seguridad", None, "Accesos indebidos detectados", "n/mes", "Min", 3, SA, "3 × V^0,3", "CISO", "Eventos de acceso a donde no correspondía", 3, "DSS05", sigma="15 %", rojo=6,
+   impacto="Posible exposición de información o fraude interno", decision="Revisar los permisos de las cuentas involucradas", validos=(0, None)),
+ I("24b", 24, "E", "Seguridad", None, "Cuentas con permisos revisados", "%", "Max", 3, SA, "100 % el mes de revisión trimestral; baja 5 puntos cada mes siguiente", "CISO",
+   "Porcentaje de cuentas cuya revisión de permisos está vigente", 90, "DSS05", rojo=85, tipo="Leading",
+   impacto="Permisos sin revisar acumulan accesos innecesarios", decision="Adelantar la revisión trimestral de permisos", validos=(0, 100)),
+ I("25a", 25, "E", "Seguridad", None, "Solicitudes de titulares recibidas", "n/mes", "Min", 3, SA, "120 × V", "DPO", "Volumen de consultas y reclamos de titulares", 0, principal=False, validos=(0, None)),
+ I("25b", 25, "E", "Seguridad", None, "Solicitudes de titulares respondidas a tiempo", "%", "Max", 3, "Plazos de la Ley 1581 de 2012 (hecho legal); cumplimiento simulado",
+   "97 %; baja 3 puntos en meses de campaña", "DPO", "Porcentaje de consultas y reclamos respondidos dentro del plazo legal", 97, "MEA03", sigma="1 punto", rojo=93,
+   impacto="Incumplir el plazo legal expone a quejas ante la SIC", decision="Reforzar el equipo de atención de titulares en campaña", validos=(0, 100)),
+ I("26", 26, "E", "Seguridad", None, "Quejas ante la SIC", "n/mes", "Min", 3, SA, "1,2 × V^0,5. Multas = 0 en la serie base", "General Counsel", "Quejas de clientes radicadas ante la SIC", 2, "MEA03", sigma="20 %", rojo=4,
+   impacto="Más quejas elevan el riesgo de investigación y multa", decision="Analizar la causa raíz de las quejas del mes", validos=(0, None)),
+ I("F1.3", 26, "E", "Seguridad", "F1", "Periodo sin sanciones regulatorias por causas de TI", "%", "Max", 1, "Línea base del BSC", "100 mientras no haya multa. La multa solo existe como escenario de estrés",
+   "General Counsel", "Porcentaje del periodo sin sanciones por causas de TI", 100, "MEA03", fuente="BSC IT Addi",
+   impacto="Una sanción afecta el resultado y la licencia", decision="Activar el plan de respuesta regulatoria", validos=(0, 100)),
+ I("27a", 27, "E", "Seguridad", None, "Incidentes de seguridad", "n/mes", "Min", 3, "Incidente de marzo de 2026 (hecho público) + resto simulado",
+   "0,7 × V^0,5 × M de seguridad (APO13 y DSS05)", "CISO", "Incidentes de seguridad abiertos en el mes", 1, "DSS05", sigma="20 %", rojo=2,
+   impacto="Cada incidente puede exponer datos y exige aviso a la SFC", decision="Convocar el comité de seguridad y revisar controles", validos=(0, None)),
+ I("27b", 27, "E", "Seguridad", None, "Tiempo de respuesta a incidentes de seguridad", "horas", "Min", 3, SA, "6 h × M de seguridad", "CISO", "Horas entre la detección y la contención", 6, "DSS05", sigma="20 %", rojo=8,
+   impacto="Respuesta lenta amplía el daño y puede incumplir el aviso a la SFC", decision="Probar el procedimiento de respuesta a incidentes", validos=(0, None)),
+ I("F1.2", 27, "E", "Seguridad", "F1", "Incidentes de seguridad con impacto económico", "n (12 meses)", "Min", 2, "Incidente del 25 de marzo de 2026 (hecho verificado por el equipo)",
+   "Conteo de los últimos 12 meses. Solo entra el incidente real, sin cifras inventadas", "CISO", "Incidentes con pérdida económica en los últimos 12 meses", 0, "EDM03", fuente="BSC IT Addi",
+   impacto="Pérdida económica directa y daño reputacional", decision="Cerrar las acciones del análisis posterior al incidente", validos=(0, None)),
+ I("PI1.1", 28, "E", "Seguridad", "PI1", "Certificaciones de seguridad vigentes (ISO 27001, PCI DSS)", "n", "Max", 2, "Real: línea base del BSC (0 certificaciones vigentes)",
+   "0 hasta que la acción S-03 las logra: ISO 27001 a mitad de S-03 y PCI DSS al cierre", "CISO", "Número de certificaciones de seguridad vigentes",
+   {2026: 0, 2027: 0, 2028: 1, 2029: 2, 2030: 2}, "APO13", fuente="BSC IT Addi",
+   impacto="Sin respaldo formal ante el regulador y los aliados", decision="Asegurar recursos de la acción S-03", validos=(0, 2)),
+ # ---------------- F. Inteligencia artificial ----------------
+ I("31", 31, "F", "IA", None, "Acierto del modelo de crédito (AUC)", "AUC", "Max", 3, SA, "Base 0,80; baja 0,003 al mes mientras PSI > 0,10; se reentrena el mes siguiente a PSI > 0,25",
+   "Chief Risk Officer", "Qué tan bien separa el modelo a quien paga de quien no", 0.78, "APO12", sigma="0,005", rojo=0.74,
+   impacto="Un modelo que acierta menos aprueba a quien no va a pagar", decision="Programar el reentrenamiento del modelo de crédito", validos=(0.5, 1)),
+ I("32", 32, "F", "IA", None, "Cambio en los datos del modelo (PSI)", "PSI", "Min", 3, "Umbrales 0,10 y 0,25 de uso común en la industria", "Base 0,06; ×2 en meses de campaña",
+   "Chief Risk Officer", "Cuánto cambió la población que recibe el modelo", 0.10, "APO12", sigma="15 %", rojo=0.25, tipo="Leading",
+   impacto="La mezcla de clientes cambió y el modelo puede degradarse", decision="Vigilar AUC y correcciones; decidir si se reentrena", validos=(0, None)),
+ I("33", 33, "F", "IA", None, "Decisiones del modelo corregidas por analistas", "%", "Rango", 3, SA, "Base 5 %; +1 punto cuando PSI > 0,10. Rango sano 3 a 10 %",
+   "Chief Risk Officer", "Porcentaje de decisiones que un analista cambia", 5, "DSS06", sigma="0,5 puntos", rango=(3, 10),
+   impacto="Muy bajo es revisión de trámite; muy alto es un modelo débil", decision="Auditar una muestra de las revisiones humanas", validos=(0, 100)),
+ I("34", 34, "F", "IA", None, "Razón de aprobación entre grupos de clientes", "razón", "Max", 3, "Regla de los cuatro quintos", "Base 0,92; baja 0,02 cuando PSI > 0,25. Alerta si < 0,80",
+   "Chief Risk Officer", "Aprobación del grupo menos favorecido frente al más favorecido", 0.85, "APO12", sigma="0,01", rojo=0.80,
+   impacto="Posible sesgo o discriminación en la aprobación", decision="Revisar las variables del modelo por segmento", validos=(0, 1)),
+ I("35", 35, "F", "IA", None, "Créditos negados con explicación al cliente", "%", "Max", 3, SA, "Base 92 %; +0,5 puntos al mes mientras S-06 está activa, techo 99 %",
+   "CPO", "Porcentaje de negaciones que llevan explicación", 95, "DSS06", sigma="1 punto", rojo=90, tipo="Leading",
+   impacto="Falta de transparencia con el cliente", decision="Completar la plantilla de explicación en los flujos pendientes", validos=(0, 100)),
+ I("36", 36, "F", "IA", None, "Incidentes de IA", "n/mes", "Min", 3, SA, "0,3 × V. Escenario de estrés «chatbot manipulado» desactivado por defecto",
+   "CISO", "Incidentes atribuibles a modelos de IA", 1, "APO12", sigma="20 %", rojo=2,
+   impacto="Riesgo nuevo de la IA generativa frente a clientes", decision="Revisar las barreras del asistente y su apagado rápido", validos=(0, None)),
+ I("38", 38, "F", "IA", None, "Madurez de IA (promedio)", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "Promedio de transparencia, equidad, robustez y responsabilidad",
+   "Chief Risk Officer", "Qué tan bien se gobierna la IA", {2026: 2.25, 2027: 2.25, 2028: 2.5, 2029: 2.5, 2030: 3}, "APO04", impacto="La IA se usa sin gobierno suficiente", decision="Avanzar la acción S-06", validos=(1, 5)),
+ I("38a", 38, "F", "IA", None, "Madurez de IA · Transparencia", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "2; +1 al cerrar S-06", "Chief Risk Officer", "Dimensión de madurez de IA", 3, principal=False, validos=(1, 5)),
+ I("38b", 38, "F", "IA", None, "Madurez de IA · Equidad", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "2", "Chief Risk Officer", "Dimensión de madurez de IA", 3, principal=False, validos=(1, 5)),
+ I("38c", 38, "F", "IA", None, "Madurez de IA · Robustez", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "3", "Chief Risk Officer", "Dimensión de madurez de IA", 3, principal=False, validos=(1, 5)),
+ I("38d", 38, "F", "IA", None, "Madurez de IA · Responsabilidad", "nivel 1-5", "Max", 1, "Estimación declarada del equipo", "2; +1 al cerrar S-06", "Chief Risk Officer", "Dimensión de madurez de IA", 3, principal=False, validos=(1, 5)),
+ I("PI2.1", None, "J", "IA", "PI2", "Modelos críticos con explicabilidad y supervisión humana", "%", "Max", 1, "Hito del documento: 0 hoy; 2027 inventario y política, 2028 80 %, 2029 100 %",
+   "Interpolación lineal entre los hitos mientras S-06 está activa", "Chief Risk Officer", "Porcentaje de modelos críticos explicables y con supervisión humana",
+   {2026: 0, 2027: 20, 2028: 80, 2029: 100, 2030: 100}, "APO04", sigma="2 puntos", tipo="Leading", reloj="plan", fuente="BSC IT Addi",
+   impacto="Modelos críticos sin explicación ni supervisión", decision="Acelerar el inventario y la política de modelos", validos=(0, 100)),
+ # ---------------- G. Plan de acción ----------------
+ I("39", 39, "G", "Estrategia", None, "Desvío del presupuesto del plan", "%", "Min", 3, "Hoja de ruta del PETI. El presupuesto real no es público",
+   "(gasto real acumulado / gasto planeado acumulado − 1) × 100. Índice, sin pesos", "CFO / CTO", "Cuánto se aparta el gasto del plan", 5, "APO06", sigma="4 %", rojo=10, reloj="plan",
+   impacto="Se gasta más de lo planeado", decision="Revisar el alcance de la acción con mayor desvío", validos=(-50, 100)),
+ I("40", 40, "G", "Estrategia", None, "Avance frente a presupuesto gastado", "razón", "Max", 3, "Hoja de ruta del PETI", "Avance ponderado / gasto real acumulado. Alerta si < 0,85",
+   "CTO", "Si se avanza al ritmo en que se gasta", 1.0, "BAI11", sigma="3 %", rojo=0.85, reloj="plan",
+   impacto="Se gasta mucho y se avanza poco", decision="Replanificar las acciones con razón menor a 0,85", validos=(0, 3)),
+ # ---------------- I. Operación, entrega y costo ----------------
+ I("47", 47, "I", "Operación", None, "Disponibilidad de la plataforma", "%", "Max", 3, SA + ". Meta 99,9 %",
+   "1 − minutos caídos / minutos del mes. Incidentes = 1,5 × V^0,5 × (despliegues relativos)^0,3 × M de operación; duración = 20 min × M de continuidad",
+   "CTO", "Porcentaje del mes en que la plataforma estuvo disponible", 99.9, "DSS01", sigma="20 % en la duración", rojo=99.5,
+   impacto="Comercios y clientes no pueden operar; afecta ingresos", decision="Revisar la capacidad y los cambios del mes con el equipo de plataforma", validos=(90, 100)),
+ I("C1.1", 47, "I", "Operación", "C1", "Minutos de indisponibilidad en servicios críticos", "índice", "Min", 3, SA + ". Índice base 2026 = 100", "Minutos caídos del indicador 47 / promedio mensual de 2026 × 100",
+   "CTO", "Minutos caídos al mes frente al promedio de 2026", {2026: 100, 2027: 100, 2028: 95, 2029: 90, 2030: 85}, "DSS04", fuente="BSC IT Addi",
+   impacto="Más minutos caídos que la línea base", decision="Analizar la causa de los incidentes más largos", validos=(0, None)),
+ I("48", 48, "I", "Operación", None, "Incidentes de operación", "n/mes", "Min", 3, SA, "Los incidentes del indicador 47", "CTO", "Incidentes de operación del mes", 2, "DSS03", rojo=4,
+   impacto="Más interrupciones para comercios y clientes", decision="Abrir un problema por los incidentes repetidos", validos=(0, None)),
+ I("48p1", 48, "I", "Operación", None, "Incidentes P1 (más de 60 min)", "n/mes", "Min", 3, SA, "Gravedad por duración", "CTO", "Incidentes graves", 0, principal=False, validos=(0, None)),
+ I("48p2", 48, "I", "Operación", None, "Incidentes P2 (20 a 60 min)", "n/mes", "Min", 3, SA, "Gravedad por duración", "CTO", "Incidentes medios", 0, principal=False, validos=(0, None)),
+ I("48p3", 48, "I", "Operación", None, "Incidentes P3 (menos de 20 min)", "n/mes", "Min", 3, SA, "Gravedad por duración", "CTO", "Incidentes leves", 0, principal=False, validos=(0, None)),
+ I("49", 49, "I", "Operación", None, "Tiempo de recuperación en la última prueba de continuidad", "horas", "Min", 3, SA, "Una prueba por semestre (marzo y septiembre). 3 h × M de continuidad (DSS04). Cumple si no supera el RTO de 4 h",
+   "CTO / CISO", "Horas que tomó recuperar el servicio en la última prueba", 4, "DSS04", sigma="15 %", rojo=6, tipo="Leading",
+   impacto="El plan de continuidad existe pero no cumple el RTO", decision="Corregir los hallazgos de la prueba y repetirla", validos=(0, None)),
+ I("50", 50, "I", "Operación", None, "Despliegues por semana", "n/semana", "Max", 3, "[I] Ofertas DevOps con CI/CD", "25 en nov-2026, proporcional al equipo; semanas festivas ×0,5",
+   "CTO", "Ritmo de entrega a producción", 20, "BAI07", sigma="10 %", tipo="Leading", impacto="Menor ritmo de entrega", decision="Revisar los bloqueos del flujo de entrega", validos=(0, None)),
+ I("51", 51, "I", "Operación", None, "Cambios fallidos", "%", "Min", 3, "Métricas DORA como referencia", "4 % × M de cambios (BAI06) × (1 + 0,5 × exceso de despliegues)", "CTO",
+   "Porcentaje de cambios a producción que fallan", 5, "BAI06", sigma="0,5 puntos", rojo=7, impacto="Más fallos en producción", decision="Reforzar las pruebas previas al despliegue", validos=(0, 100)),
+ I("52", 52, "I", "Operación", None, "Tiempo de la idea a producción", "días", "Min", 3, SA, "Mediana 3 días × M de cambios × (1 + carga sobre el promedio)", "CTO",
+   "Días entre el inicio del desarrollo y la salida a producción", 5, "BAI06", sigma="15 %", rojo=7, impacto="Se entrega más lento de lo comprometido", decision="Priorizar la cola de cambios", validos=(0, None)),
+ I("53", 53, "I", "Operación", None, "Desvío del costo de nube y TI frente al presupuesto", "%", "Min", 3, SA, "(costo real / presupuesto − 1) × 100. Costo = 60 % fijo + 40 % variable × V; campaña +10 %",
+   "CFO / CTO", "Cuánto se aparta el costo de TI del presupuesto del mes", 5, "APO06", sigma="4 %", rojo=10, impacto="El costo de TI supera el presupuesto", decision="Revisar el consumo de nube del mes", validos=(-60, 100)),
+ I("53r", 53, "I", "Operación", None, "Costo de nube y TI", "índice", "Min", 3, SA + ". Índice 100 = promedio de 2026", "60 % fijo + 40 % variable × V", "CFO / CTO", "Costo mensual de TI", 0, principal=False, validos=(0, None)),
+ I("53p", 53, "I", "Operación", None, "Presupuesto de nube y TI", "índice", "Min", 3, SA, "Plan anual (S3)", "CFO / CTO", "Presupuesto mensual de TI", 0, principal=False, validos=(0, None)),
+ I("54", 54, "I", "Operación", None, "Costo de TI por crédito desembolsado", "índice", "Min", 3, SA + ". Índice 100 = promedio de 2026", "Costo de TI (53) / créditos (V)", "CFO / CTO",
+   "Costo de TI por cada crédito", 100, "APO06", impacto="Cada crédito cuesta más en TI", decision="Revisar la parte fija del costo", validos=(0, None)),
+ I("55a", 55, "I", "Operación", None, "Conversión de créditos", "%", "Max", 3, SA + ". Niveles ilustrativos", "62 %; +3 puntos en meses de campaña", "CPO", "Solicitudes que terminan en crédito", 60, "EDM02",
+   sigma="1,5 puntos", impacto="Menos solicitudes terminan en crédito", decision="Revisar el flujo de originación", validos=(0, 100)),
+ I("55b", 55, "I", "Operación", None, "Aprobación de créditos", "%", "Max", 3, SA + ". Niveles ilustrativos", "Base 50 %", "Chief Risk Officer", "Solicitudes aprobadas", 0, principal=False, validos=(0, 100)),
+ I("AC1.2", 56, "I", "Operación", "AC1", "Vacantes de roles críticos abiertas", "n", "Min", 2, "Real: 3 vacantes de roles críticos abiertas al 27-oct-2026 (línea base del BSC)",
+   "Salidas de los últimos 2 meses (rotación de 1 % mensual) + crecimiento de la plantilla", "Head of People / CTO", "Vacantes abiertas en roles críticos de TI", 2, "APO07", fuente="BSC IT Addi",
+   impacto="Roles críticos sin cubrir frenan el plan", decision="Priorizar la contratación de los roles críticos", validos=(0, None)),
+ I("56p", 56, "I", "Operación", None, "Plantilla de TI", "personas", "Max", 3, "[I] Vacantes públicas. 100 personas en nov-2026 (S4)", "Crece la mitad que el volumen", "Head of People", "Personas en TI", 0, principal=False, validos=(0, None)),
+ I("57", 57, "I", "Operación", None, "Capacitación cumplida", "%", "Max", 3, SA, "Base 80 %; plano: el plan real no tiene una acción de capacitación con fechas", "Head of People", "Porcentaje del plan de capacitación cumplido", 85, "APO07",
+   sigma="1 punto", tipo="Leading", impacto="El equipo no completa su formación", decision="Reprogramar las capacitaciones pendientes", validos=(0, 100)),
+ # ---------------- J. Indicadores del BSC sin equivalente ----------------
+ I("C2.1", None, "J", "Estrategia", "C2", "Casos de uso de finanzas abiertas habilitados en producción", "n", "Max", 2, "Real: 0 hoy (BSC; Decreto 1297 de 2022)",
+   "Acumulado: +1 caso cada 3 meses mientras M-06 está activa, hasta la meta 2030", "CPO", "Casos de uso de finanzas abiertas en producción",
+   {2026: 0, 2027: 1, 2028: 2, 2029: 3, 2030: 4}, "BAI03", reloj="plan", fuente="BSC IT Addi", impacto="Addi queda fuera de los esquemas de finanzas abiertas", decision="Desbloquear la acción M-06", validos=(0, None)),
+ I("C3.1", None, "J", "Estrategia", "C3", "Tiempo medio de integración de un aliado nuevo", "índice", "Min", 3, SA + ". Índice base 2026 = 100",
+   "100 hasta que arranca O-01; luego baja lineal hasta la meta 2030 durante O-01 a O-03, × (carga)^0,2", "CPO", "Tiempo de integración de un aliado frente a 2026",
+   {2026: 100, 2027: 96, 2028: 92, 2029: 88, 2030: 85}, "BAI03", sigma="5 %", reloj="plan", fuente="BSC IT Addi", impacto="Integrar aliados sigue siendo lento", decision="Revisar el avance de O-01 a O-03", validos=(0, None)),
+ I("PI1.2", None, "J", "Seguridad", "PI1", "Hallazgos críticos cerrados en 90 días o menos", "%", "Max", 3, "Sin línea base en el BSC (rampa ilustrativa)",
+   "Base 50 % (supuesto); +1,5 puntos al mes mientras S-02 y S-03 están activas, techo 100 %", "CISO", "Porcentaje de hallazgos críticos de seguridad cerrados a tiempo",
+   {2026: 50, 2027: 65, 2028: 80, 2029: 90, 2030: 95}, "APO13", sigma="3 puntos", tipo="Leading", reloj="plan", fuente="BSC IT Addi",
+   impacto="Hallazgos críticos abiertos por más de 90 días", decision="Asignar dueños a los hallazgos vencidos", validos=(0, 100)),
+ I("PI3.1", None, "J", "Operación", "PI3", "Indisponibilidad causada por proveedores", "índice", "Min", 3, SA + ". Índice base 2026 = 100",
+   "30 % de los minutos caídos del indicador 47 (supuesto), 20 % desde que S-08 está activa", "CTO", "Minutos caídos atribuibles a proveedores frente a 2026",
+   {2026: 100, 2027: 99, 2028: 98, 2029: 96, 2030: 95}, "APO10", reloj="plan", fuente="BSC IT Addi", impacto="Los proveedores causan más caídas", decision="Exigir el plan de mejora al proveedor", validos=(0, None)),
+ I("PI3.2", None, "J", "Operación", "PI3", "Proveedores críticos con ANS y plan de salida", "%", "Max", 1, "Hito del documento (OB-7): 2027 matriz, 2028 80 %, 2029 100 %",
+   "Interpolación lineal entre los hitos mientras S-08 y M-07 están activas", "CTO / General Counsel", "Porcentaje de proveedores críticos con ANS y plan de salida",
+   {2026: 0, 2027: 20, 2028: 80, 2029: 100, 2030: 100}, "APO10", sigma="2 puntos", tipo="Leading", reloj="plan", fuente="BSC IT Addi",
+   impacto="Proveedores críticos sin ANS ni plan de salida", decision="Cerrar los contratos pendientes de ANS", validos=(0, 100)),
+ I("AC1.1", None, "J", "Operación", "AC1", "Roles críticos con respaldo técnico designado", "%", "Max", 3, "Sin línea base (reformulación del equipo)",
+   "Plano en 20 % (supuesto) hasta que arranca N-01; luego +2 puntos al mes, techo 100 %", "Head of People / CTO", "Porcentaje de roles críticos con un respaldo nombrado",
+   {2026: 20, 2027: 40, 2028: 65, 2029: 85, 2030: 100}, "BAI08", sigma="2 puntos", tipo="Leading", reloj="plan", fuente="BSC IT Addi",
+   impacto="El conocimiento depende de personas clave", decision="Nombrar respaldos de los roles pendientes", validos=(0, 100)),
+ I("AC2.1", None, "J", "Seguridad", "AC2", "Resultado de simulacros de phishing (no hacen clic)", "%", "Max", 2, "Estimado: 66,9 % (KnowBe4 2025, 33,1 % de clics). Referencia sectorial, no dato de Addi",
+   "Un simulacro por semestre (junio y diciembre). Mejora en cada simulacro hacia la meta 2030", "CISO", "Porcentaje de personas que no caen en el simulacro",
+   {2026: 66.9, 2027: 75, 2028: 82, 2029: 89, 2030: 95}, "APO13", sigma="2 puntos", reloj="plan", fuente="BSC IT Addi",
+   impacto="El equipo es vulnerable a ingeniería social", decision="Reforzar la capacitación de seguridad", validos=(0, 100)),
+ I("AC3.2", None, "J", "Estrategia", "AC3", "Claridad de prioridades y autonomía del equipo", "1 a 5", "Max", 2, "Estimado: 3,8 (Glassdoor, 5 reseñas)",
+   "Encuesta semestral (N-03). +0,1 por encuesta mientras N-03 está activa, techo 4,5", "Head of People", "Resultado de la encuesta semestral al equipo de TI",
+   {2026: 3.8, 2027: 3.9, 2028: 4.0, 2029: 4.1, 2030: 4.2}, "APO01", sigma="0,03", reloj="plan", fuente="BSC IT Addi",
+   impacto="El equipo no tiene claras sus prioridades", decision="Revisar la cascada de objetivos con los líderes", validos=(1, 5)),
+]
+
+# ---------------- Plan y riesgos reales de la BD del BSC ----------------
+BSC = json.loads((Path(__file__).parent / "bsc.json").read_text(encoding="utf-8"))
+POR_CONFIRMAR = "BD del BSC · vínculo COBIT por confirmar"
+
+# Acción -> (objetivo COBIT, indicador que mueve). La BD no los trae: propuesta del equipo, por confirmar.
+PLAN_VINCULOS = {
+    "S-01": ("DSS04", "49"), "S-02": ("DSS05", "PI1.2"), "S-03": ("APO13", "PI1.1"), "S-04": ("APO14", "PI2.2"),
+    "S-05": ("APO14", "22"), "S-06": ("APO04", "PI2.1"), "S-07": ("DSS05", "36"), "S-08": ("APO10", "PI3.1"),
+    "M-01": ("BAI09", None), "M-02": ("BAI02", None), "M-03": ("BAI03", None), "M-04": ("BAI06", "51"),
+    "M-05": ("APO03", "C3.1"), "M-06": ("BAI03", "C2.1"), "M-07": ("APO09", "PI3.2"), "D-01": ("DSS06", "24b"),
+    "O-01": ("BAI03", "C3.1"), "O-02": ("BAI02", "C3.1"), "O-03": ("BAI07", "C3.1"), "O-04": ("BAI04", "47"),
+    "N-01": ("BAI08", "AC1.1"), "N-03": ("APO07", "AC3.2"),
+}
+
+# Riesgo -> (categoría de apetito S6, proceso COBIT que lo mitiga, dueño, indicador de señal). Por confirmar.
+RIESGOS_VINCULOS = {
+    "R1": ("Cumplimiento", "MEA03", "Oficial de Cumplimiento", "22"),
+    "R2": ("Seguridad y datos", "DSS05", "CISO", "27a"),
+    "R3": ("Cumplimiento", "APO14", "Head of Data / DPO", "25b"),
+    "R4": ("Operación", "DSS04", "CTO", "49"),
+    "R5": ("Operación", "BAI03", "CTO", "51"),
+    "R6": ("Innovación", "APO03", "CPO", "C3.1"),
+    "R7": ("Seguridad y datos", "APO13", "CISO", "PI1.2"),
+    "R8": ("Operación", "APO10", "CTO", "PI3.1"),
+    "R9": ("Operación", "APO07", "Head of People / CTO", "AC1.2"),
+    "R10": ("Seguridad y datos", "APO07", "CISO", "AC2.1"),
+    "R11": ("Operación", "APO02", "CTO", "AC3.2"),
+}
+
+
+def _fecha(anio, semestre, fin):
+    """Semestre 1 = enero a junio, semestre 2 = julio a diciembre. Sin año -> sin fecha (la BD no la trae)."""
+    if not anio:
+        return None
+    if fin:
+        return f"{anio}-{'06' if semestre == 1 else '12'}"
+    return f"{anio}-{'01' if (semestre or 1) == 1 else '07'}"
+
+
+def _meses(a):
+    ini, fin = _fecha(a["inicio_anio"], a["inicio_semestre"], False), _fecha(a["fin_anio"], a["fin_semestre"], True)
+    if not ini:
+        return 0
+    (y1, m1), (y2, m2) = map(int, ini.split("-")), map(int, fin.split("-"))
+    return (y2 - y1) * 12 + m2 - m1 + 1
+
+
+# Peso en el presupuesto (índice que suma 100), proporcional a la duración. El peso real es un pendiente del equipo.
+_TOTAL = sum(_meses(a) for a in BSC["plan"])
+INICIATIVAS = [  # código, acción, ruta, obj BSC, obj COBIT, responsable, inicio, fin, indicador, peso, origen, estado BSC
+    (a["codigo"], a["accion"], a["ruta"], a["objetivo_bsc"], PLAN_VINCULOS[a["codigo"]][0], a["responsable"],
+     _fecha(a["inicio_anio"], a["inicio_semestre"], False), _fecha(a["fin_anio"], a["fin_semestre"], True),
+     PLAN_VINCULOS[a["codigo"]][1], round(100 * _meses(a) / _TOTAL, 2), POR_CONFIRMAR, a["estado"])
+    for a in BSC["plan"]
+]
+
+RIESGOS = [  # id, riesgo, categoría, obj BSC, P, I, proceso COBIT, dueño, señal, mitigación, acciones, estado, origen
+    (r["riesgo_id"], r["riesgo"], RIESGOS_VINCULOS[r["riesgo_id"]][0], r["objetivo_bsc"], r["probabilidad"], r["impacto"],
+     RIESGOS_VINCULOS[r["riesgo_id"]][1], RIESGOS_VINCULOS[r["riesgo_id"]][2], RIESGOS_VINCULOS[r["riesgo_id"]][3],
+     r["mitigacion"], r["acciones_relacionadas"], r["estado"], f"BD del BSC ({r['origen']}) · vínculo COBIT por confirmar")
+    for r in BSC["riesgos"]
+]
+
+# Metas 2027 a 2030 de los 15 indicadores del BSC: las reales de la hoja Series (supuesto S2).
+METAS_BSC = {(m["indicador_id"], m["anio"]): (m["meta"], m["origen"]) for m in BSC["metas"]}
+
+APETITO = [("Seguridad y datos", "Bajo", 2), ("Cumplimiento", "Bajo", 2), ("Operación", "Bajo a medio", 3), ("Innovación", "Medio", 4)]
+
+MODELOS_IA = [  # id, nombre, riesgo, dueño, estado, próxima revisión, apagado rápido, usos no permitidos, ancla
+ ("scoring", "Scoring de crédito", "Alto", "Chief Risk Officer", "En producción", "2027-03-01", True,
+  "Usar variables protegidas (sexo, etnia, religión) · Negar sin explicación · Decidir montos fuera de política sin analista", "[I] IA en la decisión de crédito (prensa)"),
+ ("antifraude", "Antifraude y biometría", "Alto", "Head of Fraud", "En producción", "2027-01-15", True,
+  "Usar la biometría para fines distintos a verificar identidad · Compartir plantillas biométricas con terceros", "[V] Autorización de tratamiento de datos y biometría"),
+ ("llm", "Asistente LLM de atención", "Medio", "Head of Customer Experience", "Piloto", "2026-12-15", True,
+  "Aprobar o negar créditos · Cambiar condiciones de pago · Entregar datos personales sin verificación", "Supuesto del equipo"),
+]
+
+SUPUESTOS = [
+ ("S1", "Fecha de corte. Dos relojes: operativo y del plan", "Operativo: 2026-11 · Plan: 2028-06"),
+ ("S2", "Metas por año 2027 a 2030", "BSC: metas reales de la BD del BSC; indicadores nuevos: meta del catálogo"),
+ ("S3", "Base de presupuesto y costos", "Índice 100, sin pesos"),
+ ("S4", "Plantilla base de TI", "100 personas en nov-2026"),
+ ("S5", "Nivel objetivo de madurez", "Entero por objetivo: importancia 4 o 5 → 3; importancia 3 → 2; nunca menor al actual"),
+ ("S6", "Apetito de riesgo por categoría", "Seguridad y datos bajo, cumplimiento bajo, operación bajo a medio, innovación medio"),
+ ("S7", "Estado de certificaciones", "0 vigentes (línea base real del BSC)"),
+ ("S8", "Escenarios de estrés", "Disponibles, desactivados por defecto y etiquetados"),
+ ("S9", "RTO objetivo", "4 horas"),
+ ("S10", "Curva de volumen V(t)", "+9 % mensual 2024, +6 % 2025, +2 % 2026, +1,5 % 2027, +1 % 2028-2030; nov ×1,4, dic ×1,25; promedio 2026 = 1"),
+ ("S11", "Calendario de eventos", "Campaña en noviembre; cierres SFC mar, jun, sep, dic; festivos dic, ene, abr; incidente 25-mar-2026"),
+ ("S12", "Elasticidades, factor de madurez y ruido", "Elasticidad 0,5 en conteos; M = 1,6 − 0,3 × nivel promedio de los procesos; ruido 1 a 20 %"),
+]
+
+DIAG_BSC = {  # diagnóstico situacional de los cuatro elementos (0 a 10)
+ (1, "Enfoque estratégico"): [("Segmentos objetivo de clientes claros", 8), ("Necesidades de clientes y mercado por segmento", 8), ("Ventajas y desventajas competitivas conocidas", 7),
+    ("Monitoreo periódico de competidores", 5), ("Necesidades de los empleados conocidas", 5), ("Expectativas de los accionistas comprendidas", 7),
+    ("Herramientas para detectar tendencias del sector", 6), ("Retos estratégicos identificados", 9), ("Propuesta de valor diferenciada identificada", 9), ("Modelo de negocio graficado y comunicado", 7)],
+ (2, "Traslado hacia el BSC"): [("Información del desempeño de los procesos", 5), ("Datos del desempeño de proveedores y socios", 3), ("Análisis comparativo (benchmarking)", 2),
+    ("DOFA a partir del desempeño de procesos y proveedores", 4), ("Visión, misión y valores documentados", 9), ("Retos, propuesta de valor y modelo trasladados al mapa estratégico", 4),
+    ("Indicadores por objetivo con definición operativa", 8), ("Metas de corto y largo plazo por indicador", 9), ("Iniciativas y proyectos para lograr las metas", 8), ("Cronogramas con fechas, recursos y responsables", 5)],
+ (3, "Sincronización y despliegue"): [("Cadena de valor documentada", 8), ("Relaciones cliente-proveedor de los procesos", 3), ("KPIs de los procesos clave", 0),
+    ("Objetivos, metas, KPIs e iniciativas por proceso", 4), ("Procesos priorizados con la organización", 7), ("Procesos sincronizados entre sí", 6),
+    ("Sincronización con proveedores y socios", 3), ("Presupuestos ligados a objetivos e iniciativas", 0), ("Cascada de objetivos a mandos medios", 2), ("Trabajo diario alineado con los objetivos", 1)],
+ (4, "Cultura de ejecución"): [("Calendario de mediciones de los indicadores", 2), ("Sistema de evaluación y refinamiento de metas", 2), ("Sistemas de información que proveen los datos", 5),
+    ("Evaluación de metas personales", 3), ("Acciones correctivas cuando no se cumple", 5), ("Seguimiento y retroalimentación de jefes", 3),
+    ("Competencias y conocimientos definidos por puesto", 4), ("Procesos de talento conectados con los objetivos", 5), ("Desempeño y compensación ligados al BSC", 2), ("Líderes comunican y refuerzan la estrategia", 6)],
+}

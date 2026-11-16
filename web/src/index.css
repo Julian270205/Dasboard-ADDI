@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/*
+  Sistema visual del tablero: claro y sobrio
+  - Encabezado blanco con una línea gris; el azul medio (#2e5bda) marca lo que se puede tocar y la pestaña activa.
+  - Lienzo gris muy claro y tarjetas blancas: el contenido respira y los semáforos son lo único saturado.
+  - Semáforo reservado para estado (verde, ámbar, rojo, gris), siempre con forma: ● ▲ ■ ○.
+  - IBM Plex Sans para texto; Plex Sans Condensed para cifras grandes y la barra.
+*/
+@theme {
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-cifra: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif;
+
+  --color-tinta: #102033;
+  --color-tinta-2: #4a5a6e;
+  --color-tinta-3: #7a8798;
+  --color-lienzo: #f2f4f7;
+  --color-papel: #ffffff;
+  --color-linea: #dde3ea;
+  --color-linea-2: #eef1f5;
+  --color-acento: #2e5bda;
+  --color-acento-suave: #e8eefc;
+
+  --color-verde: #1e7d4f;
+  --color-ambar: #b7791f;
+  --color-rojo: #c23b2e;
+  --color-gris: #8a94a3;
+
+  /* Niveles de capacidad COBIT 0 a 5: una sola tinta, de claro a oscuro (secuencial) */
+  --color-n0: #eef2f8;
+  --color-n1: #d6e0f2;
+  --color-n2: #a9bfe6;
+  --color-n3: #4a70c8;
+  --color-n4: #2d52ad;
+  --color-n5: #1b3a87;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--color-lienzo);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  font-feature-settings: "tnum" 0;
+}
+.cifra { font-family: var(--font-cifra); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+:focus-visible { outline: 2px solid var(--color-acento); outline-offset: 2px; border-radius: 4px; }
+
+/* Panel lateral: única animación del tablero, responde a la acción de abrir un indicador */
+@keyframes entrar-panel { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.panel-entra { animation: entrar-panel 180ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .panel-entra { animation: none; } }
+
+/* Sin nivel evaluado: rayado, para que no dependa del color */
+.sin-nivel { background: repeating-linear-gradient(45deg, #f4f6f9 0 5px, #ffffff 5px 10px); }

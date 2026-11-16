@@ -1,0 +1,11 @@
+[tool.ruff]
+line-length = 140
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "B"]
+ignore = ["B008"]  # Depends() en argumentos por defecto es el patrón de FastAPI
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["db: requiere PostgreSQL (corre en CI con un servicio postgres)"]
