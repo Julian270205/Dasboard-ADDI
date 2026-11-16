@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 /*
-  Sistema visual del tablero
-  - Tinta (#102033) solo en la barra superior y el texto: es el "cuarto de control" donde vive el estado.
-  - Lienzo frío y tarjetas blancas: el contenido respira y los semáforos son lo único saturado.
+  Sistema visual del tablero: claro y sobrio
+  - Encabezado blanco con una línea gris; el azul medio (#2e5bda) marca lo que se puede tocar y la pestaña activa.
+  - Lienzo gris muy claro y tarjetas blancas: el contenido respira y los semáforos son lo único saturado.
   - Semáforo reservado para estado (verde, ámbar, rojo, gris), siempre con forma: ● ▲ ■ ○.
   - IBM Plex Sans para texto; Plex Sans Condensed para cifras grandes y la barra.
 */

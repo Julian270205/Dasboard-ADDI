@@ -49,7 +49,7 @@ function Cuenta() {
           <label className="flex flex-col gap-1.5 text-[13px] font-medium">Contraseña nueva<input type="password" required minLength={10} autoComplete="new-password" value={nueva} onChange={(e) => setNueva(e.target.value)} className={campo} /></label>
           {cambiar.isSuccess && <Aviso tipo="ok">Contraseña cambiada.</Aviso>}
           {cambiar.isError && <Aviso tipo="error">{cambiar.error instanceof ApiError ? cambiar.error.message : 'No se pudo cambiar.'}</Aviso>}
-          <button type="submit" disabled={cambiar.isPending} className="min-h-11 rounded-lg bg-tinta font-semibold text-white disabled:opacity-60">Cambiar contraseña</button>
+          <button type="submit" disabled={cambiar.isPending} className="min-h-11 rounded-lg bg-acento font-semibold text-white disabled:opacity-60">Cambiar contraseña</button>
         </form>
       </Tarjeta>
     </Seccion>

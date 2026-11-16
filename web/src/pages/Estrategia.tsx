@@ -30,7 +30,9 @@ function Mapa() {
       <div className="flex flex-col gap-3">
         {PERSPECTIVAS.filter((p) => !filtros.perspectiva || p === filtros.perspectiva).map((p, k) => (
           <div key={p} className="grid grid-cols-1 gap-3 md:grid-cols-[170px_1fr]">
-            <div className="flex items-center rounded-xl px-4 py-3 text-[14px] font-semibold text-white" style={{ background: ['#102033', '#1d3a5f', '#2b5486', '#3c6fae'][k] }}>{p}</div>
+            <div className="flex items-center gap-3 rounded-xl border border-linea bg-papel px-4 py-3 text-[14px] font-semibold">
+              <span className="cifra flex size-6 shrink-0 items-center justify-center rounded-full bg-acento-suave text-xs text-acento">{k + 1}</span>{p}
+            </div>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3">
               {D.objetivos_bsc.filter((o) => o.perspectiva === p).map((o) => {
                 const inds = D.indicadores.filter((i) => i.objetivo_bsc === o.codigo)

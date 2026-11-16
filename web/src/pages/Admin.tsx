@@ -131,7 +131,7 @@ function Usuarios({ avisar }: { avisar: Avisar }) {
           <select aria-label="Rol" value={nuevo.rol} onChange={(e) => setNuevo({ ...nuevo, rol: e.target.value })} className={campo}>
             <option value="lector">Lector</option><option value="aprobador">Aprobador</option><option value="admin">Administrador</option>
           </select>
-          <button type="submit" disabled={crear.isPending} className="min-h-10 rounded-lg bg-tinta px-4 text-[13.5px] font-semibold text-white disabled:opacity-60">Crear usuario</button>
+          <button type="submit" disabled={crear.isPending} className="min-h-10 rounded-lg bg-acento px-4 text-[13.5px] font-semibold text-white disabled:opacity-60">Crear usuario</button>
         </form>
         <Tabla columnas={['Nombre', 'Correo', 'Roles', 'Último acceso', '']} minimo={760}>
           {q.data?.map((u) => (

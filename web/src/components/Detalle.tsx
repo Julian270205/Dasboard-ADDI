@@ -60,7 +60,7 @@ export default function Detalle() {
             <span className="mr-1 text-xs text-tinta-2">Comparar contra:</span>
             {[null, ...anios].map((a) => (
               <button key={a ?? 'corte'} type="button" aria-pressed={anio === a} onClick={() => setAnio(a)}
-                className={`min-h-8 rounded-md border px-2.5 text-xs ${anio === a ? 'border-tinta bg-tinta text-white' : 'border-linea bg-papel hover:border-tinta-3'}`}>
+                className={`min-h-8 rounded-md border px-2.5 text-xs ${anio === a ? 'border-acento bg-acento text-white' : 'border-linea bg-papel hover:border-tinta-3'}`}>
                 {a ?? 'Corte'}
               </button>
             ))}
