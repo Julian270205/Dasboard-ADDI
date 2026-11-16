@@ -1,0 +1,1135 @@
+{
+  "fuente": "BD_Dashboard_TI_Addi.xlsx",
+  "indicadores": [
+    {
+      "indicador_id": "F1.2",
+      "codigo_bsc": "F1.2",
+      "elemento": 27,
+      "seccion": "bsc",
+      "perspectiva": "Financiera",
+      "objetivo_bsc": "F1 · Reducir las pérdidas evitables por fraude, incidentes e incumplimiento regulatorio",
+      "nombre": "Incidentes de seguridad con impacto económico",
+      "unidad": "#",
+      "sentido": "min",
+      "formula": "Conteo de incidentes de seguridad con impacto económico en el año",
+      "rol_responsable": "Bank Fraud Operations Lead (propuesto)",
+      "fuente": "HIBP; Descubre (incidente del 25 mar 2026)",
+      "clase": 2,
+      "tipo_linea_base": "Real",
+      "linea_base": 1.0
+    },
+    {
+      "indicador_id": "F1.3",
+      "codigo_bsc": "F1.3",
+      "elemento": 26,
+      "seccion": "bsc",
+      "perspectiva": "Financiera",
+      "objetivo_bsc": "F1 · Reducir las pérdidas evitables por fraude, incidentes e incumplimiento regulatorio",
+      "nombre": "Periodo sin sanciones regulatorias por causas de TI",
+      "unidad": "%",
+      "sentido": "max",
+      "formula": "No se trató",
+      "rol_responsable": "Oficial de Cumplimiento (propuesto)",
+      "fuente": "Coink Res. 1505/2025 (COP 140 M); Bancolombia (COP 500 M, oct 2025), como referencia de pares",
+      "clase": 2,
+      "tipo_linea_base": "Estimado",
+      "linea_base": 100.0
+    },
+    {
+      "indicador_id": "C1.1",
+      "codigo_bsc": "C1.1",
+      "elemento": 47,
+      "seccion": "bsc",
+      "perspectiva": "Cliente",
+      "objetivo_bsc": "C1 · Garantizar la continuidad probada del servicio",
+      "nombre": "Minutos de indisponibilidad al mes en servicios críticos",
+      "unidad": "Índice (base 2026 = 100)",
+      "sentido": "min",
+      "formula": "(Minutos caídos en el mes ÷ minutos caídos promedio mensual de 2026) × 100",
+      "rol_responsable": "Engineering Platform Manager (propuesto)",
+      "fuente": "Addi no publica su disponibilidad; referencia SLA banca digital 99,9 %",
+      "clase": 3,
+      "tipo_linea_base": "Por levantar",
+      "linea_base": 100.0
+    },
+    {
+      "indicador_id": "C2.1",
+      "codigo_bsc": "C2.1",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Cliente",
+      "objetivo_bsc": "C2 · Conectar a Addi al ecosistema de finanzas abiertas",
+      "nombre": "Casos de uso de finanzas abiertas habilitados en producción",
+      "unidad": "#",
+      "sentido": "max",
+      "formula": "Conteo acumulado de casos de uso interoperables activos en producción sobre la pasarela central de APIs",
+      "rol_responsable": "Engineering Manager Platform/Core (propuesto)",
+      "fuente": "DOFA D4 (0 casos hoy); Decreto 1297 de 2022",
+      "clase": 2,
+      "tipo_linea_base": "Real",
+      "linea_base": 0.0
+    },
+    {
+      "indicador_id": "C3.1",
+      "codigo_bsc": "C3.1",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Cliente",
+      "objetivo_bsc": "C3 · Integrar aliados sin desarrollo a medida",
+      "nombre": "Tiempo medio de integración de un aliado nuevo",
+      "unidad": "Índice (base 2026 = 100)",
+      "sentido": "min",
+      "formula": "(Promedio de días desde la habilitación en el portal hasta la primera transacción en producción ÷ promedio de la línea base 2026) × 100",
+      "rol_responsable": "Engineering Manager Platform/Core (propuesto)",
+      "fuente": "DOFA F3 y D4; documentación de Shopify, VTEX y WooCommerce",
+      "clase": 3,
+      "tipo_linea_base": "Por levantar",
+      "linea_base": 100.0
+    },
+    {
+      "indicador_id": "PI1.1",
+      "codigo_bsc": "PI1.1",
+      "elemento": 28,
+      "seccion": "bsc",
+      "perspectiva": "Procesos internos",
+      "objetivo_bsc": "PI1 · Gobernar la seguridad con respaldo formal y controles efectivos",
+      "nombre": "Certificaciones de seguridad vigentes",
+      "unidad": "#",
+      "sentido": "max",
+      "formula": "Conteo de certificaciones vigentes y verificables (ISO/IEC 27001, PCI DSS, SOC 2)",
+      "rol_responsable": "InfoSec Lead (propuesto)",
+      "fuente": "Política de Tratamiento de Datos de Addi (25 oct 2026); meta OB-2: ISO 27001 en 2028",
+      "clase": 2,
+      "tipo_linea_base": "Real",
+      "linea_base": 0.0
+    },
+    {
+      "indicador_id": "PI1.2",
+      "codigo_bsc": "PI1.2",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Procesos internos",
+      "objetivo_bsc": "PI1 · Gobernar la seguridad con respaldo formal y controles efectivos",
+      "nombre": "Hallazgos críticos cerrados en ≤ 90 días",
+      "unidad": "%",
+      "sentido": "max",
+      "formula": "(Hallazgos críticos cerrados en ≤ 90 días ÷ hallazgos críticos identificados en el periodo) × 100",
+      "rol_responsable": "InfoSec Lead (propuesto)",
+      "fuente": "Meta OB-2: 0 hallazgos críticos abiertos al T4 de 2028",
+      "clase": 3,
+      "tipo_linea_base": "Por levantar",
+      "linea_base": null
+    },
+    {
+      "indicador_id": "PI2.1",
+      "codigo_bsc": "PI2.1",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Procesos internos",
+      "objetivo_bsc": "PI2 · Gobernar los datos y la IA y adecuar la plataforma a compañía de financiamiento",
+      "nombre": "Modelos críticos con explicabilidad y supervisión humana",
+      "unidad": "%",
+      "sentido": "max",
+      "formula": "(Modelos críticos con ficha de explicabilidad y supervisión humana documentada ÷ total de modelos críticos inventariados) × 100",
+      "rol_responsable": "Head of Data y CTO (propuesto)",
+      "fuente": "Hitos OB-3: 2027 inventario y política; 2028 80 %; 2029 100 %",
+      "clase": 1,
+      "tipo_linea_base": "Hito del documento",
+      "linea_base": 0.0
+    },
+    {
+      "indicador_id": "PI2.2",
+      "codigo_bsc": "PI2.2",
+      "elemento": 20,
+      "seccion": "bsc",
+      "perspectiva": "Procesos internos",
+      "objetivo_bsc": "PI2 · Gobernar los datos y la IA y adecuar la plataforma a compañía de financiamiento",
+      "nombre": "Datos críticos con dueño y reglas de calidad",
+      "unidad": "%",
+      "sentido": "max",
+      "formula": "(Datos críticos con responsable asignado y reglas de calidad ÷ total de datos críticos inventariados) × 100",
+      "rol_responsable": "Head of Data y CTO (propuesto)",
+      "fuente": "Hitos OB-3; marco DAMA-DMBOK2",
+      "clase": 1,
+      "tipo_linea_base": "Hito del documento",
+      "linea_base": 0.0
+    },
+    {
+      "indicador_id": "PI3.1",
+      "codigo_bsc": "PI3.1",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Procesos internos",
+      "objetivo_bsc": "PI3 · Gestionar los proveedores críticos y los servicios de TI con ANS",
+      "nombre": "Indisponibilidad causada por proveedores",
+      "unidad": "Índice (base 2026 = 100)",
+      "sentido": "min",
+      "formula": "Σ horas de indisponibilidad de los servicios de Addi atribuibles a proveedores en el año (índice)",
+      "rol_responsable": "CTO y CRO (propuesto)",
+      "fuente": "Meta 95 (-5 %) fijada por el equipo; la estrategia no tiene meta",
+      "clase": 3,
+      "tipo_linea_base": "Por levantar",
+      "linea_base": 100.0
+    },
+    {
+      "indicador_id": "PI3.2",
+      "codigo_bsc": "PI3.2",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Procesos internos",
+      "objetivo_bsc": "PI3 · Gestionar los proveedores críticos y los servicios de TI con ANS",
+      "nombre": "Proveedores críticos con ANS y plan de salida",
+      "unidad": "%",
+      "sentido": "max",
+      "formula": "(Proveedores críticos con ANS y plan de salida firmados ÷ total de proveedores en la matriz de críticos) × 100",
+      "rol_responsable": "CTO y CRO (propuesto)",
+      "fuente": "Hitos OB-7: 2027 matriz; 2028 80 %; 2029 100 %",
+      "clase": 1,
+      "tipo_linea_base": "Hito del documento",
+      "linea_base": 0.0
+    },
+    {
+      "indicador_id": "AC1.1",
+      "codigo_bsc": "AC1.1",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Aprendizaje y crecimiento",
+      "objetivo_bsc": "AC1 · Sostener las capacidades críticas del equipo",
+      "nombre": "Roles críticos con respaldo técnico designado",
+      "unidad": "%",
+      "sentido": "max",
+      "formula": "(Roles críticos con respaldo técnico designado ÷ total de roles críticos identificados) × 100 (reformulado, por validar)",
+      "rol_responsable": "Dirección de TI con Talento Humano (propuesto)",
+      "fuente": "Reformulación propuesta; meta 2027–2029 por validar",
+      "clase": 3,
+      "tipo_linea_base": "Por levantar",
+      "linea_base": null
+    },
+    {
+      "indicador_id": "AC1.2",
+      "codigo_bsc": "AC1.2",
+      "elemento": 56,
+      "seccion": "bsc",
+      "perspectiva": "Aprendizaje y crecimiento",
+      "objetivo_bsc": "AC1 · Sostener las capacidades críticas del equipo",
+      "nombre": "Vacantes de roles críticos abiertas",
+      "unidad": "#",
+      "sentido": "min",
+      "formula": "Conteo de vacantes abiertas de roles críticos (seguridad, datos, cumplimiento, plataforma)",
+      "rol_responsable": "Dirección de TI con Talento Humano (propuesto)",
+      "fuente": "LinkedIn y portal de empleo de Addi (conteo del 27 oct 2026)",
+      "clase": 2,
+      "tipo_linea_base": "Real",
+      "linea_base": 3.0
+    },
+    {
+      "indicador_id": "AC2.1",
+      "codigo_bsc": "AC2.1",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Aprendizaje y crecimiento",
+      "objetivo_bsc": "AC2 · Fortalecer la cultura de seguridad y control",
+      "nombre": "Resultado de simulacros de phishing",
+      "unidad": "%",
+      "sentido": "max",
+      "formula": "100 − % de clics en simulacros de phishing",
+      "rol_responsable": "InfoSec Lead (propuesto)",
+      "fuente": "KnowBe4 2025 (33,1 % de clics de línea base global; 4,1 % a 12 meses)",
+      "clase": 2,
+      "tipo_linea_base": "Estimado",
+      "linea_base": 66.9
+    },
+    {
+      "indicador_id": "AC3.2",
+      "codigo_bsc": "AC3.2",
+      "elemento": null,
+      "seccion": "bsc",
+      "perspectiva": "Aprendizaje y crecimiento",
+      "objetivo_bsc": "AC3 · Fortalecer la cultura de logro y ejecución",
+      "nombre": "Claridad de prioridades y autonomía del equipo",
+      "unidad": "Score (1-5)",
+      "sentido": "max",
+      "formula": "Promedio (1-5) de la encuesta semestral al equipo de TI",
+      "rol_responsable": "Dirección de TI (propuesto)",
+      "fuente": "Glassdoor (5 reseñas, promedio 3,8)",
+      "clase": 2,
+      "tipo_linea_base": "Estimado",
+      "linea_base": 3.8
+    }
+  ],
+  "metas": [
+    {
+      "indicador_id": "F1.2",
+      "anio": 2027,
+      "meta": 1.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "F1.2",
+      "anio": 2028,
+      "meta": 0.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "F1.2",
+      "anio": 2029,
+      "meta": 0.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "F1.2",
+      "anio": 2030,
+      "meta": 0.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "F1.3",
+      "anio": 2027,
+      "meta": 100.0,
+      "origen": "Estimado (convención)"
+    },
+    {
+      "indicador_id": "F1.3",
+      "anio": 2028,
+      "meta": 100.0,
+      "origen": "Estimado (convención)"
+    },
+    {
+      "indicador_id": "F1.3",
+      "anio": 2029,
+      "meta": 100.0,
+      "origen": "Estimado (convención)"
+    },
+    {
+      "indicador_id": "F1.3",
+      "anio": 2030,
+      "meta": 100.0,
+      "origen": "Estimado (convención)"
+    },
+    {
+      "indicador_id": "C1.1",
+      "anio": 2027,
+      "meta": 90.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C1.1",
+      "anio": 2028,
+      "meta": 80.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C1.1",
+      "anio": 2029,
+      "meta": 70.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C1.1",
+      "anio": 2030,
+      "meta": 60.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C2.1",
+      "anio": 2027,
+      "meta": 1.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C2.1",
+      "anio": 2028,
+      "meta": 2.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C2.1",
+      "anio": 2029,
+      "meta": 3.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C2.1",
+      "anio": 2030,
+      "meta": 4.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C3.1",
+      "anio": 2027,
+      "meta": 85.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C3.1",
+      "anio": 2028,
+      "meta": 70.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C3.1",
+      "anio": 2029,
+      "meta": 55.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "C3.1",
+      "anio": 2030,
+      "meta": 40.0,
+      "origen": "Equipo (PDF Cliente)"
+    },
+    {
+      "indicador_id": "PI1.1",
+      "anio": 2027,
+      "meta": 0.0,
+      "origen": "Documento (OB-2)"
+    },
+    {
+      "indicador_id": "PI1.1",
+      "anio": 2028,
+      "meta": 1.0,
+      "origen": "Documento (OB-2)"
+    },
+    {
+      "indicador_id": "PI1.1",
+      "anio": 2029,
+      "meta": 1.0,
+      "origen": "Documento (OB-2)"
+    },
+    {
+      "indicador_id": "PI1.1",
+      "anio": 2030,
+      "meta": 1.0,
+      "origen": "Documento (OB-2)"
+    },
+    {
+      "indicador_id": "PI1.2",
+      "anio": 2027,
+      "meta": 100.0,
+      "origen": "Equipo (corregido a % real)"
+    },
+    {
+      "indicador_id": "PI1.2",
+      "anio": 2028,
+      "meta": 100.0,
+      "origen": "Equipo (corregido a % real)"
+    },
+    {
+      "indicador_id": "PI1.2",
+      "anio": 2029,
+      "meta": 100.0,
+      "origen": "Equipo (corregido a % real)"
+    },
+    {
+      "indicador_id": "PI1.2",
+      "anio": 2030,
+      "meta": 100.0,
+      "origen": "Equipo (corregido a % real)"
+    },
+    {
+      "indicador_id": "PI2.1",
+      "anio": 2027,
+      "meta": 0.0,
+      "origen": "Documento (OB-3)"
+    },
+    {
+      "indicador_id": "PI2.1",
+      "anio": 2028,
+      "meta": 80.0,
+      "origen": "Documento (OB-3)"
+    },
+    {
+      "indicador_id": "PI2.1",
+      "anio": 2029,
+      "meta": 100.0,
+      "origen": "Documento (OB-3)"
+    },
+    {
+      "indicador_id": "PI2.1",
+      "anio": 2030,
+      "meta": 100.0,
+      "origen": "Documento (OB-3)"
+    },
+    {
+      "indicador_id": "PI2.2",
+      "anio": 2027,
+      "meta": 0.0,
+      "origen": "Documento (OB-3)"
+    },
+    {
+      "indicador_id": "PI2.2",
+      "anio": 2028,
+      "meta": 80.0,
+      "origen": "Documento (OB-3)"
+    },
+    {
+      "indicador_id": "PI2.2",
+      "anio": 2029,
+      "meta": 100.0,
+      "origen": "Documento (OB-3)"
+    },
+    {
+      "indicador_id": "PI2.2",
+      "anio": 2030,
+      "meta": 100.0,
+      "origen": "Documento (OB-3)"
+    },
+    {
+      "indicador_id": "PI3.1",
+      "anio": 2027,
+      "meta": 98.75,
+      "origen": "Equipo (interpolación)"
+    },
+    {
+      "indicador_id": "PI3.1",
+      "anio": 2028,
+      "meta": 97.5,
+      "origen": "Equipo (interpolación)"
+    },
+    {
+      "indicador_id": "PI3.1",
+      "anio": 2029,
+      "meta": 96.25,
+      "origen": "Equipo (interpolación)"
+    },
+    {
+      "indicador_id": "PI3.1",
+      "anio": 2030,
+      "meta": 95.0,
+      "origen": "Equipo (interpolación)"
+    },
+    {
+      "indicador_id": "PI3.2",
+      "anio": 2027,
+      "meta": 0.0,
+      "origen": "Documento (OB-7)"
+    },
+    {
+      "indicador_id": "PI3.2",
+      "anio": 2028,
+      "meta": 80.0,
+      "origen": "Documento (OB-7)"
+    },
+    {
+      "indicador_id": "PI3.2",
+      "anio": 2029,
+      "meta": 100.0,
+      "origen": "Documento (OB-7)"
+    },
+    {
+      "indicador_id": "PI3.2",
+      "anio": 2030,
+      "meta": 100.0,
+      "origen": "Documento (OB-7)"
+    },
+    {
+      "indicador_id": "AC1.1",
+      "anio": 2030,
+      "meta": 100.0,
+      "origen": "Por validar"
+    },
+    {
+      "indicador_id": "AC1.2",
+      "anio": 2027,
+      "meta": 3.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC1.2",
+      "anio": 2028,
+      "meta": 2.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC1.2",
+      "anio": 2029,
+      "meta": 2.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC1.2",
+      "anio": 2030,
+      "meta": 2.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC2.1",
+      "anio": 2027,
+      "meta": 73.9,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC2.1",
+      "anio": 2028,
+      "meta": 80.9,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC2.1",
+      "anio": 2029,
+      "meta": 87.9,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC2.1",
+      "anio": 2030,
+      "meta": 95.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC3.2",
+      "anio": 2027,
+      "meta": 3.9,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC3.2",
+      "anio": 2028,
+      "meta": 4.0,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC3.2",
+      "anio": 2029,
+      "meta": 4.1,
+      "origen": "Estimado (interpolación)"
+    },
+    {
+      "indicador_id": "AC3.2",
+      "anio": 2030,
+      "meta": 4.2,
+      "origen": "Estimado (interpolación)"
+    }
+  ],
+  "plan": [
+    {
+      "codigo": "S-01",
+      "origen": "Plan de TI",
+      "accion": "Definir RTO y RPO, montar recuperación multirregión, probar conmutación anual y restauración ante ransomware",
+      "ruta": "Supervivencia",
+      "objetivo_bsc": "C1",
+      "objetivos_documento": "OB-1",
+      "responsable": "Líder de Infraestructura y CRO",
+      "inicio_anio": 2027,
+      "inicio_semestre": 1,
+      "fin_anio": 2028,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "S-02",
+      "origen": "Plan de TI",
+      "accion": "Contratar centro de seguridad gestionado 24/7 con SIEM",
+      "ruta": "Supervivencia",
+      "objetivo_bsc": "PI1",
+      "objetivos_documento": "OB-2",
+      "responsable": "CISO",
+      "inicio_anio": 2027,
+      "inicio_semestre": 1,
+      "fin_anio": 2027,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "S-03",
+      "origen": "Plan de TI",
+      "accion": "Análisis de brechas ISO 27001 y PCI DSS, cierre y auditoría de certificación",
+      "ruta": "Supervivencia",
+      "objetivo_bsc": "PI1",
+      "objetivos_documento": "OB-2",
+      "responsable": "CISO",
+      "inicio_anio": 2027,
+      "inicio_semestre": 1,
+      "fin_anio": 2028,
+      "fin_semestre": 2,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "S-04",
+      "origen": "Plan de TI",
+      "accion": "Definir el gobierno de datos: dueño por conjunto de datos, diccionario y reglas de calidad",
+      "ruta": "Supervivencia",
+      "objetivo_bsc": "PI2",
+      "objetivos_documento": "OB-3",
+      "responsable": "Head of Data",
+      "inicio_anio": 2027,
+      "inicio_semestre": 1,
+      "fin_anio": 2028,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "S-05",
+      "origen": "Plan de TI",
+      "accion": "Plataforma común de datos con trazabilidad y conciliación de reportes SFC",
+      "ruta": "Supervivencia",
+      "objetivo_bsc": "PI2",
+      "objetivos_documento": "OB-3, OB-4",
+      "responsable": "Head of Data y Oficial de Cumplimiento",
+      "inicio_anio": 2026,
+      "inicio_semestre": 1,
+      "fin_anio": 2028,
+      "fin_semestre": 2,
+      "estado": "En ejecución",
+      "avance": 0.25,
+      "tipo_dato_avance": "Simulado"
+    },
+    {
+      "codigo": "S-06",
+      "origen": "Plan de TI",
+      "accion": "Aprobar política de IA responsable, inventariar modelos y documentar explicabilidad y supervisión humana",
+      "ruta": "Supervivencia",
+      "objetivo_bsc": "PI2",
+      "objetivos_documento": "OB-3",
+      "responsable": "CRO y Líder de Machine Learning",
+      "inicio_anio": 2026,
+      "inicio_semestre": 1,
+      "fin_anio": 2027,
+      "fin_semestre": 2,
+      "estado": "En ejecución",
+      "avance": 0.4,
+      "tipo_dato_avance": "Simulado"
+    },
+    {
+      "codigo": "S-07",
+      "origen": "Plan de TI",
+      "accion": "Pruebas de inyección de instrucciones, filtros, simulacro y privacidad en Addri",
+      "ruta": "Supervivencia",
+      "objetivo_bsc": "PI1",
+      "objetivos_documento": "OB-2, OB-3",
+      "responsable": "CISO",
+      "inicio_anio": 2027,
+      "inicio_semestre": 2,
+      "fin_anio": 2028,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "S-08",
+      "origen": "Plan de TI",
+      "accion": "Gestionar proveedores críticos: matriz, SLA, contingencia y plan de salida",
+      "ruta": "Supervivencia",
+      "objetivo_bsc": "PI3",
+      "objetivos_documento": "OB-7",
+      "responsable": "CTO y CRO",
+      "inicio_anio": 2027,
+      "inicio_semestre": 1,
+      "fin_anio": 2027,
+      "fin_semestre": 2,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "M-01",
+      "origen": "Plan de TI",
+      "accion": "Levantar el catálogo de sistemas con dueño, tecnología, versión y dependencias",
+      "ruta": "Mejora",
+      "objetivo_bsc": "PI2",
+      "objetivos_documento": "OB-4, OB-9",
+      "responsable": "CTO",
+      "inicio_anio": 2027,
+      "inicio_semestre": 1,
+      "fin_anio": 2027,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "M-02",
+      "origen": "Plan de TI",
+      "accion": "Definir requisitos del core para depósitos y componentes a servicio gestionado",
+      "ruta": "Mejora",
+      "objetivo_bsc": "PI2",
+      "objetivos_documento": "OB-4",
+      "responsable": "CTO",
+      "inicio_anio": 2026,
+      "inicio_semestre": 1,
+      "fin_anio": 2027,
+      "fin_semestre": 1,
+      "estado": "En ejecución",
+      "avance": 0.6,
+      "tipo_dato_avance": "Simulado"
+    },
+    {
+      "codigo": "M-03",
+      "origen": "Plan de TI",
+      "accion": "Implementar core de depósitos y transición a Addi CF",
+      "ruta": "Mejora",
+      "objetivo_bsc": "PI2",
+      "objetivos_documento": "OB-4",
+      "responsable": "CTO",
+      "inicio_anio": 2026,
+      "inicio_semestre": 1,
+      "fin_anio": 2028,
+      "fin_semestre": 2,
+      "estado": "En ejecución",
+      "avance": 0.25,
+      "tipo_dato_avance": "Simulado"
+    },
+    {
+      "codigo": "M-04",
+      "origen": "Plan de TI",
+      "accion": "Migrar Java 11 por sistema, empezando por los conectados con depósitos",
+      "ruta": "Mejora",
+      "objetivo_bsc": "PI2",
+      "objetivos_documento": "OB-4",
+      "responsable": "CTO",
+      "inicio_anio": 2026,
+      "inicio_semestre": 1,
+      "fin_anio": 2029,
+      "fin_semestre": 2,
+      "estado": "En ejecución",
+      "avance": 0.15,
+      "tipo_dato_avance": "Simulado"
+    },
+    {
+      "codigo": "M-05",
+      "origen": "Plan de TI",
+      "accion": "Pasarela central de APIs y portal de desarrolladores con sandbox",
+      "ruta": "Mejora",
+      "objetivo_bsc": "C2",
+      "objetivos_documento": "OB-5",
+      "responsable": "CTO",
+      "inicio_anio": 2027,
+      "inicio_semestre": 2,
+      "fin_anio": 2028,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "M-06",
+      "origen": "Plan de TI",
+      "accion": "Conectar Bre-B al recaudo y habilitar APIs de finanzas abiertas con consentimiento",
+      "ruta": "Mejora",
+      "objetivo_bsc": "C2",
+      "objetivos_documento": "OB-5",
+      "responsable": "CTO",
+      "inicio_anio": 2028,
+      "inicio_semestre": 1,
+      "fin_anio": 2029,
+      "fin_semestre": 2,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "M-07",
+      "origen": "Plan de TI",
+      "accion": "Catálogo de servicios de TI con ANS, gestión de problemas y base de conocimiento",
+      "ruta": "Mejora",
+      "objetivo_bsc": "PI3",
+      "objetivos_documento": "OB-9",
+      "responsable": "Líder de Operaciones TI y Soporte",
+      "inicio_anio": 2027,
+      "inicio_semestre": 2,
+      "fin_anio": 2028,
+      "fin_semestre": 2,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "D-01",
+      "origen": "Plan de TI",
+      "accion": "Documentar controles de acceso y antifraude y compararlos con la exigencia de la SFC",
+      "ruta": "Defensiva",
+      "objetivo_bsc": "PI1",
+      "objetivos_documento": "OB-8",
+      "responsable": "CISO",
+      "inicio_anio": 2026,
+      "inicio_semestre": 1,
+      "fin_anio": 2027,
+      "fin_semestre": 1,
+      "estado": "En ejecución",
+      "avance": 0.45,
+      "tipo_dato_avance": "Simulado"
+    },
+    {
+      "codigo": "O-01",
+      "origen": "Plan de TI",
+      "accion": "Inventariar y empaquetar conectores (Shopify, VTEX, WooCommerce)",
+      "ruta": "Ofensiva",
+      "objetivo_bsc": "C3",
+      "objetivos_documento": "OB-6",
+      "responsable": "CTO",
+      "inicio_anio": 2027,
+      "inicio_semestre": 2,
+      "fin_anio": 2028,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "O-02",
+      "origen": "Plan de TI",
+      "accion": "Requisitos técnicos de integración para entidades financieras",
+      "ruta": "Ofensiva",
+      "objetivo_bsc": "C3",
+      "objetivos_documento": "OB-6",
+      "responsable": "CTO",
+      "inicio_anio": 2028,
+      "inicio_semestre": 1,
+      "fin_anio": 2028,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "O-03",
+      "origen": "Plan de TI",
+      "accion": "Integrar un aliado piloto de cada tipo y medir el tiempo de integración",
+      "ruta": "Ofensiva",
+      "objetivo_bsc": "C3",
+      "objetivos_documento": "OB-6",
+      "responsable": "CTO y Gerencia de Producto",
+      "inicio_anio": 2028,
+      "inicio_semestre": 2,
+      "fin_anio": 2029,
+      "fin_semestre": 1,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "O-04",
+      "origen": "Plan de TI",
+      "accion": "Pruebas de estrés y autoescalado con el volumen de los aliados",
+      "ruta": "Ofensiva",
+      "objetivo_bsc": "C3",
+      "objetivos_documento": "OB-6",
+      "responsable": "Líder de Infraestructura",
+      "inicio_anio": 2028,
+      "inicio_semestre": 2,
+      "fin_anio": 2029,
+      "fin_semestre": 2,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "N-01",
+      "origen": "BSC",
+      "accion": "Respaldo de roles críticos de TI: identificar roles, documentar conocimiento y designar respaldo técnico",
+      "ruta": "Cultura y capacidades",
+      "objetivo_bsc": "AC1",
+      "objetivos_documento": "No aplica (nueva del BSC)",
+      "responsable": "Dirección de TI con apoyo de Talento Humano",
+      "inicio_anio": null,
+      "inicio_semestre": null,
+      "fin_anio": null,
+      "fin_semestre": null,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    },
+    {
+      "codigo": "N-03",
+      "origen": "BSC",
+      "accion": "Encuesta semestral al equipo de TI sobre claridad de prioridades y autonomía",
+      "ruta": "Cultura y capacidades",
+      "objetivo_bsc": "AC3",
+      "objetivos_documento": "No aplica (nueva del BSC)",
+      "responsable": "Dirección de TI",
+      "inicio_anio": null,
+      "inicio_semestre": null,
+      "fin_anio": null,
+      "fin_semestre": null,
+      "estado": "Por iniciar",
+      "avance": 0.0,
+      "tipo_dato_avance": "Plan (aún no inicia)"
+    }
+  ],
+  "avance_plan": [
+    {
+      "anio": 2026,
+      "meta_acumulada": null,
+      "avance_simulado": 0.1,
+      "tipo_dato": "Meta del documento (2.5) / avance simulado"
+    },
+    {
+      "anio": 2027,
+      "meta_acumulada": 0.45,
+      "avance_simulado": 0.41,
+      "tipo_dato": "Meta del documento (2.5) / avance simulado"
+    },
+    {
+      "anio": 2028,
+      "meta_acumulada": 0.85,
+      "avance_simulado": 0.8,
+      "tipo_dato": "Meta del documento (2.5) / avance simulado"
+    },
+    {
+      "anio": 2029,
+      "meta_acumulada": 1.0,
+      "avance_simulado": 0.96,
+      "tipo_dato": "Meta del documento (2.5) / avance simulado"
+    },
+    {
+      "anio": 2030,
+      "meta_acumulada": 1.0,
+      "avance_simulado": 1.0,
+      "tipo_dato": "Meta del documento (2.5) / avance simulado"
+    }
+  ],
+  "riesgos": [
+    {
+      "riesgo_id": "R1",
+      "riesgo": "Incumplir o atrasar las exigencias obligatorias de la SFC (continuidad, reportes, seguridad, atención al consumidor)",
+      "origen": "DOFA A1",
+      "objetivo_bsc": "F1",
+      "probabilidad": 2,
+      "impacto": 3,
+      "severidad": 6,
+      "nivel": "Alto",
+      "mitigacion": "Recuperación probada, SOC 24/7, plataforma común de reportes, documentar controles, core de depósitos",
+      "acciones_relacionadas": "S-01, S-02, S-05, D-01, M-03",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R2",
+      "riesgo": "Ciberataques, fraude e IA generativa (phishing, ransomware, inyección de instrucciones)",
+      "origen": "DOFA A2",
+      "objetivo_bsc": "F1",
+      "probabilidad": 3,
+      "impacto": 3,
+      "severidad": 9,
+      "nivel": "Crítico",
+      "mitigacion": "SOC 24/7, pruebas de inyección de instrucciones, antifraude revisado y simulacros de phishing",
+      "acciones_relacionadas": "S-02, S-07",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R3",
+      "riesgo": "Sanciones y reclamos por errores en el tratamiento o reporte de datos (habeas data)",
+      "origen": "DOFA A3",
+      "objetivo_bsc": "F1",
+      "probabilidad": 2,
+      "impacto": 2,
+      "severidad": 4,
+      "nivel": "Medio",
+      "mitigacion": "Gobierno de datos y plataforma común con trazabilidad",
+      "acciones_relacionadas": "S-04, S-05",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R4",
+      "riesgo": "Sin recuperación ante desastres probada (RTO y RPO)",
+      "origen": "DOFA D3",
+      "objetivo_bsc": "C1",
+      "probabilidad": 2,
+      "impacto": 3,
+      "severidad": 6,
+      "nivel": "Alto",
+      "mitigacion": "Definir RTO/RPO, recuperación multirregión y pruebas anuales",
+      "acciones_relacionadas": "S-01",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R5",
+      "riesgo": "Core sin capacidad para depósitos y deuda técnica de Java 11",
+      "origen": "DOFA D1",
+      "objetivo_bsc": "PI2",
+      "probabilidad": 2,
+      "impacto": 3,
+      "severidad": 6,
+      "nivel": "Alto",
+      "mitigacion": "Catálogo de sistemas, requisitos del core, implementación y migración de Java 11",
+      "acciones_relacionadas": "M-01, M-02, M-03, M-04",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R6",
+      "riesgo": "Integraciones sin pasarela central de APIs ni portal",
+      "origen": "DOFA D4",
+      "objetivo_bsc": "C2",
+      "probabilidad": 2,
+      "impacto": 2,
+      "severidad": 4,
+      "nivel": "Medio",
+      "mitigacion": "Pasarela y portal, Bre-B y finanzas abiertas, paquete de conectores",
+      "acciones_relacionadas": "M-05, M-06, O-01, O-02, O-03, O-04",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R7",
+      "riesgo": "Seguridad sin respaldo formal (sin SOC/SIEM ni certificaciones)",
+      "origen": "DOFA D5",
+      "objetivo_bsc": "PI1",
+      "probabilidad": 2,
+      "impacto": 3,
+      "severidad": 6,
+      "nivel": "Alto",
+      "mitigacion": "SOC gestionado y programa de certificación",
+      "acciones_relacionadas": "S-02, S-03",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R8",
+      "riesgo": "Dependencia de proveedores críticos (nube, core, LLM, fondeo)",
+      "origen": "Porter (proveedores 3,60)",
+      "objetivo_bsc": "PI3",
+      "probabilidad": 2,
+      "impacto": 3,
+      "severidad": 6,
+      "nivel": "Alto",
+      "mitigacion": "Matriz de proveedores, SLA, contingencia y plan de salida",
+      "acciones_relacionadas": "S-08",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R9",
+      "riesgo": "Vacante prolongada de un rol crítico de TI",
+      "origen": "BSC (AC1)",
+      "objetivo_bsc": "AC1",
+      "probabilidad": 2,
+      "impacto": 3,
+      "severidad": 6,
+      "nivel": "Alto",
+      "mitigacion": "Respaldo técnico designado y conocimiento documentado",
+      "acciones_relacionadas": "N-01",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R10",
+      "riesgo": "Los controles de seguridad no se aplican por hábito",
+      "origen": "BSC (AC2)",
+      "objetivo_bsc": "AC2",
+      "probabilidad": 3,
+      "impacto": 2,
+      "severidad": 6,
+      "nivel": "Alto",
+      "mitigacion": "Simulacros de phishing semestrales y medición del resultado",
+      "acciones_relacionadas": "Práctica de simulacros (sección 3.4)",
+      "estado": "Por validar (propuesta del equipo)"
+    },
+    {
+      "riesgo_id": "R11",
+      "riesgo": "El plan no se cumple por prioridades poco claras",
+      "origen": "BSC (AC3)",
+      "objetivo_bsc": "AC3",
+      "probabilidad": 2,
+      "impacto": 2,
+      "severidad": 4,
+      "nivel": "Medio",
+      "mitigacion": "Revisión trimestral en el Comité de TI y encuesta semestral",
+      "acciones_relacionadas": "N-03; Comité de TI (sección 3.4)",
+      "estado": "Por validar (propuesta del equipo)"
+    }
+  ]
+}

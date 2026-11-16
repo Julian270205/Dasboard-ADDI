@@ -122,7 +122,7 @@ BEGIN
                 (SELECT string_agg(v.indicador_id, ', ' ORDER BY v.indicador_id) FROM addi.vinculos_objetivo v JOIN est e ON e.indicador_id = v.indicador_id
                     WHERE v.objetivo = o.codigo AND e.s0 = 'rojo' AND e.s1 = 'rojo') AS ind_rojos,
                 (SELECT string_agg(rg.riesgo_id, ', ' ORDER BY rg.riesgo_id) FROM addi.vinculos_objetivo v JOIN addi.riesgos rg ON rg.riesgo_id = v.riesgo_id
-                    WHERE v.objetivo = o.codigo AND rg.probabilidad * rg.impacto >= 6 AND COALESCE(rg.mitigacion, '') = '') AS riesgos_sin_accion,
+                    WHERE v.objetivo = o.codigo AND rg.probabilidad * rg.impacto >= 6 AND COALESCE(rg.acciones, '') = '') AS riesgos_sin_accion,
                 (SELECT string_agg(s.codigo, ', ' ORDER BY s.codigo) FROM addi.vinculos_objetivo v JOIN addi.plan_seguimiento s ON s.codigo = v.accion AND s.periodo = v_corte
                     WHERE v.objetivo = o.codigo AND s.gasto_real > 0 AND s.avance / s.gasto_real < 0.9 AND s.avance < 100) AS acc_atrasadas
             FROM addi.objetivos_cobit o
@@ -309,15 +309,16 @@ SELECT json_build_object(
   'diagnostico_bsc', (SELECT json_agg(d ORDER BY d.elemento, d.item) FROM addi.diagnostico_bsc d),
   'plan', (SELECT json_agg(json_build_object('codigo', a.codigo, 'accion', a.accion, 'ruta', a.ruta, 'objetivo_bsc', a.objetivo_bsc, 'objetivo_cobit', a.objetivo_cobit,
         'responsable', a.responsable, 'inicio', to_char(a.inicio, 'YYYY-MM'), 'fin', to_char(a.fin, 'YYYY-MM'), 'indicador', a.indicador_objetivo, 'peso', a.peso_presupuesto,
-        'origen', a.origen, 'avance', COALESCE(s.avance, 0), 'gasto_plan', COALESCE(s.gasto_plan, 0), 'gasto_real', COALESCE(s.gasto_real, 0),
-        'fase', CASE WHEN addi.fn_corte('plan') < a.inicio THEN 'No iniciada' WHEN addi.fn_corte('plan') >= a.fin THEN 'Terminada' ELSE 'En curso' END)
-        ORDER BY a.inicio, a.codigo)
+        'origen', a.origen, 'estado_bsc', a.estado_bsc, 'avance', COALESCE(s.avance, 0), 'gasto_plan', COALESCE(s.gasto_plan, 0), 'gasto_real', COALESCE(s.gasto_real, 0),
+        'fase', CASE WHEN a.inicio IS NULL THEN 'Sin fechas' WHEN addi.fn_corte('plan') < a.inicio THEN 'No iniciada'
+                     WHEN addi.fn_corte('plan') >= a.fin THEN 'Terminada' ELSE 'En curso' END)
+        ORDER BY a.inicio NULLS LAST, a.codigo)
       FROM addi.iniciativas_plan a LEFT JOIN addi.plan_seguimiento s ON s.codigo = a.codigo AND s.periodo = addi.fn_corte('plan')),
   'riesgos', (SELECT json_agg(json_build_object('id', r.riesgo_id, 'riesgo', r.riesgo, 'categoria', r.categoria, 'objetivo_bsc', r.objetivo_bsc,
         'probabilidad', r.probabilidad, 'impacto', r.impacto, 'inherente', r.inherente, 'proceso', r.proceso_cobit, 'nivel_proceso', r.nivel_proceso,
         'eficacia', r.eficacia, 'residual', round(r.inherente * (1 - r.eficacia), 1), 'dueno', r.dueno, 'senal', r.indicador_senal,
         'senal_semaforo', (SELECT e.semaforo FROM est e WHERE e.indicador_id = r.indicador_senal),
-        'mitigacion', r.mitigacion, 'estado', r.estado, 'apetito', r.apetito, 'severidad_max', r.severidad_max,
+        'mitigacion', r.mitigacion, 'acciones', r.acciones, 'estado', r.estado, 'apetito', r.apetito, 'severidad_max', r.severidad_max,
         'fuera_apetito', round(r.inherente * (1 - r.eficacia), 1) > r.severidad_max, 'origen', r.origen)
         ORDER BY substr(r.riesgo_id, 2)::int) FROM riesgo r),
   'alertas', (SELECT COALESCE(json_agg(json_build_object('indicador', a.indicador_id, 'corte', to_char(a.corte, 'YYYY-MM'), 'que_pasa', a.que_pasa, 'impacto', a.impacto,
