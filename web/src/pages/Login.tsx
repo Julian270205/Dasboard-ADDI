@@ -30,7 +30,7 @@ export default function Login() {
   }
 
   return (
-    <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1fr_520px]">
+    <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1.25fr_1fr]">
       <div className="hidden flex-col justify-between border-r border-linea bg-lienzo p-12 lg:flex">
         <div className="flex items-center gap-3">
           <svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2e5bda" />
@@ -44,7 +44,7 @@ export default function Login() {
         <span className="text-xs text-tinta-3">Equipo Nexus, Gobernanza y Servicios de TI. Los datos simulados no son datos de Addi.</span>
       </div>
       <main className="flex items-center justify-center bg-papel p-8">
-        <form onSubmit={entrar} className="flex w-full max-w-sm flex-col gap-4" aria-describedby={error ? 'error-login' : undefined}>
+        <form onSubmit={entrar} className="flex w-full max-w-md flex-col gap-4" aria-describedby={error ? 'error-login' : undefined}>
           <div className="flex flex-col gap-1">
             <h1 className="m-0 text-[26px] font-semibold tracking-tight">Inicia sesión</h1>
             <p className="m-0 text-[14px] text-tinta-2">{desdeCorreo ? 'Vienes del correo de aprobación: entra para revisar la evidencia y confirmar tu decisión.' : 'Usa el correo y la contraseña que te dio el administrador del tablero.'}</p>
